@@ -47,7 +47,7 @@ def handleOutgoingCall(aList):
 #EingehendeAnrufe:
 def handleIncomingCall(aList):
     #datum;RING;ConnectionID;Anrufer-Nr;Angerufene-Nummer;sip;
-    #[192.168.178.1] 03.01.12 21:52:21;RING;0;54321;012345;SIP2;
+    #[192.168.178.1] 03.01.12 21:52:21;RING;0;017100000;012345;SIP2;
     datum, funktion, connectionID, anruferNR, angerufeneNR, sip, leer = aList
     text = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
     #print text
