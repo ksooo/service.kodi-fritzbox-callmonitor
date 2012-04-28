@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+	<!-- Addon Name -->
+	<string id="30000">Show Caller ID on XBMC</string>
+	<!-- some other strings -->
+	<string id="30100">Hi</string>
+	<!-- Settings -->
+	<string id="30001">Fritzbox</string>
+	<string id="30002">Addresses</string>
+	<!-- Default Tab -->
+	<string id="30200">IP Address</string>
+	<string id="30210">Display Durtion</string>
+	<string id="30220">Debug</string>
+
+	<!-- Addressbook -->
+	<string id="30300">Use Fritzbox Addressbook</string>
+	<string id="30310">Path to Fritzbox Addressbook</string>
+	<string id="30320">Use Addressbook from simple CSV</string>
+	<string id="30330">Path to CSV Addressbook</string>
+	<string id="30340">Use Iphone Adressbook</string>
+	<string id="30350">Path to Addressbook.sqlite</string>
+	<string id="30360">Path to AddressbookImages.sqlite</string>
+</strings>
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+	<!-- Addon Name -->
+	<string id="30000">XBMC Anrufanzeige</string>
+	<!-- some other strings -->
+	<string id="30100">Hi</string>
+	<!-- Settings -->
+	<string id="30001">Fritzbox</string>
+	<string id="30002">Addresses</string>
+	<!-- Default Tab -->
+	<string id="30200">IP Addresse der Fritzbox</string>
+	<string id="30210">Anzeigedauer</string>
+	<string id="30220">Debug</string>
+
+	<!-- Addressbook -->
+	<string id="30300">Benutze Fritzbox Addressbuch</string>
+	<string id="30310">Pfad zum Fritzbox Addressbook</string>
+	<string id="30320">Benutze einfache Textdatei (CSV-Datei)</string>
+	<string id="30330">Pfad zur Textdatei</string>
+	<string id="30340">Benutze IPhone Adressbuch</string>
+	<string id="30350">Pfad zu Addressbook.sqlite</string>
+	<string id="30360">Pfad zu AddressbookImages.sqlite</string>
+</strings>
+
