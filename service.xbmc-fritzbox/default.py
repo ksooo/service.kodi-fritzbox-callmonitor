@@ -12,15 +12,8 @@
 
 # ################################################################################
 # author: nk
-#
+# version: 0.9.2
 # ################################################################################
-
-# Script constants
-__addon__       = "XBMC Fritzbox Addon"
-__addon_id__    = "service.xbmc-fritzbox"
-__author__      = "N.K."
-__url__         = "http://code.google.com/p/xbmc-pbx-addon/"
-__version__     = "0.9.1"
 
 import xbmc, xbmcaddon
 import socket
@@ -68,16 +61,25 @@ def handleDisconnected(aList):
     #datum;DISCONNECT;ConnectionID;dauerInSekunden;
     #[192.168.178.1] 03.01.12 22:12:56;DISCONNECT;0;0;
     datum, funktion, connectionID, dauer,  leer = aList
-    text = ('Disconnected. Your call duration was %s seconds' % (dauer))
+    text = ('Disconnected. Anrufdauer %s Sekunden' % (dauer))
     #print text
     xbmc.log(text)
     xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+",5000,"+DEFAULT_IMG+")")
 
 #run the program
+# Script constants
+__addon__       = "XBMC Fritzbox Addon"
+__addon_id__    = "service.xbmc-fritzbox"
+__author__      = "N.K."
+__url__         = "http://code.google.com/p/xbmc-pbx-addon/"
+__version__     = "0.9.2"
+__settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
+
 xbmc.log("xbmc-fritzbox ShowCallerInfo-Service starting...")
 DEFAULT_IMG = xbmc.translatePath(os.path.join( "special://home/", "addons", "service.xbmc-fritzbox", "media","default.png"))
 Addon = xbmcaddon.Addon(id='service.xbmc-fritzbox')
-ip = "192.168.178.1"
+#ip = "192.168.178.1"
+ip = __settings__.getSetting( "S_IP" ) # return FritzIP setting value 
 parameterstring = "Fritzbox: Ip Adresse definiert als %s" % ( ip)
 xbmc.log(parameterstring)
 fncDict = {'CALL': handleOutgoingCall, 'RING': handleIncomingCall, 'CONNECT': handleConnected, 'DISCONNECT': handleDisconnected}
@@ -87,10 +89,10 @@ while(not xbmc.abortRequested):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
         s.connect((ip, 1012))
         while True:
-            xbmc.log('connected to fritzbox callmonitor')
+            #xbmc.log('connected to fritzbox callmonitor')
             antwort = s.recv(1024) 
             log= "[%s] %s" % (ip,antwort)
-            xbmc.log(log)
+            #xbmc.log(log)
             items = antwort.split(';')
             fncDict.get(items[1], errorMsg)(items)
         s.close()

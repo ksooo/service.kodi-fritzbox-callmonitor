@@ -1,3 +1,5 @@
-V.02 Only displaying Number
+V 0.9.2 Setting IP from Gui
+
+V.0.9.1 Only displaying Number
 
 Work in Progress on Number --> Display-Name--> Photo -Lookup
