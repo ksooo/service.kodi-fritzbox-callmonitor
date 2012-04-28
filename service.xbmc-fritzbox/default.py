@@ -12,7 +12,7 @@
 
 # ################################################################################
 # author: nk
-# version: 0.9.2
+# version: 0.9.3
 # ################################################################################
 
 import xbmc, xbmcaddon
@@ -34,7 +34,7 @@ def handleOutgoingCall(aList):
     text = ('Ausgehender Anruf an %s von Nr: %s, am %s' % (AngerufeneNummer, GenutzteNummer, datum))
     #print text
     xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+",5000,"+DEFAULT_IMG+")")
+    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
 
 
 #EingehendeAnrufe:
@@ -45,7 +45,7 @@ def handleIncomingCall(aList):
     text = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
     #print text
     xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+",5000,"+DEFAULT_IMG+")")
+    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
 
 #Zustandegekommene Verbindung:
 def handleConnected(aList):
@@ -54,36 +54,39 @@ def handleConnected(aList):
     text = ('Verbunden mit %s' % (nummer))
     #print text
     xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+",5000,"+DEFAULT_IMG+")")
+    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
 
 #Ende der Verbindung:
 def handleDisconnected(aList):
     #datum;DISCONNECT;ConnectionID;dauerInSekunden;
     #[192.168.178.1] 03.01.12 22:12:56;DISCONNECT;0;0;
     datum, funktion, connectionID, dauer,  leer = aList
-    text = ('Disconnected. Anrufdauer %s Sekunden' % (dauer))
+    text = ('Disconnected. Anrufdauer %s Minuten' % (int(dauer/60)))
     #print text
     xbmc.log(text)
     xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+",5000,"+DEFAULT_IMG+")")
 
-#run the program
+
 # Script constants
 __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-pbx-addon/"
-__version__     = "0.9.2"
+__version__     = "0.9.3"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 xbmc.log("xbmc-fritzbox ShowCallerInfo-Service starting...")
 DEFAULT_IMG = xbmc.translatePath(os.path.join( "special://home/", "addons", "service.xbmc-fritzbox", "media","default.png"))
 Addon = xbmcaddon.Addon(id='service.xbmc-fritzbox')
-#ip = "192.168.178.1"
+# Werte der Settings-GUI
 ip = __settings__.getSetting( "S_IP" ) # return FritzIP setting value 
+dur = __settings__.getSetting( "S_DURATION" ) # return Anzeigedauer
+duration = dur * 1000 # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds
+
 parameterstring = "Fritzbox: Ip Adresse definiert als %s" % ( ip)
 xbmc.log(parameterstring)
 fncDict = {'CALL': handleOutgoingCall, 'RING': handleIncomingCall, 'CONNECT': handleConnected, 'DISCONNECT': handleDisconnected}
-
+#run the program
 while(not xbmc.abortRequested):
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
