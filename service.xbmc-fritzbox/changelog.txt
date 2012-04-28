@@ -1,3 +1,4 @@
+V 0.9.3.1 Fixes shutdown Problems 
 V 0.9.3 Setting Duration from GUI, Changed Call-Duration to Minutes
 
 V 0.9.2 Setting IP from Gui

@@ -12,7 +12,7 @@
 
 # ################################################################################
 # author: nk
-# version: 0.9.3
+# version: 0.9.3.1
 # ################################################################################
 
 import xbmc, xbmcaddon
@@ -72,7 +72,7 @@ __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-pbx-addon/"
-__version__     = "0.9.3"
+__version__     = "0.9.3.1"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 xbmc.log("xbmc-fritzbox ShowCallerInfo-Service starting...")
@@ -108,5 +108,9 @@ while(not xbmc.abortRequested):
         xbmc.log(text)
     finally:
         s.close()
+        
+    if (xbmc.abortRequested):
+        xbmc.log("XBMC-fritzbox Aborting...")
+        break
 
-
+xbmc.log("XBMC-Fritzbox Addon beendet.")
