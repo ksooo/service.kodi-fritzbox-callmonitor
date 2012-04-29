@@ -18,6 +18,7 @@
 	<string id="30310">Path to Fritzbox Addressbook</string>
 	<string id="30320">Use Addressbook from simple CSV</string>
 	<string id="30330">Path to CSV Addressbook</string>
+	<string id="30331">Path to Picturefolder</string>
 	<string id="30340">Use Iphone Adressbook</string>
 	<string id="30350">Path to Addressbook.sqlite</string>
 	<string id="30360">Path to AddressbookImages.sqlite</string>

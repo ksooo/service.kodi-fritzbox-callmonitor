@@ -18,6 +18,7 @@
 	<string id="30310">Pfad zum Fritzbox Addressbook</string>
 	<string id="30320">Benutze einfache Textdatei (CSV-Datei)</string>
 	<string id="30330">Pfad zur Textdatei</string>
+	<string id="30331">Pfad zum Bilderordner</string>
 	<string id="30340">Benutze IPhone Adressbuch</string>
 	<string id="30350">Pfad zu Addressbook.sqlite</string>
 	<string id="30360">Pfad zu AddressbookImages.sqlite</string>
