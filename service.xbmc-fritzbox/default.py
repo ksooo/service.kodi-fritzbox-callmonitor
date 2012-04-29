@@ -31,10 +31,11 @@ def handleOutgoingCall(aList):
     #datum;CALL;ConnectionID;Nebenstelle;GenutzteNummer;AngerufeneNummer;
     #[192.168.178.1] 03.01.12 22:09:56;CALL;0;0;123456;017500000;SIP1;
     datum, funktion, connectionID, Nebenstelle, GenutzteNummer, AngerufeneNummer, sip,  leer = aList
-    text = ('Ausgehender Anruf an %s von Nr: %s, am %s' % (AngerufeneNummer, GenutzteNummer, datum))
-    #print text
-    xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
+    logtext = ('Ausgehender Anruf an %s von Nr: %s, am %s' % (AngerufeneNummer, GenutzteNummer, datum))
+    heading = "Ausgehender Anruf"
+    text = "Angerufene Nr. %s von Apparat Nr: %s" % (AngerufeneNummer, GenutzteNummer)
+    xbmc.log(logtext)
+    xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+DEFAULT_IMG+")")
 
 
 #EingehendeAnrufe:
@@ -42,29 +43,32 @@ def handleIncomingCall(aList):
     #datum;RING;ConnectionID;Anrufer-Nr;Angerufene-Nummer;sip;
     #[192.168.178.1] 03.01.12 21:52:21;RING;0;017100000;012345;SIP2;
     datum, funktion, connectionID, anruferNR, angerufeneNR, sip, leer = aList
-    text = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
-    #print text
-    xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
+    logtext = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
+    heading = 'Eingehender Anruf'
+    text = 'von %s auf Apparat %s' % (aList[3], aList[4])
+    xbmc.log(logtext)
+    xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+DEFAULT_IMG+")")
 
 #Zustandegekommene Verbindung:
 def handleConnected(aList):
     #datum;CONNECT;ConnectionID;Nebenstelle;Nummer;
     datum, funktion, connectionID, nebenstelle, nummer, leer = aList
-    text = ('Verbunden mit %s' % (nummer))
+    logtext = ('Verbunden mit %s' % (nummer))
     #print text
-    xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
+    heading = 'Verbindung hergestellt'
+    text = 'mit %s' % (nummer)
+    xbmc.log(logtext)
+    xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+DEFAULT_IMG+")")
 
 #Ende der Verbindung:
 def handleDisconnected(aList):
     #datum;DISCONNECT;ConnectionID;dauerInSekunden;
     #[192.168.178.1] 03.01.12 22:12:56;DISCONNECT;0;0;
     datum, funktion, connectionID, dauer,  leer = aList
-    text = ('Disconnected. Anrufdauer %s Minuten' % (int(dauer/60)))
+    text = ('Anrufdauer: %s Minuten' % (int(int(dauer)/60)))
     #print text
     xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+",5000,"+DEFAULT_IMG+")")
+    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
 
 
 # Script constants
