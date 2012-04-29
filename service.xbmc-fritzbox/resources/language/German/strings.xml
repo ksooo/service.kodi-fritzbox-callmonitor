@@ -6,10 +6,11 @@
 	<string id="30100">Hi</string>
 	<!-- Settings -->
 	<string id="30001">Fritzbox</string>
-	<string id="30002">Addresses</string>
+	<string id="30002">Addressbuecher</string>
+	<string id="30003">Aktionen</string>
 	<!-- Default Tab -->
 	<string id="30200">IP Addresse der Fritzbox</string>
-	<string id="30210">Anzeigedauer</string>
+	<string id="30210">Anzeigedauer der Info</string>
 	<string id="30220">Debug</string>
 
 	<!-- Addressbook -->
@@ -20,5 +21,8 @@
 	<string id="30340">Benutze IPhone Adressbuch</string>
 	<string id="30350">Pfad zu Addressbook.sqlite</string>
 	<string id="30360">Pfad zu AddressbookImages.sqlite</string>
+	
+	<!-- Actions -->
+	<string id="30400">XBMC bei eingehenden Anrufen pausieren?</string>
 </strings>
 
