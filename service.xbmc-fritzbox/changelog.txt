@@ -1,3 +1,5 @@
+V 0.9.4 Code Cleanup: put code into classes. Added Support for "profiles"
+
 V 0.9.3.1 Fixes shutdown Problems 
 V 0.9.3 Setting Duration from GUI, Changed Call-Duration to Minutes
 

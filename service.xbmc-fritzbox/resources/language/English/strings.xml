@@ -7,6 +7,7 @@
 	<!-- Settings -->
 	<string id="30001">Fritzbox</string>
 	<string id="30002">Addresses</string>
+	<string id="30003">Actions</string>
 	<!-- Default Tab -->
 	<string id="30200">IP Address</string>
 	<string id="30210">Display Durtion</string>
@@ -20,5 +21,9 @@
 	<string id="30340">Use Iphone Adressbook</string>
 	<string id="30350">Path to Addressbook.sqlite</string>
 	<string id="30360">Path to AddressbookImages.sqlite</string>
+	
+	<!-- Actions -->
+	<string id="30400">Pause XBMC on incoming calls</string>
+	
 </strings>
 
