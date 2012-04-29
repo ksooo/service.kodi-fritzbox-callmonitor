@@ -71,7 +71,7 @@ def handleDisconnected(aList):
 __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
-__url__         = "http://code.google.com/p/xbmc-pbx-addon/"
+__url__         = "http://code.google.com/p/xbmc-fritzbox"
 __version__     = "0.9.3.1"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
@@ -81,8 +81,21 @@ Addon = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 # Werte der Settings-GUI
 ip = __settings__.getSetting( "S_IP" ) # return FritzIP setting value 
 dur = __settings__.getSetting( "S_DURATION" ) # return Anzeigedauer
-duration = dur * 1000 # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds
+durlist = [1,2,3,4,5,8,10,15,0]
+duration = dirliste[dur] * 1000 # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds
+debuggen = __settings__.getSetting("S_DEBUG")
 
+# -------------- Addressbook-Lookup-Settings ---------
+#TODO:
+#AB_Fritzadress
+#AB_Adressbookpath
+#AB_Textfile
+#AB_CSVpath
+#AB_iPhone
+#AB_iPhoneAddressbook
+#AB_iPhoneAddressbookImages
+# -------------- Action Settings -----
+#TODO:
 parameterstring = "Fritzbox: Ip Adresse definiert als %s" % ( ip)
 xbmc.log(parameterstring)
 fncDict = {'CALL': handleOutgoingCall, 'RING': handleIncomingCall, 'CONNECT': handleConnected, 'DISCONNECT': handleDisconnected}
