@@ -11,13 +11,13 @@
     <platform>all</platform>
     <summary lang="en">Fritzbox Addon</summary>
     <description lang="en">This Addon displays incoming calls. It connects to your Fritzbox on port 1012. To enable the Callmonitor in your Fritzbox enter the following code into your telephone.
-#96*5* 	Callmonitor-Support enabled.
-#96*4* 	Callmonitor-Support disabled.
+#96*5* Callmonitor-Support enabled.
+#96*4* Callmonitor-Support disabled.
 </description>
     <summary lang="de">Fritzbox Addon</summary>
     <description lang="de">Dieses Addon zeigt eingehende Anrufe auf der Fritzbox an. Dazu muss der Port 1012 auf der Fritzbox freigeschaltet sein. Tippen Sie dazu auf dem Telefon folgenden Telefoncode ein.
-#96*5* 	Callmonitor-Support aktivieren.
-#96*4* 	Callmonitor-Support deaktivieren </description>
+#96*5* Callmonitor-Support aktivieren.
+#96*4* Callmonitor-Support deaktivieren </description>
   </extension>
 </addon>
 

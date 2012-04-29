@@ -10,7 +10,7 @@
 	<string id="30003">Aktionen</string>
 	<!-- Default Tab -->
 	<string id="30200">IP Addresse der Fritzbox</string>
-	<string id="30210">Anzeigedauer der Info</string>
+	<string id="30210">Anzeigedauer der Info (Sekunden)</string>
 	<string id="30220">Debug</string>
 
 	<!-- Addressbook -->

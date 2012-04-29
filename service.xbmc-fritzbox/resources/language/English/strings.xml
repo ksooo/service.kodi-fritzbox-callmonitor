@@ -10,7 +10,7 @@
 	<string id="30003">Actions</string>
 	<!-- Default Tab -->
 	<string id="30200">IP Address</string>
-	<string id="30210">Display Durtion</string>
+	<string id="30210">Display Durtion (seconds)</string>
 	<string id="30220">Debug</string>
 
 	<!-- Addressbook -->
