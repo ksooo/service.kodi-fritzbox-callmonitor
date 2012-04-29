@@ -81,8 +81,8 @@ Addon = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 # Werte der Settings-GUI
 ip = __settings__.getSetting( "S_IP" ) # return FritzIP setting value 
 dur = __settings__.getSetting( "S_DURATION" ) # return Anzeigedauer
-durlist = [1,2,3,4,5,8,10,15,0]
-duration = dirliste[dur] * 1000 # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds
+durdict = {'1': '1000','2': '2000' ,'3':'3000','4':'4000','5':'5000','8':'8000','10':'10000','15':'15000','0':'0'}
+duration = durdict.get(dur) # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds
 debuggen = __settings__.getSetting("S_DEBUG")
 
 # -------------- Addressbook-Lookup-Settings ---------
@@ -111,6 +111,7 @@ while(not xbmc.abortRequested):
             #xbmc.log(log)
             items = antwort.split(';')
             fncDict.get(items[1], errorMsg)(items)
+        s.shutdown()
         s.close()
     except IndexError:
         text = 'ERROR: Something is wrong with the message from the fritzbox'
