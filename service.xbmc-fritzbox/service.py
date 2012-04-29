@@ -53,6 +53,11 @@ class FritzCaller():
         # -------------- Action Settings -----
         #TODO:
         
+        # --------------- Sockets for Fritzbox --------------
+        #Function Dictionary
+        self.__fncDict__ = {'CALL': self.handleOutgoingCall, 'RING': self.handleIncomingCall, 'CONNECT': self.handleConnected, 'DISCONNECT': self.handleDisconnected}
+        self.__s__ = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        
     def logAllVariables(self):
         
         self.log("Fritzbox IP-Address is: %s" % ( self.__FritzIP__))
@@ -61,41 +66,40 @@ class FritzCaller():
         self.log("AddonDir is: %s" % (self.__addondir__))
         self.log("DefaultImage is: %s" % (self.__defaultIMG__))
         
-    def stopService(self):
-        self.log("Stopping service")
+    def stopService(self):             
+        self.__s__.close()
+        self.log("Connection to Socket closed")
+        self.log("Stopping service")   
+
         
     def startService(self):
         
         if self.__Debug__:
             self.logAllVariables()
         
-        #Function Dictionary
-        fncDict = {'CALL': self.handleOutgoingCall, 'RING': self.handleIncomingCall, 'CONNECT': self.handleConnected, 'DISCONNECT': self.handleDisconnected}
+        
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-            s.connect((self.__FritzIP__, 1012))
+            
+            self.__s__.connect((self.__FritzIP__, 1012))
             self.log('connected to fritzbox callmonitor')
-            antwort = s.recv(1024) 
+            antwort = self__s__.recv(1024) 
             log= "[%s] %s" % (self.__FritzIP__,antwort)
             self.log(log)
             items = antwort.split(';')
-            fncDict.get(items[1], self.errorMsg)(items)
+            self.__fncDict__.get(items[1], self.errorMsg)(items)
 
         
         except IndexError:
             text = 'ERROR: Something is wrong with the message from the fritzbox. Unexpected firmware maybe'
             #print text
             self.log(text)
-            s.close()
+            self.__s__.close()
         except socket.error, msg:
             text = 'ERROR: Could not connect fritz.box on port 1012. Have you activated the Callmonitor via #96*5*'
             xbmc.log(text)
-            s.close()
+            self.__s__.close()
         finally:
-            s.close()
-        
-        s.close()
-        self.log('closed callmonitor connection')
+            self.__s__.close()
         
     # [1]
     #Default Fehler
