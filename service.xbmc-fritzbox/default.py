@@ -4,11 +4,14 @@ from service import FritzCaller
 
 xbmc.log("service.xbmc-fritzbox: ShowCallerInfo-Service starting...")
 
-FritzCaller().startService()
+fritz = FritzCaller()
+fritz.startService()
 while (not xbmc.abortRequested):
   xbmc.sleep(100)
+  if (xbmc.abortRequested):
+      fritz.stopService()
+      xbmc.log("service.xbmc-fritzbox: Aborting...")
+      break
 
-if xbmc.abortRequested:
-    FritzCaller.stopService()
 
 xbmc.log("service.xbmc-fritzbox: ShowCallerInfo-Service stopping...")

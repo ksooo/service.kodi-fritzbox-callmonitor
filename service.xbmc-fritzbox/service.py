@@ -20,7 +20,7 @@ import os
 
 class FritzCaller():
 
-    def __init__(self):
+    def __init__(self,s=None):
         # Const
         self.__addon__       = "XBMC Fritzbox Addon"
         self.__addonid__     = "service.xbmc-fritzbox"
@@ -39,7 +39,7 @@ class FritzCaller():
         # GUI Settings
         # -------------- Essential Main Settings -------
         self.__FritzIP__     = self.__settings__.getSetting( "S_IP" ) # return Fritzbox IP setting value 
-        self.__Displaydur__  = (self.__settings__.getSetting( "S_DURATION" )) * 1000 # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds  
+        self.__Displaydur__  = self.__settings__.getSetting( "S_DURATION" ) # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds  
         self.__Debug__       = self.__settings__.getSetting("S_DEBUG")
         # -------------- Addressbook-Lookup-Settings ---------
         #TODO:
@@ -53,10 +53,16 @@ class FritzCaller():
         # -------------- Action Settings -----
         #TODO:
         
-        # --------------- Sockets for Fritzbox --------------
+        #--------------- addon initlisation -----------
         #Function Dictionary
         self.__fncDict__ = {'CALL': self.handleOutgoingCall, 'RING': self.handleIncomingCall, 'CONNECT': self.handleConnected, 'DISCONNECT': self.handleDisconnected}
-        self.__s__ = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        # --------------- Sockets for Fritzbox --------------
+        if s is None:
+            self.__s__ = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        else:
+            self.__s__ = s
+        
+        
         
     def logAllVariables(self):
         
@@ -77,12 +83,12 @@ class FritzCaller():
         if self.__Debug__:
             self.logAllVariables()
         
-        
         try:
-            
             self.__s__.connect((self.__FritzIP__, 1012))
-            self.log('connected to fritzbox callmonitor')
-            antwort = self__s__.recv(1024) 
+            self.log('connected to fritzbox callmonitor successful')
+            antwort = self.__s__.recv(1024)
+#            if not antwort: 
+#                break
             log= "[%s] %s" % (self.__FritzIP__,antwort)
             self.log(log)
             items = antwort.split(';')
