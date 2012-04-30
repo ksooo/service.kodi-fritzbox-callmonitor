@@ -4,6 +4,7 @@ class FritzClient(asyncore.dispatcher):
 
     def __init__(self, host,port):
         asyncore.dispatcher.__init__(self)
+        xbmc.log('DUMMY FritzClientMeldetSich')
         self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connect( (host, port) )
 

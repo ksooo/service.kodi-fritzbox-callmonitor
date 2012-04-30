@@ -104,19 +104,17 @@ parameterstring = "Fritzbox: Ip Adresse definiert als %s" % ( ip)
 xbmc.log(parameterstring)
 fncDict = {'CALL': handleOutgoingCall, 'RING': handleIncomingCall, 'CONNECT': handleConnected, 'DISCONNECT': handleDisconnected}
 #run the program
-while(not xbmc.abortRequested):
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+s.connect((ip, 1012))
+xbmc.log('connected to fritzbox callmonitor')
+s.setblocking(0)
+while (not xbmc.abortRequested):
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-        s.connect((ip, 1012))
-        while True:
-            #xbmc.log('connected to fritzbox callmonitor')
-            antwort = s.recv(1024) 
-            log= "[%s] %s" % (ip,antwort)
-            #xbmc.log(log)
-            items = antwort.split(';')
-            fncDict.get(items[1], errorMsg)(items)
-        s.shutdown()
-        s.close()
+        antwort = s.recv(1024) 
+        log= "[%s] %s" % (ip,antwort)
+        #xbmc.log(log)
+        items = antwort.split(';')
+        fncDict.get(items[1], errorMsg)(items)
     except IndexError:
         text = 'ERROR: Something is wrong with the message from the fritzbox'
         #print text
@@ -124,11 +122,7 @@ while(not xbmc.abortRequested):
     except socket.error, msg:
         text = 'ERROR: Could not connect fritz.box on port 1012'
         xbmc.log(text)
-    finally:
-        s.close()
-        
-    if (xbmc.abortRequested):
-        xbmc.log("XBMC-fritzbox Aborting...")
-        break
+
+s.close()
 
 xbmc.log("XBMC-Fritzbox Addon beendet.")
