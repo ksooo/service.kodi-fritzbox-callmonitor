@@ -17,4 +17,17 @@ import sys
 csvfile = '/home/mainuser/workspace/XBMC-Sourcecode/csvAdressbook/adressbook.csv'
 csvPicturefolder = '/home/mainuser/workspace/XBMC-Sourcecode/csvAdressbook/Bilder/'
 
+names = []
+phones = []
+
+
 #create dictionary
+addressbookfile = open(csvfile)
+for line in addressbookfile:
+    l = line.split(':')
+    phone,name = l
+    names.append(name)
+    phones.append(phone)
+   
+d = dict(zip(phones,names))    
+print d.get('01710000000')    

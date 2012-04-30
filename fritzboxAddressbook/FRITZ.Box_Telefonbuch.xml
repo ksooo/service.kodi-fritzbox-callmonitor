@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<phonebooks>
+  <phonebook>
+    <contact>
+      <category>0</category>
+      <person>
+        <realName>Flash</realName>
+      </person>
+      <telephony>
+        <number type="home" quickdial="13" vanity="" prio="1">01710000000</number>
+      </telephony>
+      <services/>
+      <setup/>
+      <mod_time>1314903558</mod_time>
+      <uniqueid>0</uniqueid>
+    </contact>
+        <contact>
+      <category>0</category>
+      <person>
+        <realName>Homer</realName>
+      </person>
+      <telephony>
+        <number type="home" quickdial="2" vanity="" prio="1">01750000000</number>
+      </telephony>
+      <services/>
+      <setup/>
+      <mod_time>1314903558</mod_time>
+      <uniqueid>1</uniqueid>
+    </contact>
+  </phonebook>
+</phonebooks>
