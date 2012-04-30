@@ -30,4 +30,4 @@ for line in addressbookfile:
 
   
 result =  telefonbuch.get('01710000000') ## Flash expected
-print result + 'test'
+print result

@@ -11,7 +11,7 @@ __author__      = "N.K."
 
 xbmc.log("DUMMY Started")
  
-while 1:
+while (not xbmc.abortRequested):
     print "DUMMY Abort Requested: "+str(xbmc.abortRequested)
     client = service.FritzClient('192.168.178.1', 1012)
     asyncore.loop()
