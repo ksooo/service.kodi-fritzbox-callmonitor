@@ -10,15 +10,14 @@
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-import sys
+import string
 
 # variables 
 
 csvfile = '/home/mainuser/workspace/XBMC-Sourcecode/csvAdressbook/adressbook.csv'
 csvPicturefolder = '/home/mainuser/workspace/XBMC-Sourcecode/csvAdressbook/Bilder/'
 
-names = []
-phones = []
+telefonbuch={}
 
 
 #create dictionary
@@ -26,8 +25,9 @@ addressbookfile = open(csvfile)
 for line in addressbookfile:
     l = line.split(':')
     phone,name = l
-    names.append(name)
-    phones.append(phone)
-   
-d = dict(zip(phones,names))    
-print d.get('01710000000')    
+    
+    telefonbuch[phone.strip()]=name.rstrip('\r\n')
+
+  
+result =  telefonbuch.get('01710000000') ## Flash expected
+print result + 'test'
