@@ -23,6 +23,7 @@ while (not xbmc.abortRequested):
         print data
     except socket.error, msg:
         'print no data arrving'
+        print msg
     
 s.close()   
 #    

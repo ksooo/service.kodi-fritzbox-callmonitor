@@ -32,11 +32,10 @@ class Fritzboxtelefonbuch():
         self.handler = FbAbHandler(xbmctele)
         self.parser.setContentHandler(self.handler)
         self.parser.parse(open(url, "r"))
-        self.tb = self.handler.telefonbuch
         
     
     def getTelefonbuch(self):
-        return self.tb
+        return self.handler.telefonbuch
 
 #nummer = '01710000000' #Flash's Phonenumber ;-)
 #displayname = handler.telefonbuch.get(nummer, 'Unbekannt')

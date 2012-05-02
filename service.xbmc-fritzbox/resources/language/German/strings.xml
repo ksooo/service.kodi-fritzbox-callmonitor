@@ -22,6 +22,8 @@
 	<string id="30340">Benutze IPhone Adressbuch</string>
 	<string id="30350">Pfad zu Addressbook.sqlite</string>
 	<string id="30360">Pfad zu AddressbookImages.sqlite</string>
+	<string id="30370">Pfad zum Bilderordner</string>
+	
 	
 	<!-- Actions -->
 	<string id="30400">XBMC bei eingehenden Anrufen pausieren?</string>

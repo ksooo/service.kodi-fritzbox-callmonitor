@@ -22,6 +22,7 @@
 	<string id="30340">Use Iphone Adressbook</string>
 	<string id="30350">Path to Addressbook.sqlite</string>
 	<string id="30360">Path to AddressbookImages.sqlite</string>
+	<string id="30370">Path to Picturefolder</string>
 	
 	<!-- Actions -->
 	<string id="30400">Pause XBMC on incoming calls</string>

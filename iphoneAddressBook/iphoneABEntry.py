@@ -11,7 +11,6 @@
 
 
 import sqlite3
-import string
 
 
 class Person(object):
