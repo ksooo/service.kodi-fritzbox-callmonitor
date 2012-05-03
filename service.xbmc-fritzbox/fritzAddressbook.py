@@ -31,7 +31,12 @@ class Fritzboxtelefonbuch():
         self.parser = xml.sax.make_parser()
         self.handler = FbAbHandler(xbmctele)
         self.parser.setContentHandler(self.handler)
-        self.parser.parse(open(url, "r"))
+        try:
+            self.parser.parse(open(url, "r"))
+        except IOError:
+            print "Datei %s konnte nicht gefunden werden" %(url)
+        except error, msg:
+            print "Fehler %s aufgetreten" %(msg)
         
     
     def getTelefonbuch(self):

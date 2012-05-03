@@ -18,6 +18,7 @@
 import xbmc, xbmcaddon
 import socket
 import os
+import errno
 
 # own imports
 import fritzAddressbook
@@ -49,14 +50,15 @@ def handleIncomingCall(aList):
     logtext = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
     heading = 'Eingehender Anruf'
     anrufer = xbmctelefonbuch.get(aList[3],'Unbenannt')
-    PIC=PicFolder+"\\"+aList[3]+".png"
+    PIC = xbmc.translatePath(os.path.join(PicFolder,aList[3],".png"))
     text = 'von %s [%s]' % (anrufer, aList[3])
     xbmc.log(logtext)
     try:
         open(PIC)
     except:
         PIC = DEFAULT_IMG
-        
+    
+    xbmc.log("FRIIIITZ: " + PIC) 
     xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+PIC+")")
 
 #Zustandegekommene Verbindung:
@@ -86,7 +88,7 @@ __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-fritzbox"
-__version__     = "0.9.5"
+__version__     = "0.9.5.1"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 
@@ -102,7 +104,7 @@ debuggen = __settings__.getSetting("S_DEBUG")
 
 # -------------- Addressbook-Lookup-Settings ---------
 #TODO:
-#AB_Fritzadress
+useFritzAB = __settings__.getSetting( "AB_Fritzadress" )
 fritzAddressURL = __settings__.getSetting( "AB_Adressbookpath")
 #AB_Textfile
 #AB_CSVpath
@@ -120,16 +122,20 @@ fncDict = {'CALL': handleOutgoingCall, 'RING': handleIncomingCall, 'CONNECT': ha
 #Fill Addressbook for lookup
 xbmctelefonbuch = {}
 
-tmp=fritzAddressbook.Fritzboxtelefonbuch(xbmctelefonbuch,fritzAddressURL)
-xbmctelefonbuch = tmp.getTelefonbuch()
+txt = "xbmc-fritzbox ABFritzbox: "+ str(useFritzAB)
+print txt
 
-
+if useFritzAB: 
+    tmp=fritzAddressbook.Fritzboxtelefonbuch(xbmctelefonbuch,fritzAddressURL)
+    xbmctelefonbuch = tmp.getTelefonbuch()
+    
 
 #Get Connection
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 s.connect((ip, 1012))
 xbmc.log('connected to fritzbox callmonitor')
 s.setblocking(0)
+#s.settimeout(0.0)
 while (not xbmc.abortRequested):
     try:
         antwort = s.recv(1024) 
@@ -138,12 +144,13 @@ while (not xbmc.abortRequested):
         items = antwort.split(';')
         fncDict.get(items[1], errorMsg)(items)
     except IndexError:
-        text = 'ERROR: Something is wrong with the message from the fritzbox'
-        #print text
+        text = 'ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe'
         xbmc.log(text)
-    except socket.error, msg:
-        text = 'ERROR: Could not connect fritz.box on port 1012 or no Message'
-        #xbmc.log(text)
+    except socket.error, exception:
+        if exception.errno != 11: #timeout
+            text = 'ERROR: Could not connect fritz.box on port 1012'
+            xbmc.log(text)
+
 
 s.close()
 
