@@ -12,7 +12,7 @@
 
 # ################################################################################
 # author: nk
-# version: 0.9.5
+# version: 0.9.5.2
 # ################################################################################
 
 import xbmc, xbmcaddon
@@ -50,15 +50,16 @@ def handleIncomingCall(aList):
     logtext = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
     heading = 'Eingehender Anruf'
     anrufer = xbmctelefonbuch.get(aList[3],'Unbenannt')
-    PIC = xbmc.translatePath(os.path.join(PicFolder,aList[3],".png"))
+    PIC = xbmc.translatePath(os.path.join(PicFolder,aList[3]+".png"))
     text = 'von %s [%s]' % (anrufer, aList[3])
+    xbmc.log("FRIIIITZ: " + PIC)
     xbmc.log(logtext)
     try:
         open(PIC)
     except:
         PIC = DEFAULT_IMG
     
-    xbmc.log("FRIIIITZ: " + PIC) 
+     
     xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+PIC+")")
 
 #Zustandegekommene Verbindung:
@@ -77,7 +78,7 @@ def handleDisconnected(aList):
     #datum;DISCONNECT;ConnectionID;dauerInSekunden;
     #[192.168.178.1] 03.01.12 22:12:56;DISCONNECT;0;0;
     datum, funktion, connectionID, dauer,  leer = aList
-    text = ('Anrufdauer: %s Minuten' % (int(int(dauer)/60)))
+    text = ('Anrufdauer: %i Minuten' % (int(int(dauer)/60)))
     #print text
     xbmc.log(text)
     xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
@@ -88,7 +89,7 @@ __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-fritzbox"
-__version__     = "0.9.5.1"
+__version__     = "0.9.5.2"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 
