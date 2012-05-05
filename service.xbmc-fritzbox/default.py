@@ -12,7 +12,7 @@
 
 # ################################################################################
 # author: nk
-# version: 0.9.5.2
+# version: 0.9.5.3
 # ################################################################################
 
 import xbmc, xbmcaddon
@@ -89,7 +89,7 @@ __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-fritzbox"
-__version__     = "0.9.5.2"
+__version__     = "0.9.5.3"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 
