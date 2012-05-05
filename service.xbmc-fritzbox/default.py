@@ -135,7 +135,7 @@ if useFritzAB:
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
 s.connect((ip, 1012))
 xbmc.log('connected to fritzbox callmonitor')
-s.setblocking(0)
+#s.setblocking(0) #DONT USE High CPU Load
 #s.settimeout(0.0)
 while (not xbmc.abortRequested):
     try:
@@ -151,6 +151,8 @@ while (not xbmc.abortRequested):
         if exception.errno != 11: #timeout
             text = 'ERROR: Could not connect fritz.box on port 1012'
             xbmc.log(text)
+    except error, msg:
+        pass
 
 
 s.close()

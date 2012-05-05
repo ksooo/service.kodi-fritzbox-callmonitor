@@ -1,7 +1,8 @@
 import xbmc, xbmcaddon
 import os, time
 import socket
-import service, asyncore
+import service
+#import asyncore
 
 # Script constants
 __addon__       = "Dummy"
@@ -16,7 +17,7 @@ xbmc.log("DUMMY Started")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((ip,port))
 print 'Connected '
-s.setblocking(0)
+#s.setblocking(0)
 while (not xbmc.abortRequested):
     try:
         data = s.recv(1024)
@@ -24,6 +25,8 @@ while (not xbmc.abortRequested):
     except socket.error, msg:
         'print no data arrving'
         print msg
+    except error, msg:
+        print 'sonstiger Error'
     
 s.close()   
 #    
