@@ -12,7 +12,7 @@
 
 # ################################################################################
 # author: nk
-# version: 0.9.5.3
+# version: 0.9.5.4
 # ################################################################################
 
 import xbmc, xbmcaddon
@@ -89,7 +89,7 @@ __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-fritzbox"
-__version__     = "0.9.5.3"
+__version__     = "0.9.5.4"
 __settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 
@@ -148,9 +148,8 @@ while (not xbmc.abortRequested):
         text = 'ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe'
         xbmc.log(text)
     except socket.error, exception:
-        if exception.errno != 11: #timeout
-            text = 'ERROR: Could not connect fritz.box on port 1012'
-            xbmc.log(text)
+        text = 'ERROR: Could not connect fritz.box on port 1012'
+        #xbmc.log(text)
     except error, msg:
         pass
 
