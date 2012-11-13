@@ -3,6 +3,7 @@
 #The MIT License (MIT)
 
 #Copyright (c) 2011 N.K.
+#Copyright (c) 2012 FEP
 
 #Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -10,22 +11,18 @@
 #THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-# ################################################################################
-# author: nk
-# version: 0.9.5.4
-# ################################################################################
-
 import xbmc, xbmcaddon
 import socket
 import os
 import errno
+from pprint import pformat
 
 # own imports
 import fritzAddressbook
 
 
 def errorMsg(aList):
-    xbmc.log("Unhandled State: %s" aList)
+    xbmc.log("Unhandled State: %s" % aList)
 
 #AusgehendeAnrufe
 def handleOutgoingCall(aList):
@@ -41,7 +38,7 @@ def handleIncomingCall(aList):
     #datum;RING;ConnectionID;Anrufer-Nr;Angerufene-Nummer;sip;
     #[192.168.178.1] 03.01.12 21:52:21;RING;0;017100000;012345;SIP2;
     datum, funktion, connectionID, anruferNR, angerufeneNR, sip, leer = aList
-    xbmc.log(aList)
+    xbmc.log(str(aList))
     anrufer = xbmctelefonbuch.get(aList[3], str(anruferNR))
     PIC = xbmc.translatePath(os.path.join(PicFolder, "%s.png" % aList[3]))
  
@@ -57,8 +54,8 @@ def handleIncomingCall(aList):
 def handleConnected(aList):
     #datum;CONNECT;ConnectionID;Nebenstelle;Nummer;
     datum, funktion, connectionID, nebenstelle, nummer, leer = aList
-    xbmc.log(aList)
-    if __settings__.getSetting( "AC_Pause" ):
+    xbmc.log(str(aList))
+    if __settings__.getSetting( "AC_Pause" )  == 'true':
         xbmc.Player().pause()
     Notification('Verbindung hergestellt', 'Mit %s' % (nummer))
 
@@ -67,7 +64,7 @@ def handleDisconnected(aList):
     #datum;DISCONNECT;ConnectionID;dauerInSekunden;
     #[192.168.178.1] 03.01.12 22:12:56;DISCONNECT;0;0;
     datum, funktion, connectionID, dauer,  leer = aList
-    xbmc.log(aList)
+    xbmc.log(str(aList))
     Notification('Verbindung beendet', 'Dauer: %i Minuten' % (int(int(dauer)/60)))
 
 
@@ -84,9 +81,9 @@ def Notification(title, text, duration=False, img=False):
 # Script constants
 __addon__       = "XBMC Fritzbox Addon"
 __addon_id__    = "service.xbmc-fritzbox"
-__author__      = "N.K."
+__author__      = "FEP"
 __url__         = "http://code.google.com/p/xbmc-fritzbox"
-__version__     = "0.9.5.4"
+__version__     = "1"
 __settings__    = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 
@@ -100,8 +97,8 @@ PicFolder       = __settings__.getSetting( "AB_Pics" )
 
 #Fill Addressbook for lookup
 xbmctelefonbuch = {}
-if useFritzAB: 
-    tmp = fritzAddressbook.Fritzboxtelefonbuch( xbmctelefonbuch, fritzAddressURL)
+if useFritzAB == 'true':
+    tmp = fritzAddressbook.Fritzboxtelefonbuch(xbmctelefonbuch, fritzAddressURL)
     xbmctelefonbuch = tmp.getTelefonbuch()
 
 
@@ -113,23 +110,27 @@ except Exception, e:
     Notification('Fritzbox nicht erreichbar', 'Konnte keine Verbindung zur Fritzbox herstellen (%s)' % e);
 else:
     xbmc.log('connected to fritzbox callmonitor')
-    #s.setblocking(0) #DONT USE High CPU Load
-    #s.settimeout(0.0)
+    #s.setblocking(0)
+    s.settimeout(0.2)
     while (not xbmc.abortRequested):
         try:
-            antwort = s.recv(1024) 
+            antwort = s.recv(1024)
+            items = antwort.split(';')
             xbmc.log("[%s] %s" % (ip,antwort))
             {
              'CALL': handleOutgoingCall, 
              'RING': handleIncomingCall, 
              'CONNECT': handleConnected, 
              'DISCONNECT': handleDisconnected
-            }.get(items[1], errorMsg)(antwort.split(';'))
+            }.get(items[1], errorMsg)(items)
         except IndexError:
             xbmc.log('ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe')
-        except socket.error, exception:
-            xbmc.log('ERROR: Could not connect fritz.box on port 1012')
+        except socket.timeout, e:
+            pass
+        except socket.error, e:
+            xbmc.log('ERROR: Could not connect %s on port 1012. Have you activated the Callmonitor via #96*5*' % ip)
+            xbmc.log(pformat(e))
         except Exception, e:
-            xbmc.log(e)
+            xbmc.log(pformat(e))
     s.close()
     xbmc.log("XBMC-Fritzbox Addon beendet.")
