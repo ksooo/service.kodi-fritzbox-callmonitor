@@ -24,22 +24,16 @@ import errno
 import fritzAddressbook
 
 
-# [1]
-#Default Fehler
 def errorMsg(aList):
-    text = "Unhandled State"
-    xbmc.log(text)
+    xbmc.log("Unhandled State: %s" aList)
 
 #AusgehendeAnrufe
 def handleOutgoingCall(aList):
     #datum;CALL;ConnectionID;Nebenstelle;GenutzteNummer;AngerufeneNummer;
     #[192.168.178.1] 03.01.12 22:09:56;CALL;0;0;123456;017500000;SIP1;
     datum, funktion, connectionID, Nebenstelle, GenutzteNummer, AngerufeneNummer, sip,  leer = aList
-    logtext = ('Ausgehender Anruf an %s von Nr: %s, am %s' % (AngerufeneNummer, GenutzteNummer, datum))
-    heading = "Ausgehender Anruf"
-    text = "Angerufene Nr. %s von Apparat Nr: %s" % (AngerufeneNummer, GenutzteNummer)
-    xbmc.log(logtext)
-    xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+DEFAULT_IMG+")")
+    xbmc.log(str(aList))
+    Notification("Ausgehender Anruf", "zu %s (von %s)" % (AngerufeneNummer, GenutzteNummer))
 
 
 #EingehendeAnrufe:
@@ -47,41 +41,44 @@ def handleIncomingCall(aList):
     #datum;RING;ConnectionID;Anrufer-Nr;Angerufene-Nummer;sip;
     #[192.168.178.1] 03.01.12 21:52:21;RING;0;017100000;012345;SIP2;
     datum, funktion, connectionID, anruferNR, angerufeneNR, sip, leer = aList
-    logtext = ('Eingehender Anruf von %s auf Apparat %s' % (aList[3], aList[4]))
-    heading = 'Eingehender Anruf'
-    anrufer = xbmctelefonbuch.get(aList[3],'Unbenannt')
-    PIC = xbmc.translatePath(os.path.join(PicFolder,aList[3]+".png"))
-    text = 'von %s [%s]' % (anrufer, aList[3])
-    xbmc.log("FRIIIITZ: " + PIC)
-    xbmc.log(logtext)
+    xbmc.log(aList)
+    anrufer = xbmctelefonbuch.get(aList[3], str(anruferNR))
+    PIC = xbmc.translatePath(os.path.join(PicFolder, "%s.png" % aList[3]))
+ 
     try:
-        open(PIC)
-    except:
-        PIC = DEFAULT_IMG
-    
-     
-    xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+PIC+")")
+        open(PIC).close()
+    except Exception, e:
+ 	xbmc.log('%s: %s' % (PIC, str(e)))
+        PIC = False
+ 
+    Notification('Eingehender Anruf', 'Von %s [%s]' % (anrufer, aList[3]))
 
 #Zustandegekommene Verbindung:
 def handleConnected(aList):
     #datum;CONNECT;ConnectionID;Nebenstelle;Nummer;
     datum, funktion, connectionID, nebenstelle, nummer, leer = aList
-    logtext = ('Verbunden mit %s' % (nummer))
-    #print text
-    heading = 'Verbindung hergestellt'
-    text = 'mit %s' % (nummer)
-    xbmc.log(logtext)
-    xbmc.executebuiltin("Notification("+heading+","+text+","+duration+","+DEFAULT_IMG+")")
+    xbmc.log(aList)
+    if __settings__.getSetting( "AC_Pause" ):
+        xbmc.Player().pause()
+    Notification('Verbindung hergestellt', 'Mit %s' % (nummer))
 
 #Ende der Verbindung:
 def handleDisconnected(aList):
     #datum;DISCONNECT;ConnectionID;dauerInSekunden;
     #[192.168.178.1] 03.01.12 22:12:56;DISCONNECT;0;0;
     datum, funktion, connectionID, dauer,  leer = aList
-    text = ('Anrufdauer: %i Minuten' % (int(int(dauer)/60)))
-    #print text
-    xbmc.log(text)
-    xbmc.executebuiltin("Notification(XBMC-Fritzbox,"+text+","+duration+","+DEFAULT_IMG+")")
+    xbmc.log(aList)
+    Notification('Verbindung beendet', 'Dauer: %i Minuten' % (int(int(dauer)/60)))
+
+
+def Notification(title, text, duration=False, img=False):
+    xbmc.log("%s: %s" % (title, text))
+    if not duration:
+        duration = __settings__.getSetting( "S_DURATION" )
+        duration = int(duration)*1000
+    if not img:
+        img = xbmc.translatePath(os.path.join( xbmcaddon.Addon().getAddonInfo('path'), "media","default.png"))
+    return xbmc.executebuiltin('Notification("%s", "%s", %d, "%s")' % (title, str(text), duration, img))
 
 
 # Script constants
@@ -90,70 +87,49 @@ __addon_id__    = "service.xbmc-fritzbox"
 __author__      = "N.K."
 __url__         = "http://code.google.com/p/xbmc-fritzbox"
 __version__     = "0.9.5.4"
-__settings__ = xbmcaddon.Addon(id='service.xbmc-fritzbox')
+__settings__    = xbmcaddon.Addon(id='service.xbmc-fritzbox')
 
 
-xbmc.log("xbmc-fritzbox ShowCallerInfo-Service starting...")
-DEFAULT_IMG = xbmc.translatePath(os.path.join( "special://home/", "addons", "service.xbmc-fritzbox", "media","default.png"))
-Addon = xbmcaddon.Addon(id='service.xbmc-fritzbox')
+Addon = xbmcaddon.Addon(id=__addon_id__)
+
 # Werte der Settings-GUI
-ip = __settings__.getSetting( "S_IP" ) # return FritzIP setting value 
-dur = __settings__.getSetting( "S_DURATION" ) # return Anzeigedauer
-durdict = {'1': '1000','2': '2000' ,'3':'3000','4':'4000','5':'5000','8':'8000','10':'10000','15':'15000','0':'0'}
-duration = durdict.get(dur) # Unit conversion Seconds_2_Milliseconds, NotificationDialog wants Milliseconds
-debuggen = __settings__.getSetting("S_DEBUG")
-
-# -------------- Addressbook-Lookup-Settings ---------
-#TODO:
-useFritzAB = __settings__.getSetting( "AB_Fritzadress" )
+ip = __settings__.getSetting( "S_IP" ) 
+useFritzAB      = __settings__.getSetting( "AB_Fritzadress" )
 fritzAddressURL = __settings__.getSetting( "AB_Adressbookpath")
-#AB_Textfile
-#AB_CSVpath
-#AB_iPhone
-#AB_iPhoneAddressbook
-#AB_iPhoneAddressbookImages
-PicFolder = __settings__.getSetting( "AB_Pics" )
-# -------------- Action Settings -----
-#TODO:
-parameterstring = "Fritzbox: Ip Adresse definiert als %s" % ( ip)
-xbmc.log(parameterstring)
-fncDict = {'CALL': handleOutgoingCall, 'RING': handleIncomingCall, 'CONNECT': handleConnected, 'DISCONNECT': handleDisconnected}
-
+PicFolder       = __settings__.getSetting( "AB_Pics" )
 
 #Fill Addressbook for lookup
 xbmctelefonbuch = {}
-
-txt = "xbmc-fritzbox ABFritzbox: "+ str(useFritzAB)
-print txt
-
 if useFritzAB: 
-    tmp=fritzAddressbook.Fritzboxtelefonbuch(xbmctelefonbuch,fritzAddressURL)
+    tmp = fritzAddressbook.Fritzboxtelefonbuch( xbmctelefonbuch, fritzAddressURL)
     xbmctelefonbuch = tmp.getTelefonbuch()
-    
+
 
 #Get Connection
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-s.connect((ip, 1012))
-xbmc.log('connected to fritzbox callmonitor')
-#s.setblocking(0) #DONT USE High CPU Load
-#s.settimeout(0.0)
-while (not xbmc.abortRequested):
-    try:
-        antwort = s.recv(1024) 
-        log= "[%s] %s" % (ip,antwort)
-        #xbmc.log(log)
-        items = antwort.split(';')
-        fncDict.get(items[1], errorMsg)(items)
-    except IndexError:
-        text = 'ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe'
-        xbmc.log(text)
-    except socket.error, exception:
-        text = 'ERROR: Could not connect fritz.box on port 1012'
-        #xbmc.log(text)
-    except error, msg:
-        pass
-
-
-s.close()
-
-xbmc.log("XBMC-Fritzbox Addon beendet.")
+try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+    s.connect((ip, 1012))
+except Exception, e:
+    Notification('Fritzbox nicht erreichbar', 'Konnte keine Verbindung zur Fritzbox herstellen (%s)' % e);
+else:
+    xbmc.log('connected to fritzbox callmonitor')
+    #s.setblocking(0) #DONT USE High CPU Load
+    #s.settimeout(0.0)
+    while (not xbmc.abortRequested):
+        try:
+            antwort = s.recv(1024) 
+            xbmc.log("[%s] %s" % (ip,antwort))
+            {
+             'CALL': handleOutgoingCall, 
+             'RING': handleIncomingCall, 
+             'CONNECT': handleConnected, 
+             'DISCONNECT': handleDisconnected
+            }.get(items[1], errorMsg)(antwort.split(';'))
+        except IndexError:
+            xbmc.log('ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe')
+        except socket.error, exception:
+            xbmc.log('ERROR: Could not connect fritz.box on port 1012')
+        except Exception, e:
+            xbmc.log(e)
+    s.close()
+    xbmc.log("XBMC-Fritzbox Addon beendet.")
