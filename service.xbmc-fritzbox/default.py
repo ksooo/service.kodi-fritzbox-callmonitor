@@ -59,9 +59,9 @@ class Fritzboxtelefonbuch():
         try:
             self.parser.parse(open(url, "r"))
         except IOError:
-            print "Datei %s konnte nicht gefunden werden" %(url)
+            print "Datei %s konnte nicht gefunden werden" % url
         except Exception, msg:
-            print "Fehler %s aufgetreten" %(msg)
+            print "Fehler %s aufgetreten" % msg
 
 
     def getTelefonbuch(self):
@@ -103,7 +103,7 @@ class FritzCallmonitor():
         xbmc.log(str(aList))
         if __addon__.getSetting( "AC_Pause" )  == 'true':
             xbmc.Player().pause()
-        self.Notification('Verbindung hergestellt', 'Mit %s' % (nummer))
+        self.Notification('Verbindung hergestellt', 'Mit %s' % nummer)
 
     def handleDisconnected(self, aList):
         datum, funktion, connectionID, dauer,  leer = aList
@@ -125,11 +125,11 @@ class FritzCallmonitor():
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip, 1012))
         except Exception, e:
-            self.Notification('Fritzbox nicht erreichbar', 'Konnte keine Verbindung zur Fritzbox herstellen (%s)' % e);
+            self.Notification('Fritzbox nicht erreichbar', 'Konnte keine Verbindung zur Fritzbox herstellen (%s)' % e)
         else:
             xbmc.log('connected to fritzbox callmonitor')
             s.settimeout(0.2)
-            while (not xbmc.abortRequested):
+            while not xbmc.abortRequested:
                 try:
                     antwort = s.recv(1024)
                     items = antwort.split(';')
@@ -142,7 +142,7 @@ class FritzCallmonitor():
                     }.get(items[1], self.error)(items)
                 except IndexError:
                     xbmc.log('ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe')
-                except socket.timeout, e:
+                except socket.timeout:
                     pass
                 except socket.error, e:
                     xbmc.log('ERROR: Could not connect %s on port 1012. Have you activated the Callmonitor via #96*5*' % ip)
