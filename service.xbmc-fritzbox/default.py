@@ -17,9 +17,6 @@ import os
 import errno
 from pprint import pformat
 
-# own imports
-import fritzAddressbook
-
 
 def errorMsg(aList):
     xbmc.log("Unhandled State: %s" % aList)
@@ -39,7 +36,6 @@ def handleIncomingCall(aList):
     #[192.168.178.1] 03.01.12 21:52:21;RING;0;017100000;012345;SIP2;
     datum, funktion, connectionID, anruferNR, angerufeneNR, sip, leer = aList
     xbmc.log(str(aList))
-    anrufer = xbmctelefonbuch.get(aList[3], str(anruferNR))
     PIC = xbmc.translatePath(os.path.join(PicFolder, "%s.png" % aList[3]))
  
     try:
@@ -94,12 +90,6 @@ ip = __settings__.getSetting( "S_IP" )
 useFritzAB      = __settings__.getSetting( "AB_Fritzadress" )
 fritzAddressURL = __settings__.getSetting( "AB_Adressbookpath")
 PicFolder       = __settings__.getSetting( "AB_Pics" )
-
-#Fill Addressbook for lookup
-xbmctelefonbuch = {}
-if useFritzAB == 'true':
-    tmp = fritzAddressbook.Fritzboxtelefonbuch(xbmctelefonbuch, fritzAddressURL)
-    xbmctelefonbuch = tmp.getTelefonbuch()
 
 
 #Get Connection
