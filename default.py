@@ -8,8 +8,6 @@ from lib.PytzBox import PytzBox
 # Script constants
 __addon__       = xbmcaddon.Addon()
 __addon_id__    = "service.xbmc-fritzbox"
-__author__      = "FEP"
-__url__         = "http://code.google.com/p/xbmc-fritzbox"
 __version__     = "1"
 
 
