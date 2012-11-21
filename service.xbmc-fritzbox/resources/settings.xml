@@ -7,17 +7,7 @@
   </category>
   <category label="30002">
     <setting id="AB_Fritzadress" type="bool" label="30300" default="false" />
-    <setting id="AB_Adressbookpath" type="file" label="30310" visible="eq(-1,true)" enable="eq(-1,true)" default="Fritzbox.xml" />
-    <setting type="sep" />
-    <setting id="AB_Textfile" type="bool" label="30320" default="false" />
-    <setting id="AB_CSVpath" type="file" label="30330" visible="eq(-1,true)" enable="eq(-1,true)" default="Adressbuch.csv" />
-    <setting id="AB_CSVpics" type="folder" label="30331" visible="false" enable="eq(-1,true)" default="" />
-    <setting type="sep" />
-    <setting id="AB_iPhone" type="bool" label="30340" default="false" />
-    <setting id="AB_iPhoneAddressbook" type="file" label="30350" visible="eq(-1,true)" enable="eq(-1,true)" default="Addressbook.sqlitedb" />
-    <setting id="AB_iPhoneAddressbookImages" type="file" label="30360" visible="eq(-2,true)" enable="eq(-2,true)" default="AddressbookImages.sqlitedb" />
-    <setting type="sep" />
-    <setting id="AB_Pics" type="folder" label="30370" default="" /> 
+    <setting id="AB_FritzboxPassword" type="text" option="hidden" label="30301" visible="eq(-1,true)" enable="eq(-1,true)" default="" />
   </category>
   <category label="30003">
   	<setting id="AC_Pause" type="bool" label="30400" default="false" />

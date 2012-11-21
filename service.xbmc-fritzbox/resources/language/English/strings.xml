@@ -15,14 +15,7 @@
 
 	<!-- Addressbook -->
 	<string id="30300">Use Fritzbox Addressbook</string>
-	<string id="30310">Path to Fritzbox Addressbook</string>
-	<string id="30320">Use Addressbook from simple CSV</string>
-	<string id="30330">Path to CSV Addressbook</string>
-	<string id="30331">Path to Picturefolder</string>
-	<string id="30340">Use Iphone Adressbook</string>
-	<string id="30350">Path to Addressbook.sqlite</string>
-	<string id="30360">Path to AddressbookImages.sqlite</string>
-	<string id="30370">Path to Picturefolder</string>
+    <string id="30301">Login Password</string>
 	
 	<!-- Actions -->
 	<string id="30400">Pause XBMC on incoming calls</string>
