@@ -2,7 +2,7 @@ from pprint import pformat
 import xbmc, xbmcaddon
 import socket
 import os
-from lib.PytzBox import PytzBox
+from lib import PytzBox
 
 
 # Script constants
