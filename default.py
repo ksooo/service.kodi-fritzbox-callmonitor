@@ -2,7 +2,7 @@ from pprint import pformat
 import xbmc, xbmcaddon
 import socket
 import os
-from lib import PytzBox
+from lib.PytzBox import PytzBox
 
 
 # Script constants
@@ -54,7 +54,7 @@ class FritzCallmonitor():
     def handleOutgoingCall(self, aList):
         datum, funktion, connectionID, Nebenstelle, GenutzteNummer, AngerufeneNummer, sip,  leer = aList
         xbmc.log(str(aList))
-        name = self.getNameByNumber(number) or 'Unbekannt'
+        name = self.getNameByNumber(AngerufeneNummer) or 'Unbekannt'
         self.Notification("Ausgehender Anruf", "zu %s [%s] (von %s)" % (name, AngerufeneNummer, GenutzteNummer))
 
     def handleIncomingCall(self, aList):
@@ -68,7 +68,7 @@ class FritzCallmonitor():
         xbmc.log(str(aList))
         if __addon__.getSetting( "AC_Pause" )  == 'true':
             xbmc.Player().pause()
-        name = self.getNameByNumber(number) or 'Unbekannt'
+        name = self.getNameByNumber(nummer) or 'Unbekannt'
         self.Notification('Verbindung hergestellt', 'Mit %s [%s]' % (name, nummer))
 
     def handleDisconnected(self, aList):
