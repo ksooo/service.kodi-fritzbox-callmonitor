@@ -20,6 +20,55 @@ class FritzCallmonitor():
     def error(*args, **kwargs):
         xbmc.log("ERROR: %s %s" % (args, kwargs))
 
+    class CallMonitorLine(dict):
+
+        command = None
+
+        def __init__(self, response, **kwargs):
+
+            self.__responses = dict()
+            if isinstance(response, str) or isinstance(response, unicode):
+                response = response.split(';')
+            self.command = response[1]
+
+            if self.command == 'CALL':
+                self['date'] = response[0]
+                self['connection_id'] = response[2]
+                self['extension'] = response[3]
+                self['number_used'] = response[4]
+                self['number_called'] = response[5]
+                self['sip'] = response[6]
+
+            elif self.command == 'RING':
+                self['date'] = response[0]
+                self['connection_id'] = response[2]
+                self['number_caller'] = response[3]
+                self['number_called'] = response[4]
+                self['sip'] = response[5]
+
+            elif self.command == 'CONNECT':
+                self['date'] = response[0]
+                self['connection_id'] = response[2]
+                self['extension'] = response[3]
+                self['number'] = response[4]
+
+            elif self.command == 'DISCONNECT':
+                self['date'] = response[0]
+                self['connectionID'] = response[2]
+                self['duration'] = response[3]
+
+        def __getattr__(self, item):
+            if item in self:
+                return self[item]
+            else:
+                return False
+
+
+
+
+
+
+
     def getNameByNumber(self, request_number):
 
         if __addon__.getSetting( "AB_Fritzadress" ) == 'true':
@@ -49,30 +98,22 @@ class FritzCallmonitor():
 
 
 
-    def handleOutgoingCall(self, aList):
-        datum, funktion, connectionID, Nebenstelle, GenutzteNummer, AngerufeneNummer, sip,  leer = aList
-        xbmc.log(str(aList))
-        name = self.getNameByNumber(AngerufeneNummer) or 'Unbekannt'
-        self.Notification("Ausgehender Anruf", "zu %s [%s] (von %s)" % (name, AngerufeneNummer, GenutzteNummer))
+    def handleOutgoingCall(self, line):
+        name = self.getNameByNumber(line.number_called) or 'Unbekannt'
+        self.Notification("Ausgehender Anruf", "zu %s [%s] (von %s)" % (name, line.number_called, line.number_used))
 
-    def handleIncomingCall(self, aList):
-        xbmc.log(str(aList))
-        number = aList[3]
-        name = self.getNameByNumber(number) or 'Unbekannt'
-        self.Notification('Eingehender Anruf', 'Von %s [%s]' % (name, number))
+    def handleIncomingCall(self, line):
+        name = self.getNameByNumber(line.number_caller) or 'Unbekannt'
+        self.Notification('Eingehender Anruf', 'Von %s [%s]' % (name, line.number_caller))
 
-    def handleConnected(self, aList):
-        datum, funktion, connectionID, nebenstelle, nummer, leer = aList
-        xbmc.log(str(aList))
+    def handleConnected(self, line):
         if __addon__.getSetting( "AC_Pause" )  == 'true':
             xbmc.Player().pause()
-        name = self.getNameByNumber(nummer) or 'Unbekannt'
-        self.Notification('Verbindung hergestellt', 'Mit %s [%s]' % (name, nummer))
+        name = self.getNameByNumber(line.number) or 'Unbekannt'
+        self.Notification('Verbindung hergestellt', 'Mit %s [%s]' % (name, line.number))
 
-    def handleDisconnected(self, aList):
-        datum, funktion, connectionID, dauer,  leer = aList
-        xbmc.log(str(aList))
-        self.Notification('Verbindung beendet', 'Dauer: %i Minuten' % (int(int(dauer)/60)))
+    def handleDisconnected(self, line):
+        self.Notification('Verbindung beendet', 'Dauer: %i Minuten' % (int(int(line.nuration)/60)))
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))
@@ -93,26 +134,35 @@ class FritzCallmonitor():
         else:
             xbmc.log('connected to fritzbox callmonitor')
             s.settimeout(0.2)
+
             while not xbmc.abortRequested:
+
                 try:
-                    antwort = s.recv(1024)
-                    items = antwort.split(';')
-                    xbmc.log("[%s] %s" % (ip,antwort))
+
+                    message = s.recv(1024)
+                    line = self.CallMonitorLine(message)
+                    xbmc.log(str(line))
+
                     {
                         'CALL': self.handleOutgoingCall,
                         'RING': self.handleIncomingCall,
                         'CONNECT': self.handleConnected,
                         'DISCONNECT': self.handleDisconnected
-                    }.get(items[1], self.error)(items)
+                    }.get(line.command, self.error)(line)
+
                 except IndexError:
                     xbmc.log('ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe')
+
                 except socket.timeout:
                     pass
+
                 except socket.error, e:
                     xbmc.log('ERROR: Could not connect %s on port 1012. Have you activated the Callmonitor via #96*5*' % ip)
                     xbmc.log(pformat(e))
+
                 except Exception, e:
                     xbmc.log(pformat(e))
+
             s.close()
             xbmc.log("XBMC-Fritzbox Addon beendet.")
 
