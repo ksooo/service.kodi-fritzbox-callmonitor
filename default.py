@@ -1,7 +1,11 @@
 from pprint import pformat
+
 import xbmc, xbmcaddon
 import socket
 import os
+import re
+import datetime
+
 from lib.PytzBox import PytzBox
 
 
@@ -57,6 +61,22 @@ class FritzCallmonitor():
                 self['connectionID'] = response[2]
                 self['duration'] = response[3]
 
+
+            if 'date' in self:
+                #noinspection PyBroadException
+                try:
+                    self['date'] = datetime.datetime.strptime(self['date'].strip(), '%d.%m.%y %H:%M:%S')
+                except Exception:
+                    pass
+
+            if 'duration' in self:
+                #noinspection PyBroadException
+                try:
+                    self['duration'] = datetime.timedelta(seconds=int(self['duration']))
+                except Exception:
+                    pass
+
+
         def __getattr__(self, item):
             if item in self:
                 return self[item]
@@ -64,9 +84,23 @@ class FritzCallmonitor():
                 return False
 
 
+    def equalNumbers(self, a, b):
+        a = str(a).strip()
+        b = str(b).strip()
 
+        a = str(re.sub('[^0-9]*', '', a))
+        b = str(re.sub('[^0-9]*', '', b))
 
+        if a.startswith('00'): a = a[4:]
+        a = a.lstrip('0')
 
+        if b.startswith('00'): b = b[4:]
+        b = b.lstrip('0')
+
+        a = a[-len(b):]
+        b = b[-len(a):]
+
+        return (a == b)
 
 
     def getNameByNumber(self, request_number):
@@ -91,7 +125,7 @@ class FritzCallmonitor():
                 for entry in self.__fb_phonebook:
                     if 'numbers' in self.__fb_phonebook[entry]:
                         for number in self.__fb_phonebook[entry]['numbers']:
-                            if number.endswith(request_number):
+                            if self.equalNumbers(number, request_number):
                                 return entry
 
         return False
@@ -113,7 +147,7 @@ class FritzCallmonitor():
         self.Notification('Verbindung hergestellt', 'Mit %s [%s]' % (name, line.number))
 
     def handleDisconnected(self, line):
-        self.Notification('Verbindung beendet', 'Dauer: %i Minuten' % (int(int(line.nuration)/60)))
+        self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))
