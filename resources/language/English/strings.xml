@@ -11,7 +11,7 @@
 	<!-- Default Tab -->
 	<string id="30200">IP Address</string>
 	<string id="30210">Display Durtion (seconds)</string>
-	<string id="30220">Debug</string>
+    <string id="30211">Time to wait before start</string>
 
 	<!-- Addressbook -->
 	<string id="30300">Use Fritzbox Addressbook</string>

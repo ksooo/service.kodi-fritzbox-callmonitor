@@ -5,6 +5,7 @@ import socket
 import os
 import re
 import datetime
+import time
 
 from lib.PytzBox import PytzBox
 
@@ -201,5 +202,7 @@ class FritzCallmonitor():
             xbmc.log("XBMC-Fritzbox Addon beendet.")
 
 
+if __addon__.getSetting( "S_STARTUPSLEEP" ):
+    time.sleep(int(__addon__.getSetting( "S_STARTUPSLEEP" )))
 
 FritzCallmonitor().start()

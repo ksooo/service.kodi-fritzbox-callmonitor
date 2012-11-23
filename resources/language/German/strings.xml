@@ -11,6 +11,7 @@
 	<!-- Default Tab -->
 	<string id="30200">IP Addresse der Fritzbox</string>
 	<string id="30210">Anzeigedauer der Info (Sekunden)</string>
+	<string id="30211">Wartezeit vor dem Start</string>
 
 	<!-- Addressbook -->
 	<string id="30300">Benutze Fritzbox Addressbuch</string>

@@ -4,6 +4,7 @@
     <setting id="S_IP" type="text" label="30200" default="fritz.box" />
     <setting type="sep" />
     <setting id="S_DURATION" type="number" label="30210"  default="8" />
+    <setting id="S_STARTUPSLEEP" type="number" label="30211"  default="60" />
   </category>
   <category label="30002">
     <setting id="AB_Fritzadress" type="bool" label="30300" default="false" />
