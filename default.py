@@ -152,6 +152,7 @@ class FritzCallmonitor():
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))
+        xbmc.executebuiltin('PingApp')
         if not duration:
             duration = __addon__.getSetting( "S_DURATION" )
             duration = int(duration)*1000
