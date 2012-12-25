@@ -21,4 +21,6 @@ Install:
 1. In XBMC:
    1. Settings -> Add-ons -> Install from zip file
    1. Chose downloaded zip file
-   1. Enjoy :)
+1. enable the Callmonitor in your Fritzbox
+   * enter the following code into your telephone: #96*5*
+1. Enjoy :)
