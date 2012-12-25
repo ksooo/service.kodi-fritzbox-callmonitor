@@ -2,14 +2,14 @@ Features:
 =========
 
 * Show incoming, outgoing, started and ended calls from your FritzBox (http://www.avm.de/) in XBMC (http://xbmc.org/)
-** Pause XBMC Playback on incoming calls
-** Get contact names from FritzBox phone book (requires password in addon-settings)
+   * Pause XBMC Playback on incoming calls
+   * Get contact names from FritzBox phone book (requires password in addon-settings)
 
 Tested-to-work-With:
 ====================
 
 * FritzBox: 6330, 7370
-** please report to me if your unlisted FritzBox did work :)
+   * please report to me if your unlisted FritzBox did work :)
 * XBMC: Eden & Frodo
 
 
