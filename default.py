@@ -21,6 +21,7 @@ class FritzCallmonitor():
 
     __pytzbox = None
     __fb_phonebook = None
+    bActivated = 0
 
     def error(*args, **kwargs):
         xbmc.log("ERROR: %s %s" % (args, kwargs))
@@ -140,15 +141,21 @@ class FritzCallmonitor():
     def handleIncomingCall(self, line):
         name = self.getNameByNumber(line.number_caller) or 'Unbekannt'
         self.Notification('Eingehender Anruf', 'Von %s [%s]' % (name, line.number_caller))
+        if xbmc.Player().isPlayingVideo():
+            xbmc.Player().pause()
+            self.bActivated = 1
 
     def handleConnected(self, line):
-        if __addon__.getSetting( "AC_Pause" )  == 'true':
-            xbmc.Player().pause()
+#        if __addon__.getSetting( "AC_Pause" )  == 'true':
+#            xbmc.Player().pause()
         name = self.getNameByNumber(line.number) or 'Unbekannt'
         self.Notification('Verbindung hergestellt', 'Mit %s [%s]' % (name, line.number))
 
     def handleDisconnected(self, line):
         self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
+        if self.bActivated:
+            xbmc.Player().pause()
+            self.bActivated = 0
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))
