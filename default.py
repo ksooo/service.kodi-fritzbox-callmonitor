@@ -21,9 +21,9 @@ class FritzCallmonitor():
 
     __pytzbox = None
     __fb_phonebook = None
-    bActivated = 0
-    ringTime = 0
-    connectTime = 0
+    __ringing = False
+    __ring_time = False
+    __connect_time = False
     
 
     def error(*args, **kwargs):
@@ -142,29 +142,29 @@ class FritzCallmonitor():
         name = self.getNameByNumber(line.number_called) or str(line.number_called)
         self.Notification("Ausgehender Anruf", "zu %s (von %s)" % (name, line.number_used))
         if xbmc.Player().isPlayingVideo():
-            self.ringTime = xbmc.Player().getTime()
+            self.__ring_time = xbmc.Player().getTime()
 
     def handleIncomingCall(self, line):
         name = self.getNameByNumber(line.number_caller) or str(line.number_caller)
         self.Notification('Eingehender Anruf', 'von %s' % name)
         if xbmc.Player().isPlayingVideo():
-            self.ringTime = xbmc.Player().getTime()
+            self.__ring_time = xbmc.Player().getTime()
 
     def handleConnected(self, line):
         name = self.getNameByNumber(line.number) or str(line.number)
         self.Notification('Verbindung hergestellt', 'mit %s' % name)
         if xbmc.Player().isPlayingVideo():
-            self.connectTime = xbmc.Player().getTime()
-            if self.ringTime!=self.connectTime:
+            self.__connect_time = xbmc.Player().getTime()
+            if self.__ring_time!=self.__connect_time:
                 xbmc.Player().pause()
-                self.bActivated = 1
+                self.__ringing = True
 
     def handleDisconnected(self, line):
         self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
-        if self.bActivated:
-            xbmc.Player().seekTime(self.ringTime)
+        if self.__ringing:
+            xbmc.Player().seekTime(self.__ring_time)
             xbmc.Player().pause()
-            self.bActivated = 0
+            self.__ringing = False
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))
