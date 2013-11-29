@@ -136,23 +136,32 @@ class FritzCallmonitor():
 
         return False
 
+    def getIamgeByName(self, name):
+        if isinstance(self.__fb_phonebook, dict):
+            if name in self.__fb_phonebook:
+                if "imageHttpURL" in self.__fb_phonebook[name]:
+                    return self.__fb_phonebook[name]["imageHttpURL"]
+        return False
 
 
     def handleOutgoingCall(self, line):
         name = self.getNameByNumber(line.number_called) or str(line.number_called)
-        self.Notification("Ausgehender Anruf", "zu %s (von %s)" % (name, line.number_used))
+        image = self.getIamgeByName(name)
+        self.Notification("Ausgehender Anruf", "zu %s (von %s)" % (name, line.number_used), img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
     def handleIncomingCall(self, line):
         name = self.getNameByNumber(line.number_caller) or str(line.number_caller)
-        self.Notification('Eingehender Anruf', 'von %s' % name)
+        image = self.getIamgeByName(name)
+        self.Notification('Eingehender Anruf', 'von %s' % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
     def handleConnected(self, line):
         name = self.getNameByNumber(line.number) or str(line.number)
-        self.Notification('Verbindung hergestellt', 'mit %s' % name)
+        image = self.getIamgeByName(name)
+        self.Notification('Verbindung hergestellt', 'mit %s' % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__connect_time = xbmc.Player().getTime()
             if self.__ring_time!=self.__connect_time:
