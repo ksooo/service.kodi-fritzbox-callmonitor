@@ -306,8 +306,8 @@ class PytzBox:
 
         data = self.__encodeMultipartFormdata( (
             ('sid', self.__sid),
-            ('PhonebookId', str(0)),
-            ('PhonebookExportName', 'Telefonbuch'),
+            ('PhonebookId', '240'),
+            ('PhonebookExportName', 'AlexGoogle'),
             ('PhonebookExport', '')
             )
         )

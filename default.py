@@ -21,6 +21,10 @@ class FritzCallmonitor():
 
     __pytzbox = None
     __fb_phonebook = None
+    bActivated = 0
+    ringTime = 0
+    connectTime = 0
+    
 
     def error(*args, **kwargs):
         xbmc.log("ERROR: %s %s" % (args, kwargs))
@@ -86,6 +90,7 @@ class FritzCallmonitor():
 
 
     def equalNumbers(self, a, b):
+       
         a = str(a).strip()
         b = str(b).strip()
 
@@ -134,21 +139,32 @@ class FritzCallmonitor():
 
 
     def handleOutgoingCall(self, line):
-        name = self.getNameByNumber(line.number_called) or 'Unbekannt'
-        self.Notification("Ausgehender Anruf", "zu %s [%s] (von %s)" % (name, line.number_called, line.number_used))
+        name = self.getNameByNumber(line.number_called) or str(line.number_called)
+        self.Notification("Ausgehender Anruf", "zu %s (von %s)" % (name, line.number_used))
+        if xbmc.Player().isPlayingVideo():
+            self.ringTime = xbmc.Player().getTime()
 
     def handleIncomingCall(self, line):
-        name = self.getNameByNumber(line.number_caller) or 'Unbekannt'
-        self.Notification('Eingehender Anruf', 'Von %s [%s]' % (name, line.number_caller))
+        name = self.getNameByNumber(line.number_caller) or str(line.number_caller)
+        self.Notification('Eingehender Anruf', 'von %s' % name)
+        if xbmc.Player().isPlayingVideo():
+            self.ringTime = xbmc.Player().getTime()
 
     def handleConnected(self, line):
-        if __addon__.getSetting( "AC_Pause" )  == 'true':
-            xbmc.Player().pause()
-        name = self.getNameByNumber(line.number) or 'Unbekannt'
-        self.Notification('Verbindung hergestellt', 'Mit %s [%s]' % (name, line.number))
+        name = self.getNameByNumber(line.number) or str(line.number)
+        self.Notification('Verbindung hergestellt', 'mit %s' % name)
+        if xbmc.Player().isPlayingVideo():
+            self.connectTime = xbmc.Player().getTime()
+            if self.ringTime!=self.connectTime:
+                xbmc.Player().pause()
+                self.bActivated = 1
 
     def handleDisconnected(self, line):
         self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
+        if self.bActivated:
+            xbmc.Player().seekTime(self.ringTime)
+            xbmc.Player().pause()
+            self.bActivated = 0
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))
