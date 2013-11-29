@@ -21,7 +21,7 @@ class FritzCallmonitor():
 
     __pytzbox = None
     __fb_phonebook = None
-    __ringing = False
+    __autopaused = False
     __ring_time = False
     __connect_time = False
     
@@ -156,15 +156,17 @@ class FritzCallmonitor():
         if xbmc.Player().isPlayingVideo():
             self.__connect_time = xbmc.Player().getTime()
             if self.__ring_time!=self.__connect_time:
-                xbmc.Player().pause()
-                self.__ringing = True
+                if __addon__.getSetting( "AC_Pause" ) == 'true':
+                    xbmc.Player().pause()
+                    self.__autopaused = True
 
     def handleDisconnected(self, line):
         self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
-        if self.__ringing:
-            xbmc.Player().seekTime(self.__ring_time)
-            xbmc.Player().pause()
-            self.__ringing = False
+        if self.__autopaused:
+            if __addon__.getSetting( "AC_Pause" ) == 'true':
+                xbmc.Player().seekTime(self.__ring_time)
+                xbmc.Player().pause()
+            self.__autopaused = False
 
     def Notification(self, title, text, duration=False, img=False):
         xbmc.log("%s: %s" % (title, text))

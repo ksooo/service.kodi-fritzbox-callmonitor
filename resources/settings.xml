@@ -11,6 +11,6 @@
     <setting id="AB_FritzboxPassword" type="text" option="hidden" label="30301" visible="eq(-1,true)" enable="eq(-1,true)" default="" />
   </category>
   <category label="30003">
-  	<setting id="AC_Pause" type="bool" label="30400" default="false" />
+  	<setting id="AC_Pause" type="bool" label="30400" default="true" />
   </category>
 </settings>
