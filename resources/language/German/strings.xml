@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
 	<!-- Addon Name -->
-	<string id="30000">XBMC Anrufanzeige</string>
+	<string id="30000">FritzBox Anrufanzeige</string>
 	<!-- some other strings -->
 	<string id="30100">Hi</string>
 	<!-- Settings -->
@@ -18,6 +18,6 @@
     <string id="30301">Anmelde Passwort</string>
 
 	<!-- Actions -->
-	<string id="30400">XBMC bei eingehenden Anrufen pausieren?</string>
+	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren?</string>
 </strings>
 

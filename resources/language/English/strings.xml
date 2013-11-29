@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
 	<!-- Addon Name -->
-	<string id="30000">Show Caller ID on XBMC</string>
+	<string id="30000">FritzBox Callmonitor</string>
 	<!-- some other strings -->
 	<string id="30100">Hi</string>
 	<!-- Settings -->
@@ -18,7 +18,7 @@
     <string id="30301">Login Password</string>
 	
 	<!-- Actions -->
-	<string id="30400">Pause XBMC on incoming calls</string>
+	<string id="30400">Pause Playback on incoming calls</string>
 	
 </strings>
 
