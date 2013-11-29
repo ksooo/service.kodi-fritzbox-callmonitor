@@ -299,15 +299,15 @@ class PytzBox:
         return self
 
 
-    def getPhonebook(self):
+    def getPhonebook(self, id=0, name='Phonebook'):
 
         if self.__sid is None:
             raise self.LoginRequiredException()
 
         data = self.__encodeMultipartFormdata( (
             ('sid', self.__sid),
-            ('PhonebookId', '240'),
-            ('PhonebookExportName', 'AlexGoogle'),
+            ('PhonebookId', str(id)),
+            ('PhonebookExportName', str(name)),
             ('PhonebookExport', '')
             )
         )
