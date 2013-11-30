@@ -203,14 +203,14 @@ class FritzCallMonitor():
 
         :rtype : bool
         """
-        xbmc.log("%s: %s" % (title, text))
+        xbmc.log("NOTIFICATION: %s, %s" % (title, text))
         xbmc.executebuiltin('PingApp')
         if not duration:
             duration = __addon__.getSetting("S_DURATION")
             duration = int(duration) * 1000
         if not img:
             img = xbmc.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
-        return xbmc.executebuiltin('show_notification("%s", "%s", %d, "%s")' % (title, str(text), duration, img))
+        return xbmc.executebuiltin('Notification("%s", "%s", %d, "%s")' % (title, str(text), duration, img))
 
     def start(self):
         ip = __addon__.getSetting("S_IP")
