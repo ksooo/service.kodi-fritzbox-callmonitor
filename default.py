@@ -39,7 +39,7 @@ def _(s):
     return s
 
 
-class FritzCallmonitor():
+class FritzCallMonitor():
 
     def __init__(self):
         self.__pytzbox = None
@@ -56,7 +56,7 @@ class FritzCallmonitor():
         command = None
 
         def __init__(self, response, **kwargs):
-            super(FritzCallmonitor.CallMonitorLine, self).__init__(**kwargs)
+            super(FritzCallMonitor.CallMonitorLine, self).__init__(**kwargs)
             self.__responses = dict()
             if isinstance(response, str) or isinstance(response, unicode):
                 response = response.split(';')
@@ -105,7 +105,8 @@ class FritzCallmonitor():
             else:
                 return False
 
-    def equalNumbers(self, a, b):
+    @staticmethod
+    def equal_numbers(a, b):
 
         a = str(a).strip()
         b = str(b).strip()
@@ -113,18 +114,20 @@ class FritzCallmonitor():
         a = str(re.sub('[^0-9]*', '', a))
         b = str(re.sub('[^0-9]*', '', b))
 
-        if a.startswith('00'): a = a[4:]
+        if a.startswith('00'):
+            a = a[4:]
         a = a.lstrip('0')
 
-        if b.startswith('00'): b = b[4:]
+        if b.startswith('00'):
+            b = b[4:]
         b = b.lstrip('0')
 
         a = a[-len(b):]
         b = b[-len(a):]
 
-        return (a == b)
+        return a == b
 
-    def getNameByNumber(self, request_number):
+    def get_name_by_number(self, request_number):
 
         if __addon__.getSetting("AB_Fritzadress") == 'true':
 
@@ -147,36 +150,36 @@ class FritzCallmonitor():
                 for entry in self.__fb_phonebook:
                     if 'numbers' in self.__fb_phonebook[entry]:
                         for number in self.__fb_phonebook[entry]['numbers']:
-                            if self.equalNumbers(number, request_number):
+                            if self.equal_numbers(number, request_number):
                                 return entry
 
         return False
 
-    def getIamgeByName(self, name):
+    def get_iamge_by_name(self, name):
         if isinstance(self.__fb_phonebook, dict):
             if name in self.__fb_phonebook:
                 if "imageHttpURL" in self.__fb_phonebook[name]:
                     return self.__fb_phonebook[name]["imageHttpURL"]
         return False
 
-    def handleOutgoingCall(self, line):
-        name = self.getNameByNumber(line.number_called) or str(line.number_called)
-        image = self.getIamgeByName(name)
-        self.showNotification(_('leaving call'), _('to %s (by %s)') % (name, line.number_used), img=image)
+    def handle_outgoing_call(self, line):
+        name = self.get_name_by_number(line.number_called) or str(line.number_called)
+        image = self.get_iamge_by_name(name)
+        self.show_notification(_('leaving call'), _('to %s (by %s)') % (name, line.number_used), img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
-    def handleIncomingCall(self, line):
-        name = self.getNameByNumber(line.number_caller) or str(line.number_caller)
-        image = self.getIamgeByName(name)
-        self.showNotification(_('incoming call'), _('from %s') % name, img=image)
+    def handle_incoming_call(self, line):
+        name = self.get_name_by_number(line.number_caller) or str(line.number_caller)
+        image = self.get_iamge_by_name(name)
+        self.show_notification(_('incoming call'), _('from %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
-    def handleConnected(self, line):
-        name = self.getNameByNumber(line.number) or str(line.number)
-        image = self.getIamgeByName(name)
-        self.showNotification(_('connected'), _('to %s') % name, img=image)
+    def handle_connected(self, line):
+        name = self.get_name_by_number(line.number) or str(line.number)
+        image = self.get_iamge_by_name(name)
+        self.show_notification(_('connected'), _('to %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__connect_time = xbmc.Player().getTime()
             if self.__ring_time != self.__connect_time:
@@ -185,15 +188,21 @@ class FritzCallmonitor():
                     xbmc.Player().pause()
                     self.__autopaused = True
 
-    def handleDisconnected(self, line):
-        self.showNotification(_('call ended'), _('duration: %sh') % str(line.duration))
+    def handle_disconnected(self, line):
+        self.show_notification(_('call ended'), _('duration: %sh') % str(line.duration))
         if self.__autopaused:
             if __addon__.getSetting("AC_Resume") == 'true':
                 if not xbmc.Player().isPlayingVideo():
                     xbmc.Player().pause()
             self.__autopaused = False
 
-    def showNotification(title, text, duration=False, img=False):
+    @staticmethod
+    def show_notification(title, text, duration=False, img=False):
+        """
+        show xbmc notification
+
+        :rtype : bool
+        """
         xbmc.log("%s: %s" % (title, text))
         xbmc.executebuiltin('PingApp')
         if not duration:
@@ -201,7 +210,7 @@ class FritzCallmonitor():
             duration = int(duration) * 1000
         if not img:
             img = xbmc.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
-        return xbmc.executebuiltin('showNotification("%s", "%s", %d, "%s")' % (title, str(text), duration, img))
+        return xbmc.executebuiltin('show_notification("%s", "%s", %d, "%s")' % (title, str(text), duration, img))
 
     def start(self):
         ip = __addon__.getSetting("S_IP")
@@ -209,7 +218,7 @@ class FritzCallmonitor():
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip, 1012))
         except Exception, e:
-            self.showNotification(_('fritzbox unreachable'), _('could not connect to fritzbox (%s).') % e)
+            self.show_notification(_('fritzbox unreachable'), _('could not connect to fritzbox (%s).') % e)
         else:
             xbmc.log('connected to fritzbox callmonitor')
             s.settimeout(0.2)
@@ -223,10 +232,10 @@ class FritzCallmonitor():
                     xbmc.log(str(line))
 
                     {
-                        'CALL': self.handleOutgoingCall,
-                        'RING': self.handleIncomingCall,
-                        'CONNECT': self.handleConnected,
-                        'DISCONNECT': self.handleDisconnected
+                        'CALL': self.handle_outgoing_call,
+                        'RING': self.handle_incoming_call,
+                        'CONNECT': self.handle_connected,
+                        'DISCONNECT': self.handle_disconnected
                     }.get(line.command, self.error)(line)
 
                 except IndexError:
@@ -250,4 +259,4 @@ class FritzCallmonitor():
 if __addon__.getSetting("S_STARTUPSLEEP"):
     time.sleep(int(__addon__.getSetting("S_STARTUPSLEEP")))
 
-FritzCallmonitor().start()
+FritzCallMonitor().start()
