@@ -166,6 +166,7 @@ class FritzCallmonitor():
             self.__connect_time = xbmc.Player().getTime()
             if self.__ring_time!=self.__connect_time:
                 if __addon__.getSetting( "AC_Pause" ) == 'true':
+                    xbmc.Player().seekTime(self.__ring_time)
                     xbmc.Player().pause()
                     self.__autopaused = True
 
@@ -173,8 +174,8 @@ class FritzCallmonitor():
         self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
         if self.__autopaused:
             if __addon__.getSetting( "AC_Pause" ) == 'true':
-                xbmc.Player().seekTime(self.__ring_time)
-                xbmc.Player().pause()
+                if not xbmc.Player().isPlayingVideo():
+                    xbmc.Player().pause()
             self.__autopaused = False
 
     def Notification(self, title, text, duration=False, img=False):
