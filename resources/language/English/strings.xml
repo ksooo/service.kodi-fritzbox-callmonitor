@@ -20,6 +20,19 @@
 	<!-- Actions -->
 	<string id="30400">Pause playback on incoming calls</string>
     <string id="30401">Resume paused playback on terminated calls</string>
+
+    <!-- Interactions -->
+    <string id="31000">Leaving call</string>
+    <string id="31001">to %s (by %s)</string>
+    <string id="31002">Incoming call</string>
+    <string id="31003">from %s</string>
+    <string id="31004">Connected</string>
+    <string id="31005">to %s</string>
+    <string id="31006">Call ended</string>
+    <string id="31007">Duration: %sh</string>
+    <string id="31008">Fritzbox unreachable</string>
+    <string id="31009">Could not connect to Fritzbox (%s).</string>
+
 	
 </strings>
 

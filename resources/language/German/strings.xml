@@ -20,5 +20,18 @@
 	<!-- Actions -->
 	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren?</string>
     <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen?</string>
+
+    <!-- Interactions -->
+    <string id="31000">Ausgehender Anruf</string>
+    <string id="31001">zu %s (von %s)</string>
+    <string id="31002">Eingehender Anruf</string>
+    <string id="31003">von %s</string>
+    <string id="31004">Verbindung hergestellt</string>
+    <string id="31005">mit %s</string>
+    <string id="31006">Verbindung beendet</string>
+    <string id="31007">Dauer: %sh</string>
+    <string id="31008">Fritzbox nicht erreichbar</string>
+    <string id="31009">Konnte keine Verbindung zur Fritzbox herstellen (%s)</string>
+
 </strings>
 

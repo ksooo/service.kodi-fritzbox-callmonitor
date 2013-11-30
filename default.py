@@ -16,6 +16,27 @@ __addon_id__    = "service.xbmc-fritzbox"
 __version__     = "1"
 
 
+def _(s):
+    """
+    @param s: not localized String
+    @type  s: string
+    """
+    translations = {
+        'leaving call': 31000,
+        'to %s (by %s)': 31001,
+        'incoming call': 31002,
+        'from %s': 31003,
+        'connected': 31004,
+        'to %s': 31005,
+        'call ended': 31006,
+        'duration: %sh': 31007,
+        'fritzbox unreachable': 31008,
+        'could not connect to fritzbox (%s).': 31009
+        }
+    if s in translations:
+        return __addon__.getLocalizedString(translations[s]) or s
+    xbmc.log("UNTRANSLATED: %s" % s)
+    return s
 
 class FritzCallmonitor():
 
@@ -147,21 +168,21 @@ class FritzCallmonitor():
     def handleOutgoingCall(self, line):
         name = self.getNameByNumber(line.number_called) or str(line.number_called)
         image = self.getIamgeByName(name)
-        self.Notification("Ausgehender Anruf", "zu %s (von %s)" % (name, line.number_used), img=image)
+        self.Notification(_('leaving call'), _('to %s (by %s)') % (name, line.number_used), img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
     def handleIncomingCall(self, line):
         name = self.getNameByNumber(line.number_caller) or str(line.number_caller)
         image = self.getIamgeByName(name)
-        self.Notification('Eingehender Anruf', 'von %s' % name, img=image)
+        self.Notification(_('incoming call'), _('from %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
     def handleConnected(self, line):
         name = self.getNameByNumber(line.number) or str(line.number)
         image = self.getIamgeByName(name)
-        self.Notification('Verbindung hergestellt', 'mit %s' % name, img=image)
+        self.Notification(_('connected'), _('to %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__connect_time = xbmc.Player().getTime()
             if self.__ring_time!=self.__connect_time:
@@ -171,7 +192,7 @@ class FritzCallmonitor():
                     self.__autopaused = True
 
     def handleDisconnected(self, line):
-        self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
+        self.Notification(_('call ended'), _('duration: %sh') % str(line.duration))
         if self.__autopaused:
             if __addon__.getSetting( "AC_Resume" ) == 'true':
                 if not xbmc.Player().isPlayingVideo():
@@ -194,7 +215,7 @@ class FritzCallmonitor():
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip, 1012))
         except Exception, e:
-            self.Notification('Fritzbox nicht erreichbar', 'Konnte keine Verbindung zur Fritzbox herstellen (%s)' % e)
+            self.Notification(_('fritzbox unreachable'), _('could not connect to fritzbox (%s).') % e)
         else:
             xbmc.log('connected to fritzbox callmonitor')
             s.settimeout(0.2)
@@ -215,7 +236,7 @@ class FritzCallmonitor():
                     }.get(line.command, self.error)(line)
 
                 except IndexError:
-                    xbmc.log('ERROR: Something is wrong with the message from the fritzbox. unexpected firmware maybe')
+                    xbmc.log('ERROR: Something is went with the message from fritzbox. unexpected firmware maybe')
 
                 except socket.timeout:
                     pass
@@ -228,7 +249,7 @@ class FritzCallmonitor():
                     xbmc.log(pformat(e))
 
             s.close()
-            xbmc.log("XBMC-Fritzbox Addon beendet.")
+            xbmc.log("fritzbox callmonitor addon ended.")
 
 
 if __addon__.getSetting( "S_STARTUPSLEEP" ):
