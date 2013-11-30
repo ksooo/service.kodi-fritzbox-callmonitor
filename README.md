@@ -12,8 +12,6 @@ Tested-to-work-With:
    * please report to me if your unlisted FritzBox did work :)
 * XBMC: Eden & Frodo
 
-
-
 Install:
 ========
 
@@ -24,3 +22,8 @@ Install:
 1. enable the Callmonitor in your Fritzbox
    * enter the following code into your telephone: #96*5*
 1. Enjoy :)
+
+
+Support Me:
+===========
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=shellshark&url=https://github.com/wrow/xbmc-fritzbox&title=XBMC Fritzbox Callmonitor&tags=github&category=software)
