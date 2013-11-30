@@ -184,16 +184,27 @@ class FritzCallMonitor():
             self.__connect_time = xbmc.Player().getTime()
             if self.__ring_time != self.__connect_time:
                 if __addon__.getSetting("AC_Pause") == 'true':
-                    xbmc.Player().seekTime(self.__ring_time)
                     xbmc.Player().pause()
+                    xbmc.Player().seekTime(self.__ring_time)
                     self.__autopaused = True
+
+    def is_playback_paused(self):
+        start_time = xbmc.Player().getTime()
+        time.sleep(1)
+        if xbmc.Player().getTime() != start_time:
+            return False
+        else:
+            return True
+
+    def resume_playback(self):
+        if self.is_playback_paused:
+            xbmc.Player().pause()
 
     def handle_disconnected(self, line):
         self.show_notification(_('call ended'), _('duration: %sh') % str(line.duration))
         if self.__autopaused:
             if __addon__.getSetting("AC_Resume") == 'true':
-                if not xbmc.Player().isPlayingVideo():
-                    xbmc.Player().pause()
+                self.resume_playback()
             self.__autopaused = False
 
     @staticmethod
