@@ -239,7 +239,7 @@ class FritzCallMonitor():
                     }.get(line.command, self.error)(line)
 
                 except IndexError:
-                    xbmc.log('ERROR: Something is went with the message from fritzbox. unexpected firmware maybe')
+                    xbmc.log('ERROR: Something went wrong with the message from fritzbox. unexpected firmware maybe')
 
                 except socket.timeout:
                     pass
