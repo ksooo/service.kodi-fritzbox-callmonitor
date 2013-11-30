@@ -173,7 +173,7 @@ class FritzCallmonitor():
     def handleDisconnected(self, line):
         self.Notification('Verbindung beendet', 'Dauer: %sh' % str(line.duration))
         if self.__autopaused:
-            if __addon__.getSetting( "AC_Pause" ) == 'true':
+            if __addon__.getSetting( "AC_Resume" ) == 'true':
                 if not xbmc.Player().isPlayingVideo():
                     xbmc.Player().pause()
             self.__autopaused = False

@@ -19,5 +19,6 @@
 
 	<!-- Actions -->
 	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren?</string>
+    <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen?</string>
 </strings>
 

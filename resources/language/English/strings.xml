@@ -18,7 +18,8 @@
     <string id="30301">Login Password</string>
 	
 	<!-- Actions -->
-	<string id="30400">Pause Playback on incoming calls</string>
+	<string id="30400">Pause playback on incoming calls</string>
+    <string id="30401">Resume paused playback on terminated calls</string>
 	
 </strings>
 
