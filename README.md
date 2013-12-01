@@ -27,4 +27,4 @@ XBMC FritzBox Callmonitor
 [![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=shellshark&url=https://github.com/wrow/xbmc-fritzbox&title=XBMC Fritzbox Callmonitor&tags=github&category=software)
 
 #### Further information:
-* http://www.xbmcnerds.com/index.php?page=Thread&postID=147396 (german)
+* http://www.xbmcnerds.com/index.php?page=Thread&postID=146894#post146894 (german)
