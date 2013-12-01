@@ -202,14 +202,7 @@ class FritzCallMonitor():
 
     @staticmethod
     def is_playback_paused():
-        if not xbmc.Player().isPlaying():
-            return False
-        start_time = xbmc.Player().getTime()
-        time.sleep(1)
-        if xbmc.Player().getTime() != start_time:
-            return False
-        else:
-            return True
+        return bool(xbmc.getCondVisibility("Player.Paused"))
 
     def resume_playback(self):
         if self.is_playback_paused():
