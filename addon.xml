@@ -2,7 +2,7 @@
 <addon id="service.xbmc-fritzbox"
        name="Fritzbox Callmonitor"
        version="2"
-       provider-name="FEP">
+       provider-name="Frank Epperlein">
    <requires>
    	<import addon="xbmc.python" version="2.0"/>
   </requires>
