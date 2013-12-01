@@ -48,7 +48,6 @@ class FritzCallMonitor():
         self.__fb_phonebook = None
         self.__autopaused = False
         self.__ring_time = False
-        self.__connect_time = False
         self.__klicktel_phonebook = False
 
         if __addon__.getSetting("AB_Fritzadress") == 'true':
@@ -169,7 +168,7 @@ class FritzCallMonitor():
 
         return False
 
-    def get_iamge_by_name(self, name):
+    def get_image_by_name(self, name):
         if isinstance(self.__fb_phonebook, dict):
             if name in self.__fb_phonebook:
                 if "imageHttpURL" in self.__fb_phonebook[name]:
@@ -178,31 +177,33 @@ class FritzCallMonitor():
 
     def handle_outgoing_call(self, line):
         name = self.get_name_by_number(line.number_called) or str(line.number_called)
-        image = self.get_iamge_by_name(name)
+        image = self.get_image_by_name(name)
         self.show_notification(_('leaving call'), _('to %s (by %s)') % (name, line.number_used), img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
     def handle_incoming_call(self, line):
         name = self.get_name_by_number(line.number_caller) or str(line.number_caller)
-        image = self.get_iamge_by_name(name)
+        image = self.get_image_by_name(name)
         self.show_notification(_('incoming call'), _('from %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
     def handle_connected(self, line):
         name = self.get_name_by_number(line.number) or str(line.number)
-        image = self.get_iamge_by_name(name)
+        image = self.get_image_by_name(name)
         self.show_notification(_('connected'), _('to %s') % name, img=image)
-        if xbmc.Player().isPlayingVideo():
-            self.__connect_time = xbmc.Player().getTime()
-            if self.__ring_time != self.__connect_time:
-                if __addon__.getSetting("AC_Pause") == 'true':
+        if __addon__.getSetting("AC_Pause") == 'true':
+            if xbmc.Player().isPlayingVideo():
+                if not self.is_playback_paused():
                     xbmc.Player().pause()
                     xbmc.Player().seekTime(self.__ring_time)
                     self.__autopaused = True
 
-    def is_playback_paused(self):
+    @staticmethod
+    def is_playback_paused():
+        if not xbmc.Player().isPlaying():
+            return False
         start_time = xbmc.Player().getTime()
         time.sleep(1)
         if xbmc.Player().getTime() != start_time:
@@ -211,7 +212,7 @@ class FritzCallMonitor():
             return True
 
     def resume_playback(self):
-        if self.is_playback_paused:
+        if self.is_playback_paused():
             xbmc.Player().pause()
 
     def handle_disconnected(self, line):
