@@ -8,6 +8,8 @@ import datetime
 import time
 
 from lib.PytzBox import PytzBox
+from lib.PyKlicktel import klicktel
+from lib.PyKlicktel import apikey as klicktel_apikey
 
 
 # Script constants
@@ -47,6 +49,25 @@ class FritzCallMonitor():
         self.__autopaused = False
         self.__ring_time = False
         self.__connect_time = False
+        self.__klicktel_phonebook = False
+
+        if __addon__.getSetting("AB_Fritzadress") == 'true':
+            if self.__pytzbox is None:
+                password = False
+                if __addon__.getSetting("AB_FritzboxPassword") and len(
+                        str(__addon__.getSetting("AB_FritzboxPassword"))) > 0:
+                    password = __addon__.getSetting("AB_FritzboxPassword")
+
+                self.__pytzbox = PytzBox.PytzBox(password=password, host=__addon__.getSetting("S_IP"))
+
+                if password:
+                    self.__pytzbox.login()
+
+            if self.__fb_phonebook is None:
+                self.__fb_phonebook = self.__pytzbox.getPhonebook()
+
+        if __addon__.getSetting("AB_Klicktel") == 'true':
+            self.__klicktel_phonebook = klicktel.Klicktel(klicktel_apikey.key())
 
     def error(*args, **kwargs):
         xbmc.log("ERROR: %s %s" % (args, kwargs))
@@ -129,22 +150,7 @@ class FritzCallMonitor():
 
     def get_name_by_number(self, request_number):
 
-        if __addon__.getSetting("AB_Fritzadress") == 'true':
-
-            if self.__pytzbox is None:
-
-                password = False
-                if __addon__.getSetting("AB_FritzboxPassword") and len(
-                        str(__addon__.getSetting("AB_FritzboxPassword"))) > 0:
-                    password = __addon__.getSetting("AB_FritzboxPassword")
-
-                self.__pytzbox = PytzBox.PytzBox(password=password, host=__addon__.getSetting("S_IP"))
-
-                if password:
-                    self.__pytzbox.login()
-
-            if self.__fb_phonebook is None:
-                self.__fb_phonebook = self.__pytzbox.getPhonebook()
+        if __addon__.getSetting("AB_Fritzadress") == 'true' and self.__fb_phonebook:
 
             if isinstance(self.__fb_phonebook, dict):
                 for entry in self.__fb_phonebook:
@@ -152,6 +158,14 @@ class FritzCallMonitor():
                         for number in self.__fb_phonebook[entry]['numbers']:
                             if self.equal_numbers(number, request_number):
                                 return entry
+
+        if __addon__.getSetting("AB_Klicktel") == 'true' and self.__klicktel_phonebook:
+
+            result = self.__klicktel_phonebook.invers_search(request_number)
+            if len(result.entries) > 0:
+                name = result.entries[0].displayname
+                if name:
+                    return name
 
         return False
 

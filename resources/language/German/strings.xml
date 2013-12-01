@@ -16,6 +16,7 @@
 	<!-- Addressbook -->
 	<string id="30300">Benutze Fritzbox Addressbuch</string>
     <string id="30301">Anmelde Passwort</string>
+    <string id="30302">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string>
 
 	<!-- Actions -->
 	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren?</string>
