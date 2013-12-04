@@ -16,7 +16,8 @@
 	<!-- Addressbook -->
 	<string id="30300">Use Fritzbox Addressbook</string>
     <string id="30301">Login Password</string>
-    <string id="30302">Use Klicktel Phonebook inverse search</string>
+    <string id="30302">Fritzbox Addressbook id</string>
+    <string id="30303">Use Klicktel Phonebook inverse search</string>
 	
 	<!-- Actions -->
 	<string id="30400">Pause playback on incoming calls</string>

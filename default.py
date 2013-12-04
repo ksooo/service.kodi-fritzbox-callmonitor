@@ -63,7 +63,7 @@ class FritzCallMonitor():
                     self.__pytzbox.login()
 
             if self.__fb_phonebook is None:
-                self.__fb_phonebook = self.__pytzbox.getPhonebook()
+                self.__fb_phonebook = self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id")))
 
         if __addon__.getSetting("AB_Klicktel") == 'true':
             self.__klicktel_phonebook = klicktel.Klicktel(klicktel_apikey.key())
