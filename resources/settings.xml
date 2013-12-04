@@ -14,5 +14,6 @@
   <category label="30003">
   	<setting id="AC_Pause" type="bool" label="30400" default="true" />
     <setting id="AC_Resume" type="bool" label="30401" default="true" enable="eq(-1,true)" />
+    <setting id="AC_PauseVideoOnly" type="bool" label="30402" default="true" enable="eq(-2,true)" />
   </category>
 </settings>

@@ -19,8 +19,9 @@
     <string id="30302">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string>
 
 	<!-- Actions -->
-	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren?</string>
-    <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen?</string>
+	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>
+    <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen</string>
+    <string id="30402">Pausiere nur Videos und keine anderen Medien</string>
 
     <!-- Interactions -->
     <string id="31000">Ausgehender Anruf</string>

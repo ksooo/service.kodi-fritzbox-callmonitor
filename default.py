@@ -194,7 +194,7 @@ class FritzCallMonitor():
         image = self.get_image_by_name(name)
         self.show_notification(_('connected'), _('to %s') % name, img=image)
         if __addon__.getSetting("AC_Pause") == 'true':
-            if xbmc.Player().isPlayingVideo():
+            if __addon__.getSetting("AC_PauseVideoOnly") == 'false' or xbmc.Player().isPlayingVideo():
                 if not self.is_playback_paused():
                     xbmc.Player().pause()
                     xbmc.Player().seekTime(self.__ring_time)
