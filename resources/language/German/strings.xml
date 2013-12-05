@@ -18,7 +18,10 @@
     <string id="30301">Anmelde Passwort</string>
     <string id="30302">Alle Fritzbox Addressbücher abfragen</string>
     <string id="30303">Benutze Fritzbox Addressbuch Id</string>
-    <string id="30304">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string>
+    <string id="30304">Benutze Google Anmeldung (nur für Bilder)</string>
+    <string id="30305">Google Benutzername</string>
+    <string id="30306">Google Passwort</string>
+    <string id="30310">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string>
 
 	<!-- Actions -->
 	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>

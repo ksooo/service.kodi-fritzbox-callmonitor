@@ -11,7 +11,10 @@
     <setting id="AB_FritzboxPassword" type="text" option="hidden" label="30301" visible="eq(-1,true)" enable="eq(-1,true)" default="" />
     <setting id="AB_Fritzadress_all_books" type="bool" label="30302" default="true" visible="eq(-1,true)" enable="eq(-1,true)" />
     <setting id="AB_Fritzadress_id" type="number" label="30303"  default="0" enable="eq(-1,false)" visible="eq(-1,false)" />
-    <setting id="AB_Klicktel" type="bool" label="30304" default="false" />
+    <setting id="AB_GoogleLookup" type="bool" label="30304" default="false" />
+    <setting id="AB_GoogleUsername" type="text" label="30305" visible="eq(-1,true)" enable="eq(-1,true)" default="" />
+    <setting id="AB_GooglePassword" type="text" label="30306" option="hidden" visible="eq(-2,true)" enable="eq(-2,true)" default="" />
+    <setting id="AB_Klicktel" type="bool" label="30310" default="false" />
   </category>
   <category label="30003">
   	<setting id="AC_Pause" type="bool" label="30400" default="true" />

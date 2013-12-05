@@ -18,7 +18,10 @@
     <string id="30301">Login Password</string>
     <string id="30302">Request all addressbooks</string>
     <string id="30303">Use Addressbook id</string>
-    <string id="30304">Use Klicktel Phonebook inverse search</string>
+    <string id="30304">Use Google Login (for pictures only)</string>
+    <string id="30305">Google Username</string>
+    <string id="30306">Google Password</string>
+    <string id="30310">Use Klicktel Phonebook inverse search</string>
 	
 	<!-- Actions -->
 	<string id="30400">Pause playback on incoming calls</string>

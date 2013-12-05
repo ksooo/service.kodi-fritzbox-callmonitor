@@ -6,11 +6,13 @@ import os
 import re
 import datetime
 import time
+import hashlib
+import pprint
 
 from lib.PytzBox import PytzBox
 from lib.PyKlicktel import klicktel
 from lib.PyKlicktel import apikey as klicktel_apikey
-
+from lib.simple_gdata import SimpleGdataRequest
 
 # Script constants
 __addon__ = xbmcaddon.Addon()
@@ -48,7 +50,8 @@ class FritzCallMonitor():
         self.__fb_phonebook = None
         self.__autopaused = False
         self.__ring_time = False
-        self.__klicktel_phonebook = False
+        self.__gdata_request = None
+        self.__klicktel_phonebook = None
 
         if __addon__.getSetting("AB_Fritzadress") == 'true':
             if self.__pytzbox is None:
@@ -74,7 +77,12 @@ class FritzCallMonitor():
                 else:
                     self.__fb_phonebook.update( self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id"))))
 
-        print self.__fb_phonebook
+        if __addon__.getSetting("AB_GoogleLookup") == 'true':
+            self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
+            try:
+                self.__gdata_request.authorize(__addon__.getSetting("AB_GoogleUsername"), __addon__.getSetting("AB_GooglePassword"), 'cp')
+            except Exception, e:
+                xbmc.log(pprint.pformat(e))
 
         if __addon__.getSetting("AB_Klicktel") == 'true':
             self.__klicktel_phonebook = klicktel.Klicktel(klicktel_apikey.key())
@@ -180,10 +188,35 @@ class FritzCallMonitor():
         return False
 
     def get_image_by_name(self, name):
+
+        def get_google_image(url):
+            url = re.sub(r',\d*$', '', url)
+            m = hashlib.md5()
+            m.update(url)
+            file_name = m.hexdigest()
+            file_path = os.path.join(xbmc.translatePath('special://temp'), "%s_%s" % (__addon__.getAddonInfo('id'), file_name))
+
+            if not os.path.isfile(path):
+                image = self.__gdata_request.request(url, pretty=False)
+                file_handler = open(file_path, 'wb')
+                file_handler.write(image)
+                file_handler.close()
+
+            return file_path
+
+
         if isinstance(self.__fb_phonebook, dict):
             if name in self.__fb_phonebook:
                 if "imageHttpURL" in self.__fb_phonebook[name]:
-                    return self.__fb_phonebook[name]["imageHttpURL"]
+
+                    if self.__fb_phonebook[name]["imageHttpURL"].startswith('https://www.google.com/'):
+                        try:
+                            return get_google_image(self.__fb_phonebook[name]["imageHttpURL"])
+                        except Exception, e:
+                            xbmc.log(pprint.pformat(e))
+                    else:
+                        return self.__fb_phonebook[name]["imageHttpURL"]
+
         return False
 
     def handle_outgoing_call(self, line):
