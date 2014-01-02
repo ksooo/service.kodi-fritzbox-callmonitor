@@ -263,8 +263,6 @@ class FritzCallMonitor():
         else:
             self.__connections[line.connection_id] = line
 
-        pprint.pprint(self.__connections)
-
         name = self.get_name_by_number(line.number_caller) or str(line.number_caller)
         image = self.get_image_by_name(name)
 
