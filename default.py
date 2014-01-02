@@ -8,6 +8,7 @@ import datetime
 import time
 import hashlib
 import pprint
+import json
 
 from lib.PytzBox import PytzBox
 from lib.PyKlicktel import klicktel
@@ -44,11 +45,11 @@ def _(s):
 
 
 class FritzCallMonitor():
-
     def __init__(self):
         self.__pytzbox = None
         self.__fb_phonebook = None
         self.__autopaused = False
+        self.__autovolumelowered = False
         self.__ring_time = False
         self.__gdata_request = None
         self.__klicktel_phonebook = None
@@ -69,18 +70,20 @@ class FritzCallMonitor():
                 self.__fb_phonebook = dict()
                 if __addon__.getSetting("AB_Fritzadress_all_books") == 'true':
                     phonebook_list = self.__pytzbox.getPhonebookList()
-                    if not phonebook_list or len(phonebook_list)<0:
+                    if not phonebook_list or len(phonebook_list) < 0:
                         phonebook_list = [0]
                     for phonebook_id in phonebook_list:
                         self.__fb_phonebook.update(
                             self.__pytzbox.getPhonebook(id=phonebook_id))
                 else:
-                    self.__fb_phonebook.update( self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id"))))
+                    self.__fb_phonebook.update(
+                        self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id"))))
 
         if __addon__.getSetting("AB_GoogleLookup") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
             try:
-                self.__gdata_request.authorize(__addon__.getSetting("AB_GoogleUsername"), __addon__.getSetting("AB_GooglePassword"), 'cp')
+                self.__gdata_request.authorize(__addon__.getSetting("AB_GoogleUsername"),
+                                               __addon__.getSetting("AB_GooglePassword"), 'cp')
             except Exception, e:
                 xbmc.log(pprint.pformat(e))
 
@@ -194,9 +197,10 @@ class FritzCallMonitor():
             m = hashlib.md5()
             m.update(url)
             file_name = m.hexdigest()
-            file_path = os.path.join(xbmc.translatePath('special://temp'), "%s_%s" % (__addon__.getAddonInfo('id'), file_name))
+            file_path = os.path.join(xbmc.translatePath('special://temp'),
+                                     "%s_%s" % (__addon__.getAddonInfo('id'), file_name))
 
-            if not os.path.isfile(path):
+            if not os.path.isfile(file_path):
                 image = self.__gdata_request.request(url, pretty=False)
                 file_handler = open(file_path, 'wb')
                 file_handler.write(image)
@@ -229,13 +233,33 @@ class FritzCallMonitor():
     def handle_incoming_call(self, line):
         name = self.get_name_by_number(line.number_caller) or str(line.number_caller)
         image = self.get_image_by_name(name)
+
         self.show_notification(_('incoming call'), _('from %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
+        if __addon__.getSetting("AC_LowerVolume") == 'true':
+            volume_json = xbmc.executeJSONRPC(json.dumps(
+                dict(jsonrpc="2.0", method="Application.GetProperties", params=dict(properties=["volume", ]), id=1)))
+            if "result" in json.loads(volume_json):
+                volume = json.loads(volume_json)["result"]["volume"]
+                new_volume = volume - (int(float(__addon__.getSetting("AC_LowerVolumeAmount"))) * volume / 100)
+
+                if volume:
+                    self.__autovolumelowered = volume
+                    xbmc.executeJSONRPC(json.dumps(
+                        dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=new_volume), id=1)))
+
+
     def handle_connected(self, line):
         name = self.get_name_by_number(line.number) or str(line.number)
         image = self.get_image_by_name(name)
+
+        if self.__autovolumelowered:
+            xbmc.executeJSONRPC(json.dumps(
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered), id=1)))
+            self.__autovolumelowered = False
+
         self.show_notification(_('connected'), _('to %s') % name, img=image)
         if __addon__.getSetting("AC_Pause") == 'true':
             if __addon__.getSetting("AC_PauseVideoOnly") == 'false' or xbmc.Player().isPlayingVideo():
@@ -254,6 +278,12 @@ class FritzCallMonitor():
 
     def handle_disconnected(self, line):
         self.show_notification(_('call ended'), _('duration: %sh') % str(line.duration))
+
+        if self.__autovolumelowered:
+            xbmc.executeJSONRPC(json.dumps(
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered), id=1)))
+            self.__autovolumelowered = False
+
         if self.__autopaused:
             if __addon__.getSetting("AC_Resume") == 'true':
                 self.resume_playback()

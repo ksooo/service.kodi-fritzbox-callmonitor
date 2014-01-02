@@ -27,6 +27,8 @@
 	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>
     <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen</string>
     <string id="30402">Pausiere nur Videos und keine anderen Medien</string>
+    <string id="30403">Reduziere die Lautstärke während es klingelt</string>
+    <string id="30404">Um wie viel Prozent</string>
 
     <!-- Interactions -->
     <string id="31000">Ausgehender Anruf</string>
