@@ -277,7 +277,7 @@ class FritzCallMonitor():
                 dict(jsonrpc="2.0", method="Application.GetProperties", params=dict(properties=["volume", ]), id=1)))
             if "result" in json.loads(volume_json):
                 volume = json.loads(volume_json)["result"]["volume"]
-                new_volume = volume - (int(float(__addon__.getSetting("AC_LowerVolumeAmount"))) * volume / 100)
+                new_volume = int(volume - (int(float(__addon__.getSetting("AC_LowerVolumeAmount"))) * volume / 100))
 
                 if volume:
                     self.__autovolumelowered = volume
