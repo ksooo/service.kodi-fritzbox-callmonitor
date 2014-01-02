@@ -5,6 +5,7 @@
     <setting type="sep" />
     <setting id="S_DURATION" type="number" label="30210"  default="8" />
     <setting id="S_STARTUPSLEEP" type="number" label="30211"  default="60" />
+    <setting id="AB_IgnoreNumbers" type="text" label="30212" default="" />
   </category>
   <category label="30002">
     <setting id="AB_Fritzadress" type="bool" label="30300" default="false" />
