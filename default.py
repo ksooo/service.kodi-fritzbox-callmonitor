@@ -172,7 +172,7 @@ class FritzCallMonitor():
 
     def is_ignored_number(self, number, printout=False):
         if not isinstance(number, list):
-            number = [number,]
+            number = [number, ]
         for single_number in number:
             for ignored_number in re.findall(r'(\d+)', __addon__.getSetting("AB_IgnoreNumbers")):
                 if self.equal_numbers(single_number, ignored_number):
@@ -219,7 +219,6 @@ class FritzCallMonitor():
                 file_handler.close()
 
             return file_path
-
 
         if isinstance(self.__fb_phonebook, dict):
             if name in self.__fb_phonebook:
@@ -282,7 +281,6 @@ class FritzCallMonitor():
                     xbmc.executeJSONRPC(json.dumps(
                         dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=new_volume), id=1)))
 
-
     def handle_connected(self, line):
 
         if not line.connection_id in self.__connections:
@@ -293,7 +291,8 @@ class FritzCallMonitor():
 
         if self.__autovolumelowered:
             xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered), id=1)))
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered),
+                     id=1)))
             self.__autovolumelowered = False
 
         self.show_notification(_('connected'), _('to %s') % name, img=image)
@@ -313,7 +312,8 @@ class FritzCallMonitor():
 
         if self.__autovolumelowered:
             xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered), id=1)))
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered),
+                     id=1)))
             self.__autovolumelowered = False
 
         if self.__autopaused:
