@@ -30,3 +30,5 @@ XBMC FritzBox Callmonitor
 
 #### Further information:
 * http://www.xbmcnerds.com/index.php?page=Thread&postID=146894#post146894 (german)
+
+[![Analytics](https://ga-beacon.appspot.com/UA-47832055-1/xbmc-fritzbox/readme?pixel)](https://github.com/wrow/xbmc-fritzbox/)
