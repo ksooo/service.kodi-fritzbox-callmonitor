@@ -11,7 +11,7 @@ XBMC FritzBox Callmonitor
 
 #### Tested-to-work-With:
 
-* FritzBox: 6330, 7370
+* FritzBox: 6330, 7270, 7370
    * please report to me if your unlisted FritzBox did work :)
 * XBMC: Eden & Frodo
 
