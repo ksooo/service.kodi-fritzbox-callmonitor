@@ -38,7 +38,8 @@ def _(s):
         'call ended': 31006,
         'duration: %sh': 31007,
         'fritzbox unreachable': 31008,
-        'could not connect to fritzbox (%s).': 31009
+        'could not connect to fritzbox (%s).': 31009,
+        'unknown': 31010
     }
     if s in translations:
         return __addon__.getLocalizedString(translations[s]) or s
@@ -186,6 +187,9 @@ class FritzCallMonitor():
         return False
 
     def get_name_by_number(self, request_number):
+
+        if not len(request_number):
+            return _('unknown')
 
         if __addon__.getSetting("AB_Fritzadress") == 'true' and self.__fb_phonebook:
 

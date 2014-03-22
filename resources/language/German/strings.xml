@@ -43,6 +43,7 @@
     <string id="31007">Dauer: %sh</string>
     <string id="31008">Fritzbox nicht erreichbar</string>
     <string id="31009">Konnte keine Verbindung zur Fritzbox herstellen (%s)</string>
+    <string id="31010">Unbekannt</string>
 
 </strings>
 
