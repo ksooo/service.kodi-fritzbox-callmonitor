@@ -47,6 +47,7 @@ def _(s):
 
 
 class FritzCallMonitor():
+
     def __init__(self):
         self.__pytzbox = None
         self.__fb_phonebook = None
@@ -81,6 +82,7 @@ class FritzCallMonitor():
                 else:
                     self.__fb_phonebook.update(
                         self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id"))))
+                xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
 
         if __addon__.getSetting("AB_GoogleLookup") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
