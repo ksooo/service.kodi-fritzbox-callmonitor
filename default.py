@@ -51,8 +51,8 @@ class FritzCallMonitor():
     def __init__(self):
         self.__pytzbox = None
         self.__fb_phonebook = None
-        self.__autopaused = False
-        self.__autovolumelowered = False
+        self.__auto_paused = False
+        self.__auto_volume_lowered = False
         self.__connections = dict()
         self.__ring_time = False
         self.__gdata_request = None
@@ -246,6 +246,13 @@ class FritzCallMonitor():
         if self.is_playback_paused():
             xbmc.Player().pause()
 
+    def pause(self):
+        if __addon__.getSetting("AC_PauseVideoOnly") == 'false' or xbmc.Player().isPlayingVideo():
+            if not self.is_playback_paused():
+                xbmc.Player().pause()
+                xbmc.Player().seekTime(self.__ring_time)
+                self.__auto_paused = True
+
     def handle_outgoing_call(self, line):
 
         if self.is_ignored_number([line.number_caller, line.number_called], printout=True):
@@ -281,9 +288,12 @@ class FritzCallMonitor():
                 new_volume = int(volume - (int(float(__addon__.getSetting("AC_LowerVolumeAmount"))) * volume / 100))
 
                 if volume:
-                    self.__autovolumelowered = volume
+                    self.__auto_volume_lowered = volume
                     xbmc.executeJSONRPC(json.dumps(
                         dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=new_volume), id=1)))
+
+        if __addon__.getSetting("AC_Pause") == 'true' and __addon__.getSetting("AC_PauseOnRing") == 'true':
+            self.pause()
 
     def handle_connected(self, line):
 
@@ -293,19 +303,15 @@ class FritzCallMonitor():
         name = self.get_name_by_number(line.number) or str(line.number)
         image = self.get_image_by_name(name)
 
-        if self.__autovolumelowered:
+        if self.__auto_volume_lowered:
             xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered),
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__auto_volume_lowered),
                      id=1)))
-            self.__autovolumelowered = False
+            self.__auto_volume_lowered = False
 
         self.show_notification(_('connected'), _('to %s') % name, img=image)
-        if __addon__.getSetting("AC_Pause") == 'true':
-            if __addon__.getSetting("AC_PauseVideoOnly") == 'false' or xbmc.Player().isPlayingVideo():
-                if not self.is_playback_paused():
-                    xbmc.Player().pause()
-                    xbmc.Player().seekTime(self.__ring_time)
-                    self.__autopaused = True
+        if __addon__.getSetting("AC_Pause") == 'true' and __addon__.getSetting("AC_PauseOnRing") == 'false':
+            self.pause()
 
     def handle_disconnected(self, line):
 
@@ -314,16 +320,16 @@ class FritzCallMonitor():
 
         self.show_notification(_('call ended'), _('duration: %sh') % str(line.duration))
 
-        if self.__autovolumelowered:
+        if self.__auto_volume_lowered:
             xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__autovolumelowered),
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__auto_volume_lowered),
                      id=1)))
-            self.__autovolumelowered = False
+            self.__auto_volume_lowered = False
 
-        if self.__autopaused:
+        if self.__auto_paused:
             if __addon__.getSetting("AC_Resume") == 'true':
                 self.resume_playback()
-            self.__autopaused = False
+            self.__auto_paused = False
 
         del self.__connections[line.connection_id]
 

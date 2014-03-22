@@ -30,6 +30,7 @@
     <string id="30402">Pause only Video and no other media</string>
     <string id="30403">Reduce Volume while ringing</string>
     <string id="30404">About how many percent</string>
+    <string id="30405">Already pause when ringing</string>
 
     <!-- Interactions -->
     <string id="31000">Leaving call</string>
