@@ -23,6 +23,8 @@
     <string id="30305">Google Benutzername</string>
     <string id="30306">Google Passwort</string>
     <string id="30310">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string>
+    <string id="30311">Benutze Ordner zur Bildersuche</string>
+    <string id="30312">Pfad zum Bilderordner</string>
 
 	<!-- Actions -->
 	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>

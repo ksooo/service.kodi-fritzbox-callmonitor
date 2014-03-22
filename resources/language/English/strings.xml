@@ -23,6 +23,8 @@
     <string id="30305">Google Username</string>
     <string id="30306">Google Password</string>
     <string id="30310">Use Klicktel Phonebook inverse search</string>
+    <string id="30311">Use Directory for picture lookup</string>
+    <string id="30312">Path to picture directory</string>
 	
 	<!-- Actions -->
 	<string id="30400">Pause playback on incoming calls</string>

@@ -1,7 +1,7 @@
 # encoding: utf-8
 from pprint import pformat
 
-import xbmc, xbmcaddon
+import xbmc, xbmcaddon, xbmcvfs
 import socket
 import os
 import re
@@ -156,11 +156,11 @@ class FritzCallMonitor():
     @staticmethod
     def equal_numbers(a, b):
 
-        a = str(a).strip()
-        b = str(b).strip()
+        a = unicode(a).strip()
+        b = unicode(b).strip()
 
-        a = str(re.sub('[^0-9]*', '', a))
-        b = str(re.sub('[^0-9]*', '', b))
+        a = re.sub('[^0-9]*', '', a)
+        b = re.sub('[^0-9]*', '', b)
 
         if a.startswith('00'):
             a = a[4:]
@@ -192,7 +192,6 @@ class FritzCallMonitor():
             return _('unknown')
 
         if __addon__.getSetting("AB_Fritzadress") == 'true' and self.__fb_phonebook:
-
             if isinstance(self.__fb_phonebook, dict):
                 for entry in self.__fb_phonebook:
                     if 'numbers' in self.__fb_phonebook[entry]:
@@ -201,7 +200,6 @@ class FritzCallMonitor():
                                 return entry
 
         if __addon__.getSetting("AB_Klicktel") == 'true' and self.__klicktel_phonebook:
-
             result = self.__klicktel_phonebook.invers_search(request_number)
             if len(result.entries) > 0:
                 name = result.entries[0].displayname
@@ -210,7 +208,7 @@ class FritzCallMonitor():
 
         return False
 
-    def get_image_by_name(self, name):
+    def get_image_by_name(self, name, number):
 
         def get_google_image(url):
             url = re.sub(r',\d*$', '', url)
@@ -227,6 +225,20 @@ class FritzCallMonitor():
                 file_handler.close()
 
             return file_path
+
+        if __addon__.getSetting("AB_Folderimages") == 'true':
+            imagepath = __addon__.getSetting("AB_FolderimagesPath").decode('utf-8', errors='replace')
+            if not xbmcvfs.exists(imagepath):
+                xbmc.log(_("Images path %s does not exist.") % imagepath.encode('utf-8'))
+            else:
+                dirs, files = xbmcvfs.listdir(imagepath)
+                for picture in files:
+                    picture = picture.decode('utf-8', errors='replace')
+                    match = re.match(r'([^.]*)', picture)
+                    if re.match:
+                        file_short_name = match.group(1)
+                        if file_short_name == name or self.equal_numbers(file_short_name, number):
+                            return u"%s%s" % (imagepath, picture)
 
         if isinstance(self.__fb_phonebook, dict):
             if name in self.__fb_phonebook:
@@ -265,7 +277,7 @@ class FritzCallMonitor():
             self.__connections[line.connection_id] = line
 
         name = self.get_name_by_number(line.number_called) or str(line.number_called)
-        image = self.get_image_by_name(name)
+        image = self.get_image_by_name(name, line.number_called)
         self.show_notification(_('leaving call'), _('to %s (by %s)') % (name, line.number_caller), img=image)
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
@@ -278,7 +290,7 @@ class FritzCallMonitor():
             self.__connections[line.connection_id] = line
 
         name = self.get_name_by_number(line.number_caller) or str(line.number_caller)
-        image = self.get_image_by_name(name)
+        image = self.get_image_by_name(name, line.number_caller)
 
         self.show_notification(_('incoming call'), _('from %s') % name, img=image)
         if xbmc.Player().isPlayingVideo():
@@ -305,7 +317,7 @@ class FritzCallMonitor():
             return False
 
         name = self.get_name_by_number(line.number) or str(line.number)
-        image = self.get_image_by_name(name)
+        image = self.get_image_by_name(name, line.number)
 
         if self.__auto_volume_lowered:
             xbmc.executeJSONRPC(json.dumps(
