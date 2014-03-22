@@ -8,6 +8,7 @@ XBMC FritzBox Callmonitor
    * get contact names from FritzBox phone book (requires password in addon-settings) and some contact images (also from google contacts)
    * lower volume while ringing
    * get contact names from klicktel.de
+   * get contact images from fritzbox, google or any directory
 
 #### Tested-to-work-With:
 
