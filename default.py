@@ -356,9 +356,9 @@ class FritzCallMonitor():
 
         :rtype : bool
         """
-        if isinstance (title,str):
+        if isinstance(title, str):
             title = unicode(title)
-        if isinstance(text,str):
+        if isinstance(text, str):
             text = unicode(text)
 
         xbmc.log((u"NOTIFICATION: %s, %s" % (title, text)).encode("utf-8"))
@@ -368,7 +368,8 @@ class FritzCallMonitor():
             duration = int(duration) * 1000
         if not img:
             img = xbmc.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
-        return xbmc.executebuiltin((u'Notification("%s", "%s", %d, "%s")' % (title, text, duration, img)).encode("utf-8"))
+        return xbmc.executebuiltin((u'Notification("%s", "%s", %d, "%s")' %
+                                    (title, text, duration, img)).encode("utf-8"))
 
     def start(self):
         ip = __addon__.getSetting("S_IP")
@@ -376,13 +377,14 @@ class FritzCallMonitor():
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip, 1012))
         except Exception, e:
-            self.show_notification(_('fritzbox unreachable'), _('could not connect to fritzbox (%s).') % e)
+            self.show_notification(_('fritzbox unreachable'), _('could not connect to fritzbox (%s).') % str(e))
         else:
             xbmc.log('connected to fritzbox callmonitor')
             s.settimeout(0.2)
 
             while not xbmc.abortRequested:
 
+                # noinspection PyBroadException
                 try:
 
                     message = s.recv(1024)
@@ -407,7 +409,7 @@ class FritzCallMonitor():
                         'ERROR: Could not connect %s on port 1012. Have you activated the Callmonitor via #96*5*' % ip)
                     xbmc.log(pformat(e))
 
-                except Exception, e:
+                except Exception:
                     trace = traceback.format_exc()
                     xbmc.log(trace, level=xbmc.LOGERROR)
 
