@@ -397,7 +397,7 @@ class FritzCallMonitor():
 
                 except Exception, e:
                     trace = traceback.format_exc()
-                    xbmc.log(trace)
+                    xbmc.log(trace, level=xbmc.LOGERROR)
 
             s.close()
             xbmc.log("fritzbox callmonitor addon ended.")
