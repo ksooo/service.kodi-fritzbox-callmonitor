@@ -9,6 +9,7 @@ import time
 import hashlib
 import pprint
 import json
+import traceback
 
 from lib.PytzBox import PytzBox
 from lib.PyKlicktel import klicktel
@@ -377,7 +378,8 @@ class FritzCallMonitor():
                     xbmc.log(pformat(e))
 
                 except Exception, e:
-                    xbmc.log(pformat(e))
+                    trace = traceback.format_exc()
+                    xbmc.log(trace)
 
             s.close()
             xbmc.log("fritzbox callmonitor addon ended.")
