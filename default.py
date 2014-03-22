@@ -1,3 +1,4 @@
+# encoding: utf-8
 from pprint import pformat
 
 import xbmc, xbmcaddon
@@ -331,14 +332,19 @@ class FritzCallMonitor():
 
         :rtype : bool
         """
-        xbmc.log("NOTIFICATION: %s, %s" % (title, text))
+        if isinstance (title,str):
+            title = unicode(title)
+        if isinstance(text,str):
+            text = unicode(text)
+
+        xbmc.log((u"NOTIFICATION: %s, %s" % (title, text)).encode("utf-8"))
         xbmc.executebuiltin('PingApp')
         if not duration:
             duration = __addon__.getSetting("S_DURATION")
             duration = int(duration) * 1000
         if not img:
             img = xbmc.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
-        return xbmc.executebuiltin('Notification("%s", "%s", %d, "%s")' % (title, str(text), duration, img))
+        return xbmc.executebuiltin((u'Notification("%s", "%s", %d, "%s")' % (title, text, duration, img)).encode("utf-8"))
 
     def start(self):
         ip = __addon__.getSetting("S_IP")
