@@ -5,7 +5,7 @@ XBMC FritzBox Callmonitor
 
 * Show incoming, outgoing, started and ended calls from your FritzBox (http://www.avm.de/) in XBMC (http://xbmc.org/)
    * pause/resume XBMC Playback on incoming calls
-   * get contact names from FritzBox phone book (requires password in addon-settings) and some contact images (also from google contacts)
+   * get contact names from FritzBox phone book (requires username / password in addon-settings, "Fritz!App Fon" permission required) and some contact images (also from google contacts)
    * lower volume while ringing
    * get contact names from klicktel.de
    * get contact images from fritzbox, google or any directory
