@@ -25,7 +25,8 @@
   	<setting id="AC_Pause" type="bool" label="30400" default="true" />
     <setting id="AC_PauseOnRing" type="bool" label="30405" default="false" enable="eq(-1,true)" />
     <setting id="AC_Resume" type="bool" label="30401" default="true" enable="eq(-2,true)" />
-    <setting id="AC_PauseVideoOnly" type="bool" label="30402" default="true" enable="eq(-3,true)" />
+    <setting id="AC_ResumeDelay" type="number" label="30405" default="5" enable="eq(-3,true)" />
+    <setting id="AC_PauseVideoOnly" type="bool" label="30402" default="true" enable="eq(-4,true)" />
     <setting id="AC_LowerVolume" type="bool" label="30403" default="false" />
     <setting id="AC_LowerVolumeAmount" type="slider" label="30404" default="30" range="0,100" enable="eq(-1,true)" visible="eq(-1,true)"/>
   </category>

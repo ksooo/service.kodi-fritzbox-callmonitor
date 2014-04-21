@@ -34,6 +34,8 @@
     <string id="30403">Reduce Volume while ringing</string>
     <string id="30404">About how many percent</string>
     <string id="30405">Already pause when ringing</string>
+    <string id="30405">Delay resume of playback about seconds</string>
+
 
     <!-- Interactions -->
     <string id="31000">Leaving call</string>
@@ -49,6 +51,8 @@
     <string id="31010">Unknown</string>
     <string id="31011">Fritzbox Addressbook</string>
     <string id="31012">Cound not access Fritzbox Addressbook: %s</string>
+    <string id="31013">Resume</string>
+    <string id="31014">Waiting %d seconds ...</string>
 	
 </strings>
 

@@ -19,7 +19,7 @@ from lib.simple_gdata import SimpleGdataRequest
 
 # Script constants
 __addon__ = xbmcaddon.Addon()
-__addon_id__ = "service.xbmc-fritzbox"
+__addon_id__ = __addon__.getAddonInfo('id')
 __version__ = "1"
 
 
@@ -261,7 +261,13 @@ class FritzCallMonitor():
 
     def resume_playback(self):
         if self.is_playback_paused():
-            xbmc.Player().pause()
+
+            if int(__addon__.getSetting("AC_ResumeDelay")) > 0:
+                url = "plugin://%s/show_resume_progress_and_resume/%d" % (
+                    __addon_id__, int(__addon__.getSetting("AC_ResumeDelay")))
+                xbmc.executebuiltin('XBMC.RunPlugin("%s")' % url)
+            else:
+                xbmc.Player().pause()
 
     def pause(self):
         if __addon__.getSetting("AC_PauseVideoOnly") == 'false' or xbmc.Player().isPlayingVideo():
