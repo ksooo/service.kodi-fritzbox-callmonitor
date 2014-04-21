@@ -39,7 +39,9 @@ def _(s):
         'duration: %sh': 31007,
         'fritzbox unreachable': 31008,
         'could not connect to fritzbox (%s).': 31009,
-        'unknown': 31010
+        'unknown': 31010,
+        'fritzbox phonebook': 31011,
+        'fritzbox phonebookaccess failed': 31012
     }
     if s in translations:
         return __addon__.getLocalizedString(translations[s]) or s
@@ -75,11 +77,14 @@ class FritzCallMonitor():
                                                  host=__addon__.getSetting("S_IP"))
 
             if self.__fb_phonebook is None:
-                if __addon__.getSetting("AB_Fritzadress_all_books") == 'true':
-                    self.__fb_phonebook = self.__pytzbox.getPhonebook(id=-1)
-                else:
-                    self.__fb_phonebook = self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id")))
-                xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
+                try:
+                    if __addon__.getSetting("AB_Fritzadress_all_books") == 'true':
+                        self.__fb_phonebook = self.__pytzbox.getPhonebook(id=-1)
+                    else:
+                        self.__fb_phonebook = self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id")))
+                    xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
+                except Exception, e:
+                    self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % str(e))
 
         if __addon__.getSetting("AB_GoogleLookup") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
