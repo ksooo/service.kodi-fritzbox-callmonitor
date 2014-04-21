@@ -16,7 +16,8 @@
 
 	<!-- Addressbook -->
 	<string id="30300">Benutze Fritzbox Addressbuch</string>
-    <string id="30301">Anmelde Passwort</string>
+    <string id="30313">FritzBox Benutzername</string>
+    <string id="30301">FritzBox Passwort</string>
     <string id="30302">Alle Fritzbox Addressbücher abfragen</string>
     <string id="30303">Benutze Fritzbox Addressbuch Id</string>
     <string id="30304">Benutze Google Anmeldung (nur für Bilder)</string>

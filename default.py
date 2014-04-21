@@ -62,27 +62,23 @@ class FritzCallMonitor():
         if __addon__.getSetting("AB_Fritzadress") == 'true':
             if self.__pytzbox is None:
                 password = False
-                if __addon__.getSetting("AB_FritzboxPassword") and len(
-                        str(__addon__.getSetting("AB_FritzboxPassword"))) > 0:
+                if __addon__.getSetting("AB_FritzboxPassword"):
                     password = __addon__.getSetting("AB_FritzboxPassword")
+                if __addon__.getSetting("AB_FritzboxUsername") and len(
+                        str(__addon__.getSetting("AB_FritzboxUsername"))) > 0:
+                    username = __addon__.getSetting("AB_FritzboxUsername")
+                else:
+                    username = "admin"
 
-                self.__pytzbox = PytzBox.PytzBox(password=password, host=__addon__.getSetting("S_IP"))
-
-                if password:
-                    self.__pytzbox.login()
+                self.__pytzbox = PytzBox.PytzBox(password=password,
+                                                 username=username,
+                                                 host=__addon__.getSetting("S_IP"))
 
             if self.__fb_phonebook is None:
-                self.__fb_phonebook = dict()
                 if __addon__.getSetting("AB_Fritzadress_all_books") == 'true':
-                    phonebook_list = self.__pytzbox.getPhonebookList()
-                    if not phonebook_list or len(phonebook_list) < 0:
-                        phonebook_list = [0]
-                    for phonebook_id in phonebook_list:
-                        self.__fb_phonebook.update(
-                            self.__pytzbox.getPhonebook(id=phonebook_id))
+                    self.__fb_phonebook = self.__pytzbox.getPhonebook(id=-1)
                 else:
-                    self.__fb_phonebook.update(
-                        self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id"))))
+                    self.__fb_phonebook = self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id")))
                 xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
 
         if __addon__.getSetting("AB_GoogleLookup") == 'true':
