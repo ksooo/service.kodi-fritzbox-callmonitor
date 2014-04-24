@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-	<!-- Addon Name -->
-	<string id="30000">FritzBox Anrufanzeige</string>
-	<!-- some other strings -->
-	<string id="30100">Hi</string>
-	<!-- Settings -->
-	<string id="30001">Fritzbox</string>
-	<string id="30002">Addressbuecher</string>
-	<string id="30003">Aktionen</string>
-	<!-- Default Tab -->
-	<string id="30200">IP Addresse der Fritzbox</string>
-	<string id="30210">Anzeigedauer der Info (Sekunden)</string>
-	<string id="30211">Wartezeit vor dem Start</string>
+    <!-- Addon Name -->
+    <string id="30000">FritzBox Anrufanzeige</string>
+    <!-- some other strings -->
+    <string id="30100">Hi</string>
+    <!-- Settings -->
+    <string id="30001">FritzBox</string>
+    <string id="30002">Addressbücher</string>
+    <string id="30003">Aktionen</string>
+    <!-- Default Tab -->
+    <string id="30200">IP Addresse der FritzBox</string>
+    <string id="30210">Anzeigedauer der Info (Sekunden)</string>
+    <string id="30211">Wartezeit vor dem Start</string>
     <string id="30212">Ignoriere Telefonnummern (Kommasepariert)</string>
 
-	<!-- Addressbook -->
-	<string id="30300">Benutze Fritzbox Addressbuch</string>
+    <!-- Addressbook -->
+    <string id="30300">Benutze FritzBox Addressbuch</string>
     <string id="30313">FritzBox Benutzername</string>
     <string id="30301">FritzBox Passwort</string>
-    <string id="30302">Alle Fritzbox Addressbücher abfragen</string>
-    <string id="30303">Benutze Fritzbox Addressbuch Id</string>
+    <string id="30302">Alle FritzBox Addressbücher abfragen</string>
+    <string id="30303">Benutze FritzBox Addressbuch Id</string>
     <string id="30304">Benutze Google Anmeldung (nur für Bilder)</string>
     <string id="30305">Google Benutzername</string>
     <string id="30306">Google Passwort</string>
@@ -27,15 +27,14 @@
     <string id="30311">Benutze Ordner zur Bildersuche</string>
     <string id="30312">Pfad zum Bilderordner</string>
 
-	<!-- Actions -->
-	<string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>
+    <!-- Actions -->
+    <string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>
     <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen</string>
     <string id="30402">Pausiere nur Videos und keine anderen Medien</string>
     <string id="30403">Reduziere die Lautstärke während es klingelt</string>
     <string id="30404">Um wie viel Prozent</string>
     <string id="30405">Bereits beim Klingeln pausieren</string>
-    <string id="30405">Forsetzen der Wiedergabe verzögern um Sekunden verzögern</string>
-
+    <string id="30406">Fortsetzen der Wiedergabe verzögern (Sekunden)</string>
 
     <!-- Interactions -->
     <string id="31000">Ausgehender Anruf</string>
@@ -46,13 +45,12 @@
     <string id="31005">mit %s</string>
     <string id="31006">Verbindung beendet</string>
     <string id="31007">Dauer: %sh</string>
-    <string id="31008">Fritzbox nicht erreichbar</string>
-    <string id="31009">Konnte keine Verbindung zur Fritzbox herstellen (%s)</string>
+    <string id="31008">FritzBox nicht erreichbar</string>
+    <string id="31009">Konnte keine Verbindung zur FritzBox herstellen (%s)</string>
     <string id="31010">Unbekannt</string>
-    <string id="31011">Fritzbox Addressbuch</string>
-    <string id="31012">Zugriff auf Fritzbox Addressbuch fehlgeschlagen: %s</string>
+    <string id="31011">FritzBox Addressbuch</string>
+    <string id="31012">Zugriff auf FritzBox Addressbuch fehlgeschlagen: %s</string>
     <string id="31013">Fortsetzen</string>
-    <string id="31014">Warte %d sekunden ...</string>
-
+    <string id="31014">Warte %d Sekunden ...</string>
 </strings>
 

@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-	<!-- Addon Name -->
-	<string id="30000">FritzBox Callmonitor</string>
-	<!-- some other strings -->
-	<string id="30100">Hi</string>
-	<!-- Settings -->
-	<string id="30001">Fritzbox</string>
-	<string id="30002">Addresses</string>
-	<string id="30003">Actions</string>
-	<!-- Default Tab -->
-	<string id="30200">IP Address</string>
-	<string id="30210">Display Durtion (seconds)</string>
+    <!-- Addon Name -->
+    <string id="30000">FritzBox Callmonitor</string>
+    <!-- some other strings -->
+    <string id="30100">Hi</string>
+    <!-- Settings -->
+    <string id="30001">FritzBox</string>
+    <string id="30002">Addresses</string>
+    <string id="30003">Actions</string>
+    <!-- Default Tab -->
+    <string id="30200">IP address</string>
+    <string id="30210">Display duration (seconds)</string>
     <string id="30211">Time to wait before start</string>
     <string id="30212">Ignore phone numbers (comma separated)</string>
 
-	<!-- Addressbook -->
-	<string id="30300">Use Fritzbox Addressbook</string>
+    <!-- Addressbook -->
+    <string id="30300">Use FritzBox Addressbook</string>
     <string id="30313">FritzBox Username</string>
     <string id="30301">FritzBox Password</string>
     <string id="30302">Request all addressbooks</string>
-    <string id="30303">Use Addressbook id</string>
+    <string id="30303">Use addressbook id</string>
     <string id="30304">Use Google Login (for pictures only)</string>
     <string id="30305">Google Username</string>
     <string id="30306">Google Password</string>
-    <string id="30310">Use Klicktel Phonebook inverse search</string>
-    <string id="30311">Use Directory for picture lookup</string>
+    <string id="30310">Use Klicktel.de Phonebook inverse search</string>
+    <string id="30311">Use directory for picture lookup</string>
     <string id="30312">Path to picture directory</string>
-	
-	<!-- Actions -->
-	<string id="30400">Pause playback on incoming calls</string>
+
+    <!-- Actions -->
+    <string id="30400">Pause playback on incoming calls</string>
     <string id="30401">Resume paused playback on terminated calls</string>
-    <string id="30402">Pause only Video and no other media</string>
-    <string id="30403">Reduce Volume while ringing</string>
+    <string id="30402">Pause only video and no other media</string>
+    <string id="30403">Reduce volume while ringing</string>
     <string id="30404">About how many percent</string>
     <string id="30405">Already pause when ringing</string>
-    <string id="30405">Delay resume of playback about seconds</string>
-
+    <string id="30406">Delay resume of playback (seconds)</string>
 
     <!-- Interactions -->
-    <string id="31000">Leaving call</string>
+    <string id="31000">Outgoing call</string>
     <string id="31001">to %s (by %s)</string>
     <string id="31002">Incoming call</string>
     <string id="31003">from %s</string>
@@ -46,13 +45,12 @@
     <string id="31005">to %s</string>
     <string id="31006">Call ended</string>
     <string id="31007">Duration: %sh</string>
-    <string id="31008">Fritzbox unreachable</string>
-    <string id="31009">Could not connect to Fritzbox (%s).</string>
+    <string id="31008">FritzBox unreachable</string>
+    <string id="31009">Could not connect to FritzBox (%s).</string>
     <string id="31010">Unknown</string>
-    <string id="31011">Fritzbox Addressbook</string>
-    <string id="31012">Cound not access Fritzbox Addressbook: %s</string>
+    <string id="31011">FritzBox Addressbook</string>
+    <string id="31012">Could not access FritzBox Addressbook: %s</string>
     <string id="31013">Resume</string>
     <string id="31014">Waiting %d seconds ...</string>
-	
 </strings>
 
