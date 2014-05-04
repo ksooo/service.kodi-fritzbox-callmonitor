@@ -171,6 +171,9 @@ class FritzCallMonitor():
             b = b[4:]
         b = b.lstrip('0')
 
+        if len(b) * 2 < len(a) or len(a) < len(b) / 2:
+            return False
+
         a = a[-len(b):]
         b = b[-len(a):]
 
