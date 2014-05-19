@@ -85,6 +85,7 @@ class FritzCallMonitor():
                     xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
                 except Exception, e:
                     self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % str(e))
+                    xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
 
         if __addon__.getSetting("AB_GoogleLookup") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
