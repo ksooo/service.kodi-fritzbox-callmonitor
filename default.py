@@ -1,7 +1,7 @@
 # encoding: utf-8
 from pprint import pformat
 
-import xbmc, xbmcaddon, xbmcvfs
+import xbmc, xbmcaddon, xbmcvfs, xbmcgui
 import socket
 import os
 import re
@@ -373,7 +373,8 @@ class FritzCallMonitor():
             text = unicode(text)
 
         xbmc.log((u"NOTIFICATION: %s, %s" % (title, text)).encode("utf-8"))
-        xbmc.executebuiltin('PingApp')
+        if xbmc.getCondVisibility("System.ScreenSaverActive"):
+            xbmc.executebuiltin('ActivateWindow(%s)' % xbmcgui.getCurrentWindowId())
         if not duration:
             duration = __addon__.getSetting("S_DURATION")
             duration = int(duration) * 1000
