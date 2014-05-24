@@ -429,6 +429,10 @@ class FritzCallMonitor():
 
 
 if __addon__.getSetting("S_STARTUPSLEEP"):
-    time.sleep(int(__addon__.getSetting("S_STARTUPSLEEP")))
+    for i in range(int(__addon__.getSetting("S_STARTUPSLEEP"))):
+        if xbmc.abortRequested:
+            break
+        time.sleep(1)
 
-FritzCallMonitor().start()
+if not xbmc.abortRequested:
+    FritzCallMonitor().start()
