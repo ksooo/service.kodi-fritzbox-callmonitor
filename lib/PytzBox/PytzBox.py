@@ -108,7 +108,7 @@ class PytzBox:
         try:
             xml.sax.parseString(xml_phonebook, handler=handler)
         except Exception, e:
-            raise ValueError('could not parse phonebook data (are you logged in?): %s' % str(e))
+            raise ValueError('could not parse phonebook data (are you logged in?): %s\n%s' % (e, xml_phonebook))
 
         return handler.phone_book
 
