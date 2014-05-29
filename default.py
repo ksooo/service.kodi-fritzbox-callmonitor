@@ -430,10 +430,11 @@ class FritzCallMonitor():
             xbmc.log("fritzbox callmonitor addon ended.")
 
 
-xbmc.log("%s version %s (%s)" % (
-    __addon__.getAddonInfo('name'),
-    __addon__.getAddonInfo('version'),
-    hashlib.md5(open(__file__).read()).hexdigest()))
+xbmc.log("{0:s} version {1:s} ({2:s}:{3:d})"
+         .format(__addon__.getAddonInfo('name'),
+                 __addon__.getAddonInfo('version'),
+                 hashlib.md5(open(__file__).read()).hexdigest(),
+                 int(os.path.getmtime(__file__))))
 
 if __addon__.getSetting("S_STARTUPSLEEP"):
     for i in range(int(__addon__.getSetting("S_STARTUPSLEEP"))):
