@@ -11,6 +11,7 @@ import hashlib
 import pprint
 import json
 import traceback
+import hashlib
 
 from lib.PytzBox import PytzBox
 from lib.PyKlicktel import klicktel
@@ -428,6 +429,11 @@ class FritzCallMonitor():
             s.close()
             xbmc.log("fritzbox callmonitor addon ended.")
 
+
+xbmc.log("%s version %s (%s)" % (
+    __addon__.getAddonInfo('name'),
+    __addon__.getAddonInfo('version'),
+    hashlib.md5(open(__file__).read()).hexdigest()))
 
 if __addon__.getSetting("S_STARTUPSLEEP"):
     for i in range(int(__addon__.getSetting("S_STARTUPSLEEP"))):
