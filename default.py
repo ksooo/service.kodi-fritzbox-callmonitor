@@ -84,7 +84,7 @@ class FritzCallMonitor():
                         self.__fb_phonebook = self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id")))
                     xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
                 except Exception, e:
-                    self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % str(e))
+                    self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % e)
                     xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
 
         if __addon__.getSetting("AB_GoogleLookup") == 'true':
