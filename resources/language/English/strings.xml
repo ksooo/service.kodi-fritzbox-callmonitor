@@ -13,6 +13,7 @@
     <string id="30210">Display duration (seconds)</string>
     <string id="30211">Time to wait before start</string>
     <string id="30212">Ignore phone numbers (comma separated)</string>
+    <string id="30213">Test configuration</string>
 
     <!-- Addressbook -->
     <string id="30300">Use FritzBox Addressbook</string>
@@ -52,5 +53,10 @@
     <string id="31012">Could not access FritzBox Addressbook: %s</string>
     <string id="31013">Resume</string>
     <string id="31014">Waiting %d seconds ...</string>
+    <string id="31015">Could not connect to FritzBox</string>
+    <string id="31016">Connection to FritzBox successful</string>
+    <string id="31017">Result</string>
+    <string id="31018">Reboot to use new settings.</string>
+
 </strings>
 

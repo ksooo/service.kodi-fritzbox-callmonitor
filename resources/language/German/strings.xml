@@ -13,6 +13,7 @@
     <string id="30210">Anzeigedauer der Info (Sekunden)</string>
     <string id="30211">Wartezeit vor dem Start</string>
     <string id="30212">Ignoriere Telefonnummern (Kommasepariert)</string>
+    <string id="30213">Konfiguration testen</string>
 
     <!-- Addressbook -->
     <string id="30300">Benutze FritzBox Addressbuch</string>
@@ -52,5 +53,10 @@
     <string id="31012">Zugriff auf FritzBox Addressbuch fehlgeschlagen: %s</string>
     <string id="31013">Fortsetzen</string>
     <string id="31014">Warte %d Sekunden ...</string>
+    <string id="31015">Konnte keine Verbindung zur FritzBox herstellen</string>
+    <string id="31016">Verbindung zur FritzBox erfolgreich</string>
+    <string id="31017">Ergebnis</string>
+    <string id="31018">Starten sie neu um die Einstellungen zu übernehemen.</string>
+
 </strings>
 
