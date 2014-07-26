@@ -62,7 +62,7 @@ def show_resume_progress_and_resume(wait=10.0):
     dialog.close()
 
 
-def run_config_test():
+def run_fritzadress_config_test():
     ip = __addon__.getSetting("S_IP")
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -77,5 +77,5 @@ match = re.match(r'^(?P<scheme>\w+)://(?P<plugin>[^/]+)/(?P<command>[^/]+)/?(?P<
 if match:
     if match.group('command') == 'show_resume_progress_and_resume':
         show_resume_progress_and_resume(float(match.group('args')))
-    if match.group('command') == 'run_config_test':
-        run_config_test()
+    if match.group('command') == 'run_fritzadress_config_test':
+        run_fritzadress_config_test()

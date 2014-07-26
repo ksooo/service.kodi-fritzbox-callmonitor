@@ -6,7 +6,7 @@
     <setting id="S_DURATION" type="number" label="30210"  default="8" />
     <setting id="S_STARTUPSLEEP" type="number" label="30211"  default="60" />
     <setting id="AB_IgnoreNumbers" type="text" label="30212" default="" />
-    <setting label="30213" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_config_test)"/>
+    <setting label="30213" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_fritzadress_config_test)"/>
   </category>
   <category label="30002">
     <setting id="AB_Fritzadress" type="bool" label="30300" default="false" />
