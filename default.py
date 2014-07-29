@@ -87,8 +87,14 @@ class FritzCallMonitor():
                             id=int(__addon__.getSetting("Addressbook_Fritzadress_book_id")))
                     xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
                 except Exception, e:
-                    self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % e)
+                    self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % str(e))
                     xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
+                    # noinspection PyBroadException
+                    try:
+                        if isinstance(e, ValueError) and hasattr(e, 'content'):
+                            xbmc.log(e.content, level=xbmc.LOGERROR)
+                    except:
+                        pass
 
         if __addon__.getSetting("Addressbook_Google") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
