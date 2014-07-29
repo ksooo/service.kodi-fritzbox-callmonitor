@@ -30,19 +30,19 @@ def _(s):
     @type  s: string
     """
     translations = {
-        'leaving call': 31000,
-        'to %s (by %s)': 31001,
-        'incoming call': 31002,
-        'from %s': 31003,
-        'connected': 31004,
-        'to %s': 31005,
-        'call ended': 31006,
-        'duration: %sh': 31007,
-        'fritzbox unreachable': 31008,
-        'could not connect to fritzbox (%s).': 31009,
-        'unknown': 31010,
-        'fritzbox phonebook': 31011,
-        'fritzbox phonebookaccess failed': 31012
+        'leaving call': 30400,
+        'to %s (by %s)': 30401,
+        'incoming call': 30402,
+        'from %s': 30403,
+        'connected': 30404,
+        'to %s': 30405,
+        'call ended': 30406,
+        'duration: %sh': 30407,
+        'fritzbox unreachable': 30408,
+        'could not connect to fritzbox (%s).': 30409,
+        'unknown': 30410,
+        'fritzbox phonebook': 30411,
+        'fritzbox phonebookaccess failed': 30412
     }
     if s in translations:
         return __addon__.getLocalizedString(translations[s]) or s
@@ -51,7 +51,6 @@ def _(s):
 
 
 class FritzCallMonitor():
-
     def __init__(self):
         self.__pytzbox = None
         self.__fb_phonebook = None
@@ -62,41 +61,44 @@ class FritzCallMonitor():
         self.__gdata_request = None
         self.__klicktel_phonebook = None
 
-        if __addon__.getSetting("AB_Fritzadress") == 'true':
+        if __addon__.getSetting("Addressbook_Fritzadress") == 'true':
             if self.__pytzbox is None:
+
                 password = False
-                if __addon__.getSetting("AB_FritzboxPassword"):
-                    password = __addon__.getSetting("AB_FritzboxPassword")
-                if __addon__.getSetting("AB_FritzboxUsername") and len(
-                        str(__addon__.getSetting("AB_FritzboxUsername"))) > 0:
-                    username = __addon__.getSetting("AB_FritzboxUsername")
+                if __addon__.getSetting("Addressbook_Fritzadress_Password"):
+                    password = __addon__.getSetting("Addressbook_Fritzadress_Password")
+
+                if __addon__.getSetting("Addressbook_Fritzadress_Username") and \
+                                len(str(__addon__.getSetting("Addressbook_Fritzadress_Username"))) > 0:
+                    username = __addon__.getSetting("Addressbook_Fritzadress_Username")
                 else:
                     username = "admin"
 
                 self.__pytzbox = PytzBox.PytzBox(password=password,
                                                  username=username,
-                                                 host=__addon__.getSetting("S_IP"))
+                                                 host=__addon__.getSetting("Monitor_Address"))
 
             if self.__fb_phonebook is None:
                 try:
-                    if __addon__.getSetting("AB_Fritzadress_all_books") == 'true':
+                    if __addon__.getSetting("Addressbook_Fritzadress_book_all") == 'true':
                         self.__fb_phonebook = self.__pytzbox.getPhonebook(id=-1)
                     else:
-                        self.__fb_phonebook = self.__pytzbox.getPhonebook(id=int(__addon__.getSetting("AB_Fritzadress_id")))
+                        self.__fb_phonebook = self.__pytzbox.getPhonebook(
+                            id=int(__addon__.getSetting("Addressbook_Fritzadress_book_id")))
                     xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
                 except Exception, e:
                     self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % e)
                     xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
 
-        if __addon__.getSetting("AB_GoogleLookup") == 'true':
+        if __addon__.getSetting("Addressbook_Google") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
             try:
-                self.__gdata_request.authorize(__addon__.getSetting("AB_GoogleUsername"),
-                                               __addon__.getSetting("AB_GooglePassword"), 'cp')
+                self.__gdata_request.authorize(__addon__.getSetting("Addressbook_Google_Username"),
+                                               __addon__.getSetting("Addressbook_Google_Password"), 'cp')
             except Exception, e:
                 xbmc.log(pprint.pformat(e))
 
-        if __addon__.getSetting("AB_Klicktel") == 'true':
+        if __addon__.getSetting("Addressbook_Klicktel") == 'true':
             self.__klicktel_phonebook = klicktel.Klicktel(klicktel_apikey.key())
 
     def error(*args, **kwargs):
@@ -185,7 +187,7 @@ class FritzCallMonitor():
         if not isinstance(number, list):
             number = [number, ]
         for single_number in number:
-            for ignored_number in re.findall(r'(\d+)', __addon__.getSetting("AB_IgnoreNumbers")):
+            for ignored_number in re.findall(r'(\d+)', __addon__.getSetting("Monitor_IgnoreNumbers")):
                 if self.equal_numbers(single_number, ignored_number):
                     if printout:
                         print "%s is ignored" % single_number
@@ -197,7 +199,7 @@ class FritzCallMonitor():
         if not len(request_number):
             return _('unknown')
 
-        if __addon__.getSetting("AB_Fritzadress") == 'true' and self.__fb_phonebook:
+        if __addon__.getSetting("Addressbook_Fritzadress") == 'true' and self.__fb_phonebook:
             if isinstance(self.__fb_phonebook, dict):
                 for entry in self.__fb_phonebook:
                     if 'numbers' in self.__fb_phonebook[entry]:
@@ -205,7 +207,7 @@ class FritzCallMonitor():
                             if self.equal_numbers(number, request_number):
                                 return entry
 
-        if __addon__.getSetting("AB_Klicktel") == 'true' and self.__klicktel_phonebook:
+        if __addon__.getSetting("Addressbook_Klicktel") == 'true' and self.__klicktel_phonebook:
             result = self.__klicktel_phonebook.invers_search(request_number)
             if len(result.entries) > 0:
                 name = result.entries[0].displayname
@@ -232,8 +234,8 @@ class FritzCallMonitor():
 
             return file_path
 
-        if __addon__.getSetting("AB_Folderimages") == 'true':
-            imagepath = __addon__.getSetting("AB_FolderimagesPath").decode('utf-8', errors='replace')
+        if __addon__.getSetting("Addressbook_Folderimages") == 'true':
+            imagepath = __addon__.getSetting("Addressbook_Folderimages_Path").decode('utf-8', errors='replace')
             if not xbmcvfs.exists(imagepath):
                 xbmc.log(_("Images path %s does not exist.") % imagepath.encode('utf-8'))
             else:
@@ -264,22 +266,53 @@ class FritzCallMonitor():
     def is_playback_paused():
         return bool(xbmc.getCondVisibility("Player.Paused"))
 
-    def resume_playback(self):
+    def resume_playback(self, delay):
         if self.is_playback_paused():
 
-            if int(__addon__.getSetting("AC_ResumeDelay")) > 0:
+            if int(__addon__.getSetting("Action_OnHangup_Resume_Delay")) > 0:
                 url = "plugin://%s/show_resume_progress_and_resume/%d" % (
-                    __addon_id__, int(__addon__.getSetting("AC_ResumeDelay")))
+                    __addon_id__, delay)
                 xbmc.executebuiltin('XBMC.RunPlugin("%s")' % url)
             else:
                 xbmc.Player().pause()
 
-    def pause(self):
-        if __addon__.getSetting("AC_PauseVideoOnly") == 'false' or xbmc.Player().isPlayingVideo():
-            if not self.is_playback_paused():
-                xbmc.Player().pause()
-                xbmc.Player().seekTime(self.__ring_time)
-                self.__auto_paused = True
+    def pause(self, video_playback_only):
+
+        if not xbmc.Player().isPlaying():
+            return False
+
+        if self.is_playback_paused():
+            return False
+
+        if video_playback_only and not xbmc.Player().isPlayingVideo():
+            return False
+
+        xbmc.Player().pause()
+        if self.__ring_time:
+            xbmc.Player().seekTime(self.__ring_time)
+        self.__auto_paused = True
+
+        return True
+
+    def lower_volume(self, amount):
+        volume_json = xbmc.executeJSONRPC(json.dumps(
+            dict(jsonrpc="2.0", method="Application.GetProperties", params=dict(properties=["volume", ]), id=1)))
+        if "result" in json.loads(volume_json):
+            volume = json.loads(volume_json)["result"]["volume"]
+            new_volume = int(volume - (int(float(amount)) * volume / 100))
+
+            if volume:
+                if not self.__auto_volume_lowered:
+                    self.__auto_volume_lowered = volume
+                xbmc.executeJSONRPC(json.dumps(
+                    dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=new_volume), id=1)))
+
+    def reset_volume(self):
+        if self.__auto_volume_lowered:
+            xbmc.executeJSONRPC(json.dumps(
+                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__auto_volume_lowered),
+                     id=1)))
+            self.__auto_volume_lowered = False
 
     def handle_outgoing_call(self, line):
 
@@ -290,7 +323,10 @@ class FritzCallMonitor():
 
         name = self.get_name_by_number(line.number_called) or str(line.number_called)
         image = self.get_image_by_name(name, line.number_called)
-        self.show_notification(_('leaving call'), _('to %s (by %s)') % (name, line.number_caller), img=image)
+
+        if __addon__.getSetting("Action_OnLeaving_Notify") == 'true':
+            self.show_notification(_('leaving call'), _('to %s (by %s)') % (name, line.number_caller), img=image)
+
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
@@ -304,24 +340,17 @@ class FritzCallMonitor():
         name = self.get_name_by_number(line.number_caller) or str(line.number_caller)
         image = self.get_image_by_name(name, line.number_caller)
 
-        self.show_notification(_('incoming call'), _('from %s') % name, img=image)
+        if __addon__.getSetting("Action_OnRing_Notify") == 'true':
+            self.show_notification(_('incoming call'), _('from %s') % name, img=image)
+
+        if __addon__.getSetting("Action_OnRing_LowerVolume") == 'true':
+            self.lower_volume(__addon__.getSetting("Action_OnRing_LowerVolume_Amount"))
+
+        if __addon__.getSetting("Action_OnRing_Pause") == 'true':
+            self.pause(video_playback_only=__addon__.getSetting("Action_OnRing_Pause_VideoOnly") == 'true')
+
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
-
-        if __addon__.getSetting("AC_LowerVolume") == 'true':
-            volume_json = xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.GetProperties", params=dict(properties=["volume", ]), id=1)))
-            if "result" in json.loads(volume_json):
-                volume = json.loads(volume_json)["result"]["volume"]
-                new_volume = int(volume - (int(float(__addon__.getSetting("AC_LowerVolumeAmount"))) * volume / 100))
-
-                if volume:
-                    self.__auto_volume_lowered = volume
-                    xbmc.executeJSONRPC(json.dumps(
-                        dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=new_volume), id=1)))
-
-        if __addon__.getSetting("AC_Pause") == 'true' and __addon__.getSetting("AC_PauseOnRing") == 'true':
-            self.pause()
 
     def handle_connected(self, line):
 
@@ -331,33 +360,30 @@ class FritzCallMonitor():
         name = self.get_name_by_number(line.number) or str(line.number)
         image = self.get_image_by_name(name, line.number)
 
-        if self.__auto_volume_lowered:
-            xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__auto_volume_lowered),
-                     id=1)))
-            self.__auto_volume_lowered = False
+        if __addon__.getSetting("Action_OnConnect_Notify") == 'true':
+            self.show_notification(_('connected'), _('to %s') % name, img=image)
 
-        self.show_notification(_('connected'), _('to %s') % name, img=image)
-        if __addon__.getSetting("AC_Pause") == 'true' and __addon__.getSetting("AC_PauseOnRing") == 'false':
-            self.pause()
+        if __addon__.getSetting("Action_OnConnect_LowerVolume") == 'true':
+            self.lower_volume(__addon__.getSetting("Action_OnConnect_LowerVolume_Amount"))
+
+        if __addon__.getSetting("Action_OnConnect_Pause") == 'true':
+            self.pause(video_playback_only=__addon__.getSetting("Action_OnConnect_Pause_VideoOnly") == 'true')
 
     def handle_disconnected(self, line):
 
         if not line.connection_id in self.__connections:
             return False
 
-        self.show_notification(_('call ended'), _('duration: %sh') % str(line.duration))
+        if __addon__.getSetting("Action_OnHangup_Notify") == 'true':
+            self.show_notification(_('call ended'), _('duration: %sh') % str(line.duration))
 
-        if self.__auto_volume_lowered:
-            xbmc.executeJSONRPC(json.dumps(
-                dict(jsonrpc="2.0", method="Application.SetVolume", params=dict(volume=self.__auto_volume_lowered),
-                     id=1)))
-            self.__auto_volume_lowered = False
+        if __addon__.getSetting("Action_OnHangup_ResetVolume") == 'true':
+            self.reset_volume()
 
-        if self.__auto_paused:
-            if __addon__.getSetting("AC_Resume") == 'true':
-                self.resume_playback()
-            self.__auto_paused = False
+        if __addon__.getSetting("Action_OnHangup_Resume") == 'true':
+            if self.__auto_paused:
+                self.__auto_paused = False
+                self.resume_playback(delay=int(__addon__.getSetting("Action_OnHangup_Resume_Delay")))
 
         del self.__connections[line.connection_id]
 
@@ -377,7 +403,7 @@ class FritzCallMonitor():
         if xbmc.getCondVisibility("System.ScreenSaverActive"):
             xbmc.executebuiltin('ActivateWindow(%s)' % xbmcgui.getCurrentWindowId())
         if not duration:
-            duration = __addon__.getSetting("S_DURATION")
+            duration = __addon__.getSetting("Action_Notification_Duration")
             duration = int(duration) * 1000
         if not img:
             img = xbmc.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
@@ -385,7 +411,7 @@ class FritzCallMonitor():
                                     (title, text, duration, img)).encode("utf-8"))
 
     def start(self):
-        ip = __addon__.getSetting("S_IP")
+        ip = __addon__.getSetting("Monitor_Address")
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((ip, 1012))
@@ -402,7 +428,7 @@ class FritzCallMonitor():
 
                     message = s.recv(1024)
                     line = self.CallMonitorLine(message)
-                    xbmc.log(str(line))
+                    xbmc.log("callmonitor event %s", str(line))
 
                     {
                         'CALL': self.handle_outgoing_call,
@@ -436,11 +462,10 @@ xbmc.log("{0:s} version {1:s} ({2:s}:{3:d})"
                  hashlib.md5(open(__file__).read()).hexdigest(),
                  int(os.path.getmtime(__file__))))
 
-if __addon__.getSetting("S_STARTUPSLEEP"):
-    for i in range(int(__addon__.getSetting("S_STARTUPSLEEP"))):
-        if xbmc.abortRequested:
-            break
-        time.sleep(1)
+for i in range(5):
+    if xbmc.abortRequested:
+        break
+    time.sleep(1)
 
 if not xbmc.abortRequested:
     FritzCallMonitor().start()

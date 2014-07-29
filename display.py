@@ -19,13 +19,13 @@ def _(s):
     @type  s: string
     """
     translations = {
-        'fritzbox unreachable': 31008,
-        'could not connect to fritzbox': 31015,
-        'resume': 31013,
-        'continue in %d sec': 31014,
-        'connection successful': 31016,
-        'result': 31017,
-        'reboot to use new settings': 31018
+        'fritzbox unreachable': 30408,
+        'could not connect to fritzbox': 30415,
+        'resume': 30413,
+        'continue in %d sec': 30414,
+        'connection successful': 30416,
+        'result': 30417,
+        'reboot to use new settings': 30418
     }
     if s in translations:
         return __addon__.getLocalizedString(translations[s]) or s
@@ -63,7 +63,7 @@ def show_resume_progress_and_resume(wait=10.0):
 
 
 def run_fritzadress_config_test():
-    ip = __addon__.getSetting("S_IP")
+    ip = __addon__.getSetting("Monitor_Address")
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((ip, 1012))

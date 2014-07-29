@@ -1,34 +1,74 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
-  <category label="30001">
-    <setting id="S_IP" type="text" label="30200" default="fritz.box" />
-    <setting type="sep" />
-    <setting id="S_DURATION" type="number" label="30210"  default="8" />
-    <setting id="S_STARTUPSLEEP" type="number" label="30211"  default="60" />
-    <setting id="AB_IgnoreNumbers" type="text" label="30212" default="" />
-    <setting label="30213" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_fritzadress_config_test)"/>
-  </category>
-  <category label="30002">
-    <setting id="AB_Fritzadress" type="bool" label="30300" default="false" />
-    <setting id="AB_FritzboxUsername" type="text" label="30313" visible="eq(-1,true)" default="admin" />
-    <setting id="AB_FritzboxPassword" type="text" option="hidden" visible="eq(-2,true)" label="30301" default="" />
-    <setting id="AB_Fritzadress_all_books" type="bool" label="30302" default="true" visible="eq(-1,true)" enable="eq(-1,true)" />
-    <setting id="AB_Fritzadress_id" type="number" label="30303"  default="0" enable="eq(-1,false)" visible="eq(-1,false)" />
-    <setting id="AB_GoogleLookup" type="bool" label="30304" default="false" visible="eq(-4,true)" enable="eq(-4,true)"/>
-    <setting id="AB_GoogleUsername" type="text" label="30305" visible="eq(-1,true)" enable="eq(-1,true)" default="" />
-    <setting id="AB_GooglePassword" type="text" label="30306" option="hidden" visible="eq(-2,true)" enable="eq(-2,true)" default="" />
-    <setting id="AB_Klicktel" type="bool" label="30310" default="false" />
-    <setting id="AB_Folderimages" type="bool" label="30311" default="false" />
-    <setting id="AB_FolderimagesPath" type="folder" label="30312" option="writeable" visible="eq(-1,true)"/>
 
-  </category>
-  <category label="30003">
-  	<setting id="AC_Pause" type="bool" label="30400" default="true" />
-    <setting id="AC_PauseOnRing" type="bool" label="30405" default="false" enable="eq(-1,true)" />
-    <setting id="AC_Resume" type="bool" label="30401" default="true" enable="eq(-2,true)" />
-    <setting id="AC_ResumeDelay" type="number" label="30406" default="5" enable="eq(-3,true)" />
-    <setting id="AC_PauseVideoOnly" type="bool" label="30402" default="true" enable="eq(-4,true)" />
-    <setting id="AC_LowerVolume" type="bool" label="30403" default="false" />
-    <setting id="AC_LowerVolumeAmount" type="slider" label="30404" default="30" range="0,100" enable="eq(-1,true)" visible="eq(-1,true)"/>
-  </category>
+    <!-- string label ids 30000 thru 30999 are reserved for plugins and plugin settings
+
+         use:
+           30100 .. 30199 for setting categories
+           30200 .. 30399 for setting labels
+           30400 .. 30599 for in notification strings
+
+     -->
+
+    <category label="30101"> <!-- General -->
+
+        <setting label="30201" id="Monitor_Address" type="text" default="fritz.box" />
+        <setting label="30202" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_fritzadress_config_test)"/>
+        <setting label="30203" id="Monitor_IgnoreNumbers" type="text" default="" />
+
+    </category>
+
+    <category label="30102"> <!-- Addressbook -->
+
+        <setting label="30210" type="lsep" />
+        <setting label="30211" id="Addressbook_Fritzadress" type="bool" default="false" />
+        <setting label="30212" id="Addressbook_Fritzadress_Username" type="text" default="admin" enable="eq(-1,true)" />
+        <setting label="30213" id="Addressbook_Fritzadress_Password" type="text" default="" enable="eq(-2,true)" option="hidden" />
+        <setting label="30214" id="Addressbook_Fritzadress_book_all" type="bool" default="true" enable="eq(-3,true)" />
+        <setting label="30215" id="Addressbook_Fritzadress_book_id" type="number"  default="0" enable="eq(-1,false)" visible="eq(-1,false)" />
+
+        <setting label="30220" type="lsep" />
+        <setting label="30221" id="Addressbook_Google" type="bool" default="false"/>
+        <setting label="30222" id="Addressbook_Google_Username" type="text" default="" enable="eq(-1,true)" />
+        <setting label="30223" id="Addressbook_Google_Password" type="text" default="" option="hidden" enable="eq(-2,true)"  />
+
+        <setting label="30230" type="lsep" />
+        <setting label="30231" id="Addressbook_Klicktel" type="bool" default="false" />
+
+        <setting label="30240" type="lsep" />
+        <setting label="30241" id="Addressbook_Folderimages" type="bool" default="false" />
+        <setting label="30242" id="Addressbook_Folderimages_Path" type="folder" option="writeable" enable="eq(-1,true)"/>
+
+    </category>
+
+    <category label="30103"> <!-- Actions -->
+
+        <setting label="30270" type="lsep" />
+        <setting label="30271" id="Action_Notification_Duration" type="number"  default="8" />
+
+        <setting label="30280" type="lsep" />
+        <setting label="30281" id="Action_OnRing_Notify" type="bool" default="true" />
+        <setting label="30282" id="Action_OnRing_Pause" type="bool" default="false" />
+        <setting label="30283" id="Action_OnRing_Pause_VideoOnly" type="bool" default="false" enable="eq(-1,true)" />
+        <setting label="30284" id="Action_OnRing_LowerVolume" type="bool" default="false" />
+        <setting label="30285" id="Action_OnRing_LowerVolume_Amount" type="slider" default="30" range="0,100" enable="eq(-1,true)" visible="eq(-1,true)"/>
+
+        <setting label="30290" type="lsep" />
+        <setting label="30291" id="Action_OnConnect_Notify" type="bool" default="true" />
+        <setting label="30292" id="Action_OnConnect_Pause" type="bool" default="true" />
+        <setting label="30293" id="Action_OnConnect_Pause_VideoOnly" type="bool" default="false" enable="eq(-1,true)" />
+        <setting label="30294" id="Action_OnConnect_LowerVolume" type="bool" default="false" />
+        <setting label="30295" id="Action_OnConnect_LowerVolume_Amount" type="slider" default="30" range="0,100" enable="eq(-1,true)" visible="eq(-1,true)"/>
+
+        <setting label="30300" type="lsep" />
+        <setting label="30301" id="Action_OnHangup_Notify" type="bool" default="true" />
+        <setting label="30302" id="Action_OnHangup_Resume" type="bool" default="true" />
+        <setting label="30303" id="Action_OnHangup_Resume_Delay" type="number" default="10" enable="eq(-1,true)"/>
+        <setting label="30304" id="Action_OnHangup_ResetVolume" type="bool" default="true" />
+
+        <setting label="30310" type="lsep" />
+        <setting label="30311" id="Action_OnLeaving_Notify" type="bool" default="true" />
+
+    </category>
+
 </settings>

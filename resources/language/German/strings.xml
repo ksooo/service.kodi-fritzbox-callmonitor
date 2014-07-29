@@ -2,61 +2,83 @@
 <strings>
     <!-- Addon Name -->
     <string id="30000">FritzBox Anrufanzeige</string>
-    <!-- some other strings -->
-    <string id="30100">Hi</string>
+
+
     <!-- Settings -->
-    <string id="30001">FritzBox</string>
-    <string id="30002">Addressbücher</string>
-    <string id="30003">Aktionen</string>
-    <!-- Default Tab -->
-    <string id="30200">IP Addresse der FritzBox</string>
-    <string id="30210">Anzeigedauer der Info (Sekunden)</string>
-    <string id="30211">Wartezeit vor dem Start</string>
-    <string id="30212">Ignoriere Telefonnummern (Kommasepariert)</string>
-    <string id="30213">Konfiguration testen</string>
+    <string id="30101">Allgemein</string> <!-- Category General -->
+        <string id="30201">Hostname / IP Addresse der FritzBox></string> <!-- Monitor_Address -->
+        <string id="30202">Konfiguration testen</string>
+        <string id="30203">Ignoriere Telefonnummern (Kommasepariert)</string> <!-- Monitor_IgnoreNumbers -->
 
-    <!-- Addressbook -->
-    <string id="30300">Benutze FritzBox Addressbuch</string>
-    <string id="30313">FritzBox Benutzername</string>
-    <string id="30301">FritzBox Passwort</string>
-    <string id="30302">Alle FritzBox Addressbücher abfragen</string>
-    <string id="30303">Benutze FritzBox Addressbuch Id</string>
-    <string id="30304">Benutze Google Anmeldung (nur für Bilder)</string>
-    <string id="30305">Google Benutzername</string>
-    <string id="30306">Google Passwort</string>
-    <string id="30310">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string>
-    <string id="30311">Benutze Ordner zur Bildersuche</string>
-    <string id="30312">Pfad zum Bilderordner</string>
+    <string id="30102">Addressbücher</string> <!-- Category Addressbook -->
+        <string id="30210">FritzBox</string>
+        <string id="30211">Benutze FritzBox Addressbuch</string> <!-- Addressbook_Fritzadress -->
+        <string id="30212">Benutzername</string> <!-- Addressbook_Fritzadress_Username -->
+        <string id="30213">Passwort</string> <!-- Addressbook_Fritzadress_Password -->
+        <string id="30214">Alle FritzBox Addressbücher abfragen</string> <!-- Addressbook_Fritzadress_book_all -->
+        <string id="30215">Benutze FritzBox Addressbuch Id</string> <!-- Addressbook_Fritzadress_book_id -->
 
-    <!-- Actions -->
-    <string id="30400">Wiedergabe bei eingehenden Anrufen pausieren</string>
-    <string id="30401">Pausierte Wiedergabe nach beendeten Anrufen fortsetzen</string>
-    <string id="30402">Pausiere nur Videos und keine anderen Medien</string>
-    <string id="30403">Reduziere die Lautstärke während es klingelt</string>
-    <string id="30404">Um wie viel Prozent</string>
-    <string id="30405">Bereits beim Klingeln pausieren</string>
-    <string id="30406">Fortsetzen der Wiedergabe verzögern (Sekunden)</string>
+        <string id="30220">Google Kontake (nur für Bilder)</string>
+        <string id="30221">Benutze Google Kontaktbilder</string> <!-- Addressbook_Google -->
+        <string id="30222">Benutzername</string> <!-- Addressbook_Google_Username -->
+        <string id="30223">Passwort</string> <!-- Addressbook_Google_Password -->
+
+        <string id="30230">Klicktel</string>
+        <string id="30231">Benutze Klicktel.de Telefonbuch Rückwärtssuche</string> <!-- Addressbook_Klicktel -->
+
+        <string id="30240">Bilderordner</string>
+        <string id="30241">Benutze Ordner zur Bildersuche</string> <!-- Addressbook_Folderimages -->
+        <string id="30242">Pfad zum Bilderordner</string> <!-- Addressbook_Folderimages_Path -->
+
+    <string id="30103">Aktionen</string> <!-- Category Actions -->
+
+        <string id="30270">Benachrichtigungen</string>
+        <string id="30271">Anzeigedauer (Sekunden)</string> <!-- Action_Notification_Duration -->
+
+        <string id="30280">Wenn es klingelt ...</string>
+        <string id="30281">Anzeigen</string> <!-- Action_OnRing_Notify -->
+        <string id="30282">Pausierte Wiedergabe</string> <!-- Action_OnRing_Pause -->
+        <string id="30283">Pausiere nur Videos und keine anderen Medien</string> <!-- Action_OnRing_Pause_VideoOnly -->
+        <string id="30284">Reduziere die Lautstärke</string> <!-- Action_OnRing_LowerVolume -->
+        <string id="30285">Um wie viel Prozent</string> <!-- Action_OnRing_LowerVolume_Amount -->
+
+        <string id="30290">Wenn ein Anruf angenommen wird ...</string>
+        <string id="30291">Anzeigen</string> <!-- Action_OnConnect -->
+        <string id="30292">Pausiere Wiedergabe</string> <!-- Action_OnConnect_Pause -->
+        <string id="30293">Pausiere nur Videos und keine anderen Medien</string> <!-- Action_OnConnect_Pause_VideoOnly -->
+        <string id="30294">Reduziere die Lautstärke</string> <!-- Action_OnConnect_LowerVolume -->
+        <string id="30295">Um wie viel Prozent</string> <!-- Action_OnConnect_LowerVolume_Amount -->
+
+        <string id="30300">Wenn ein Anruf beendet wird ...</string>
+        <string id="30301">Anzeigen</string> <!-- Action_OnHangup_Notify -->
+        <string id="30302">Wiedergabe fortsetzen</string> <!-- Action_OnHangup_Resume -->
+        <string id="30303">Fortsetzen verzögern (Sekunden)</string> <!-- Action_OnHangup_Resume_Delay -->
+        <string id="30304">Lautstärke zurücksetzen</string> <!-- Action_OnHangup_ResetVolume -->
+
+        <string id="30310">Wenn ein Anruf begonnen wird ...</string>
+        <string id="30311">Anzeigen</string> <!-- Action_OnLeaving_Notify -->
+
 
     <!-- Interactions -->
-    <string id="31000">Ausgehender Anruf</string>
-    <string id="31001">zu %s (von %s)</string>
-    <string id="31002">Eingehender Anruf</string>
-    <string id="31003">von %s</string>
-    <string id="31004">Verbindung hergestellt</string>
-    <string id="31005">mit %s</string>
-    <string id="31006">Verbindung beendet</string>
-    <string id="31007">Dauer: %sh</string>
-    <string id="31008">FritzBox nicht erreichbar</string>
-    <string id="31009">Konnte keine Verbindung zur FritzBox herstellen (%s)</string>
-    <string id="31010">Unbekannt</string>
-    <string id="31011">FritzBox Addressbuch</string>
-    <string id="31012">Zugriff auf FritzBox Addressbuch fehlgeschlagen: %s</string>
-    <string id="31013">Fortsetzen</string>
-    <string id="31014">Warte %d Sekunden ...</string>
-    <string id="31015">Konnte keine Verbindung zur FritzBox herstellen</string>
-    <string id="31016">Verbindung zur FritzBox erfolgreich</string>
-    <string id="31017">Ergebnis</string>
-    <string id="31018">Starten sie neu um die Einstellungen zu übernehemen.</string>
+    <string id="30400">Ausgehender Anruf</string>
+    <string id="30401">zu %s (von %s)</string>
+    <string id="30402">Eingehender Anruf</string>
+    <string id="30403">von %s</string>
+    <string id="30404">Verbindung hergestellt</string>
+    <string id="30405">mit %s</string>
+    <string id="30406">Verbindung beendet</string>
+    <string id="30407">Dauer: %sh</string>
+    <string id="30408">FritzBox nicht erreichbar</string>
+    <string id="30409">Konnte keine Verbindung zur FritzBox herstellen (%s)</string>
+    <string id="30410">Unbekannt</string>
+    <string id="30411">FritzBox Addressbuch</string>
+    <string id="30412">Zugriff auf FritzBox Addressbuch fehlgeschlagen: %s</string>
+    <string id="30413">Fortsetzen</string>
+    <string id="30414">Warte %d Sekunden ...</string>
+    <string id="30415">Konnte keine Verbindung zur FritzBox herstellen</string>
+    <string id="30416">Verbindung zur FritzBox erfolgreich</string>
+    <string id="30417">Ergebnis</string>
+    <string id="30418">Starten sie neu um die Einstellungen zu übernehemen.</string>
 
 </strings>
 
