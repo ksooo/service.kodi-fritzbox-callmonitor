@@ -69,7 +69,7 @@ class FritzCallMonitor():
                     password = __addon__.getSetting("Addressbook_Fritzadress_Password")
 
                 if __addon__.getSetting("Addressbook_Fritzadress_Username") and \
-                                len(str(__addon__.getSetting("Addressbook_Fritzadress_Username"))) > 0:
+                   len(str(__addon__.getSetting("Addressbook_Fritzadress_Username"))) > 0:
                     username = __addon__.getSetting("Addressbook_Fritzadress_Username")
                 else:
                     username = "admin"
