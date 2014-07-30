@@ -503,7 +503,8 @@ class FritzCallMonitor():
                         box_socket.close()
 
         except FritzCallMonitor.CallMonitorLine.UnexpectedCommandException, e:
-            xbmc.log('FRITZBOX-CALLMONITOR: something went wrong with the message from fritzbox (%s). unexpected firmware maybe' % e)
+            xbmc.log('FRITZBOX-CALLMONITOR: something went wrong with the message from fritzbox (%s). ' +
+                     'unexpected firmware maybe' % e)
 
         except Exception:
             xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc(), level=xbmc.LOGERROR)
