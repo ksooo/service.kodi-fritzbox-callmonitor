@@ -69,6 +69,8 @@
 
         <setting label="30310" type="lsep" />
         <setting label="30311" id="Action_OnLeaving_Notify" type="bool" default="true" />
+        <setting label="30312" id="Action_OnLeaving_Pause" type="bool" default="true" />
+        <setting label="30313" id="Action_OnLeaving_Pause_VideoOnly" type="bool" default="false" enable="eq(-1,true)" />
 
     </category>
 

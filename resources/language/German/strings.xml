@@ -58,6 +58,8 @@
 
         <string id="30310">Wenn ein Anruf begonnen wird ...</string>
         <string id="30311">Anzeigen</string> <!-- Action_OnLeaving_Notify -->
+        <string id="30312">Pausiere Wiedergabe</string> <!-- Action_OnLeaving_Pause -->
+        <string id="30313">Pausiere nur Videos und keine anderen Medien</string> <!-- Action_OnLeaving_Pause_VideoOnly -->
 
 
     <!-- Interactions -->

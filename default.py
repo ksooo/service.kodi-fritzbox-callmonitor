@@ -348,6 +348,9 @@ class FritzCallMonitor():
         if xbmc.Player().isPlayingVideo():
             self.__ring_time = xbmc.Player().getTime()
 
+        if __addon__.getSetting("Action_OnLeaving_Pause") == 'true':
+            self.pause(video_playback_only=__addon__.getSetting("Action_OnLeaving_Pause_VideoOnly") == 'true')
+
     def handle_incoming_call(self, line):
 
         if self.is_ignored_number([line.number_caller, line.number_called], printout=True):

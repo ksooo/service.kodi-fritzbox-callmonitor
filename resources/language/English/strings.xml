@@ -58,6 +58,10 @@
 
         <string id="30310">When a call is leaving ...</string>
         <string id="30311">Show</string> <!-- Action_OnLeaving_Notify -->
+        <string id="30312">Pause playback</string> <!-- Action_OnLeaving_Pause -->
+        <string id="30313">Pause only video and no other media</string> <!-- Action_OnLeaving_Pause_VideoOnly -->
+
+
 
     <!-- Interactions -->
     <string id="30400">Outgoing call</string>
