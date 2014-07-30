@@ -425,49 +425,87 @@ class FritzCallMonitor():
         return xbmc.executebuiltin((u'Notification("%s", "%s", %d, "%s")' %
                                     (title, text, duration, img)).encode("utf-8"))
 
+    @staticmethod
+    def __sleep(duration=5):
+        for i in range(duration * 10):
+            time.sleep(0.1)
+            if xbmc.abortRequested:
+                break
+
     def start(self):
+        """
+        start call monitor process
+
+        :rtype : bool
+        """
+
         ip = __addon__.getSetting("Monitor_Address")
+        xbmc.log('fritzbox callmonitor started')
+        connection_ready_notification = False
+        connection_failed_notification = False
+
+        # noinspection PyBroadException
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.connect((ip, 1012))
-        except Exception, e:
-            self.show_notification(_('fritzbox unreachable'), _('could not connect to fritzbox (%s).') % str(e))
-        else:
-            xbmc.log('connected to fritzbox callmonitor')
-            s.settimeout(0.2)
 
             while not xbmc.abortRequested:
 
-                # noinspection PyBroadException
                 try:
-
-                    message = s.recv(1024)
-                    line = self.CallMonitorLine(message)
-                    xbmc.log("callmonitor event %s", str(line))
-
-                    {
-                        'CALL': self.handle_outgoing_call,
-                        'RING': self.handle_incoming_call,
-                        'CONNECT': self.handle_connected,
-                        'DISCONNECT': self.handle_disconnected
-                    }.get(line.command, self.error)(line)
-
-                except IndexError:
-                    xbmc.log('ERROR: Something went wrong with the message from fritzbox. unexpected firmware maybe')
-
-                except socket.timeout:
-                    pass
+                    box_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    box_socket.connect((ip, 1012))
+                    box_socket.settimeout(0.2)
+                    if not connection_ready_notification:
+                        xbmc.log('fritzbox callmonitor connected')
+                        connection_ready_notification = True
+                        connection_failed_notification = False
 
                 except socket.error, e:
-                    xbmc.log(
-                        'ERROR: Could not connect %s on port 1012. Have you activated the Callmonitor via #96*5*' % ip)
-                    xbmc.log(pformat(e))
+                    if not connection_failed_notification:
+                        self.show_notification(
+                            _('fritzbox unreachable'),
+                            _('could not connect to fritzbox (%s).') % str(e))
+                        connection_ready_notification = False
+                        connection_failed_notification = True
+                        xbmc.log('could not connect %s on port 1012 (%s)' % (ip, e))
+                        xbmc.log('do you have activated the callmonitor via #96*5* and a valid network connection?')
+                    self.__sleep()
 
-                except Exception:
-                    trace = traceback.format_exc()
-                    xbmc.log(trace, level=xbmc.LOGERROR)
+                else:
+                    try:
 
-            s.close()
+                        for step in range(60 * 5):  # 60 * 0.2 sec
+                            try:
+                                message = box_socket.recv(1024)
+                                line = self.CallMonitorLine(message)
+                                xbmc.log("callmonitor event %s" % str(line))
+                                {'CALL': self.handle_outgoing_call,
+                                 'RING': self.handle_incoming_call,
+                                 'CONNECT': self.handle_connected,
+                                 'DISCONNECT': self.handle_disconnected
+                                 }.get(line.command, self.error)(line)
+                                if xbmc.abortRequested:
+                                    break
+
+                            except socket.timeout:
+                                # this is absolute normal an occurs every 0.2 seconds
+                                pass
+
+                    except socket.error, e:
+                        # connection disrupted, wait a while and retry
+                        connection_ready_notification = False
+                        connection_failed_notification = False
+                        xbmc.log('fritzbox callmonitor connection disrupted: %s' % e)
+                        self.__sleep()
+
+                    finally:
+                        box_socket.close()
+
+        except FritzCallMonitor.CallMonitorLine.UnexpectedCommandException, e:
+            xbmc.log('ERROR: Something went wrong with the message from fritzbox (%s). unexpected firmware maybe' % e)
+
+        except Exception:
+            xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
+
+        finally:
             xbmc.log("fritzbox callmonitor addon ended.")
 
 
@@ -477,10 +515,4 @@ xbmc.log("{0:s} version {1:s} ({2:s}:{3:d})"
                  hashlib.md5(open(__file__).read()).hexdigest(),
                  int(os.path.getmtime(__file__))))
 
-for i in range(5):
-    if xbmc.abortRequested:
-        break
-    time.sleep(1)
-
-if not xbmc.abortRequested:
-    FritzCallMonitor().start()
+FritzCallMonitor().start()
