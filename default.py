@@ -112,6 +112,9 @@ class FritzCallMonitor():
 
     class CallMonitorLine(dict):
 
+        class UnexpectedCommandException(Exception):
+            pass
+
         command = None
 
         def __init__(self, response, **kwargs):
@@ -119,6 +122,7 @@ class FritzCallMonitor():
             self.__responses = dict()
             if isinstance(response, str) or isinstance(response, unicode):
                 response = response.split(';')
+
             self.command = response[1]
             if self.command == 'CALL':
                 self['date'] = response[0]
@@ -145,12 +149,17 @@ class FritzCallMonitor():
                 self['date'] = response[0]
                 self['connection_id'] = int(response[2])
                 self['duration'] = response[3]
+
+            else:
+                raise self.UnexpectedCommandException(self.command)
+
             if 'date' in self:
                 #noinspection PyBroadException
                 try:
                     self['date'] = datetime.datetime.strptime(self['date'].strip(), '%d.%m.%y %H:%M:%S')
                 except Exception:
                     pass
+
             if 'duration' in self:
                 #noinspection PyBroadException
                 try:
