@@ -1,5 +1,4 @@
 # encoding: utf-8
-from pprint import pformat
 
 import xbmc, xbmcaddon, xbmcvfs, xbmcgui
 import socket
@@ -7,7 +6,6 @@ import os
 import re
 import datetime
 import time
-import pprint
 import json
 import traceback
 import hashlib
@@ -45,7 +43,7 @@ def _(s):
     }
     if s in translations:
         return __addon__.getLocalizedString(translations[s]) or s
-    xbmc.log("UNTRANSLATED: %s" % s)
+    xbmc.log("FRITZBOX-CALLMONITOR-UNTRANSLATED: %s" % s)
     return s
 
 
@@ -84,30 +82,31 @@ class FritzCallMonitor():
                     else:
                         self.__fb_phonebook = self.__pytzbox.getPhonebook(
                             id=int(__addon__.getSetting("Addressbook_Fritzadress_book_id")))
-                    xbmc.log(u"loaded %d phone book entries" % len(self.__fb_phonebook))
+                    xbmc.log(u"FRITZBOX-CALLMONITOR: loaded %d phone book entries" % len(self.__fb_phonebook))
                 except Exception, e:
                     self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % str(e))
-                    xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
+                    xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc(), level=xbmc.LOGERROR)
                     # noinspection PyBroadException
                     try:
                         if isinstance(e, ValueError) and hasattr(e, 'content'):
-                            xbmc.log(e.content, level=xbmc.LOGERROR)
+                            xbmc.log('FRITZBOX-CALLMONITOR: ' + str(e.content), level=xbmc.LOGERROR)
                     except:
                         pass
 
         if __addon__.getSetting("Addressbook_Google") == 'true':
             self.__gdata_request = SimpleGdataRequest.SimpleGdataRequest()
+            # noinspection PyBroadException
             try:
                 self.__gdata_request.authorize(__addon__.getSetting("Addressbook_Google_Username"),
                                                __addon__.getSetting("Addressbook_Google_Password"), 'cp')
-            except Exception, e:
-                xbmc.log(pprint.pformat(e))
+            except Exception:
+                xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc())
 
         if __addon__.getSetting("Addressbook_Klicktel") == 'true':
             self.__klicktel_phonebook = klicktel.Klicktel(klicktel_apikey.key())
 
     def error(*args, **kwargs):
-        xbmc.log("ERROR: %s %s" % (args, kwargs))
+        xbmc.log("FRITZBOX-CALLMONITOR: %s %s" % (args, kwargs))
 
     class CallMonitorLine(dict):
 
@@ -254,7 +253,7 @@ class FritzCallMonitor():
         if __addon__.getSetting("Addressbook_Folderimages") == 'true':
             imagepath = __addon__.getSetting("Addressbook_Folderimages_Path").decode('utf-8', errors='replace')
             if not xbmcvfs.exists(imagepath):
-                xbmc.log(_("Images path %s does not exist.") % imagepath.encode('utf-8'))
+                xbmc.log("FRITZBOX-CALLMONITOR: Images path %s does not exist.") % imagepath.encode('utf-8')
             else:
                 dirs, files = xbmcvfs.listdir(imagepath)
                 for picture in files:
@@ -270,10 +269,11 @@ class FritzCallMonitor():
                 if "imageHttpURL" in self.__fb_phonebook[name]:
 
                     if self.__fb_phonebook[name]["imageHttpURL"].startswith('https://www.google.com/'):
+                        # noinspection PyBroadException
                         try:
                             return get_google_image(self.__fb_phonebook[name]["imageHttpURL"])
-                        except Exception, e:
-                            xbmc.log(pprint.pformat(e))
+                        except Exception:
+                            xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc())
                     else:
                         return self.__fb_phonebook[name]["imageHttpURL"]
 
@@ -416,7 +416,7 @@ class FritzCallMonitor():
         if isinstance(text, str):
             text = unicode(text)
 
-        xbmc.log((u"NOTIFICATION: %s, %s" % (title, text)).encode("utf-8"))
+        xbmc.log((u"FRITZBOX-CALLMONITOR-NOTIFICATION: %s, %s" % (title, text)).encode("utf-8"))
         if xbmc.getCondVisibility("System.ScreenSaverActive"):
             xbmc.executebuiltin('ActivateWindow(%s)' % xbmcgui.getCurrentWindowId())
         if not duration:
@@ -442,7 +442,7 @@ class FritzCallMonitor():
         """
 
         ip = __addon__.getSetting("Monitor_Address")
-        xbmc.log('fritzbox callmonitor started')
+        xbmc.log('FRITZBOX-CALLMONITOR: started')
         connection_ready_notification = False
         connection_failed_notification = False
 
@@ -456,7 +456,7 @@ class FritzCallMonitor():
                     box_socket.connect((ip, 1012))
                     box_socket.settimeout(0.2)
                     if not connection_ready_notification:
-                        xbmc.log('fritzbox callmonitor connected')
+                        xbmc.log('FRITZBOX-CALLMONITOR: connected')
                         connection_ready_notification = True
                         connection_failed_notification = False
 
@@ -467,8 +467,9 @@ class FritzCallMonitor():
                             _('could not connect to fritzbox (%s).') % str(e))
                         connection_ready_notification = False
                         connection_failed_notification = True
-                        xbmc.log('could not connect %s on port 1012 (%s)' % (ip, e))
-                        xbmc.log('do you have activated the callmonitor via #96*5* and a valid network connection?')
+                        xbmc.log('FRITZBOX-CALLMONITOR: could not connect %s on port 1012 (%s)' % (ip, e))
+                        xbmc.log('FRITZBOX-CALLMONITOR: do you have activated the callmonitor via #96*5* ' +
+                                 'and a valid network connection?')
                     self.__sleep()
 
                 else:
@@ -478,7 +479,7 @@ class FritzCallMonitor():
                             try:
                                 message = box_socket.recv(1024)
                                 line = self.CallMonitorLine(message)
-                                xbmc.log("callmonitor %s" % str(line))
+                                xbmc.log("FRITZBOX-CALLMONITOR: %s" % str(line))
                                 {'CALL': self.handle_outgoing_call,
                                  'RING': self.handle_incoming_call,
                                  'CONNECT': self.handle_connected,
@@ -495,20 +496,20 @@ class FritzCallMonitor():
                         # connection disrupted, wait a while and retry
                         connection_ready_notification = False
                         connection_failed_notification = False
-                        xbmc.log('fritzbox callmonitor connection disrupted: %s' % e)
+                        xbmc.log('FRITZBOX-CALLMONITOR: connection disrupted: %s' % e)
                         self.__sleep()
 
                     finally:
                         box_socket.close()
 
         except FritzCallMonitor.CallMonitorLine.UnexpectedCommandException, e:
-            xbmc.log('ERROR: Something went wrong with the message from fritzbox (%s). unexpected firmware maybe' % e)
+            xbmc.log('FRITZBOX-CALLMONITOR: something went wrong with the message from fritzbox (%s). unexpected firmware maybe' % e)
 
         except Exception:
-            xbmc.log(traceback.format_exc(), level=xbmc.LOGERROR)
+            xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc(), level=xbmc.LOGERROR)
 
         finally:
-            xbmc.log("fritzbox callmonitor addon ended.")
+            xbmc.log("FRITZBOX-CALLMONITOR: addon ended.")
 
 
 xbmc.log("{0:s} version {1:s} ({2:s}:{3:d})"
