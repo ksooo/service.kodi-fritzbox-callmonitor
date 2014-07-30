@@ -172,6 +172,9 @@ class FritzCallMonitor():
             else:
                 return False
 
+        def __repr__(self):
+            return self.command.lower() + ' event: ' + ', '.join(["%s=%s" % (key, self[key]) for key in self.keys()])
+
     @staticmethod
     def equal_numbers(a, b):
 
@@ -475,7 +478,7 @@ class FritzCallMonitor():
                             try:
                                 message = box_socket.recv(1024)
                                 line = self.CallMonitorLine(message)
-                                xbmc.log("callmonitor event %s" % str(line))
+                                xbmc.log("callmonitor %s" % str(line))
                                 {'CALL': self.handle_outgoing_call,
                                  'RING': self.handle_incoming_call,
                                  'CONNECT': self.handle_connected,
