@@ -17,6 +17,7 @@
         <string id="30213">Password</string> <!-- Addressbook_Fritzadress_Password -->
         <string id="30214">Request all addressbooks</string> <!-- Addressbook_Fritzadress_book_all -->
         <string id="30215">Use addressbook id</string> <!-- Addressbook_Fritzadress_book_id -->
+        <string id="30216">Test configuration</string>
 
         <string id="30220">Google Contacts (for pictures only)</string>
         <string id="30221">Use Google Contact pictures</string> <!-- Addressbook_Google -->
@@ -78,6 +79,7 @@
     <string id="30416">Connection to FritzBox successful</string>
     <string id="30417">Result</string>
     <string id="30418">Reboot to use new settings.</string>
+    <string id="30419">Loaded %d phone book entries.</string>
 
 </strings>
 

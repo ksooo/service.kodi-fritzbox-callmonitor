@@ -17,6 +17,7 @@
         <string id="30213">Passwort</string> <!-- Addressbook_Fritzadress_Password -->
         <string id="30214">Alle FritzBox Addressbücher abfragen</string> <!-- Addressbook_Fritzadress_book_all -->
         <string id="30215">Benutze FritzBox Addressbuch Id</string> <!-- Addressbook_Fritzadress_book_id -->
+        <string id="30216">Konfiguration testen</string>
 
         <string id="30220">Google Kontake (nur für Bilder)</string>
         <string id="30221">Benutze Google Kontaktbilder</string> <!-- Addressbook_Google -->
@@ -79,6 +80,7 @@
     <string id="30416">Verbindung zur FritzBox erfolgreich</string>
     <string id="30417">Ergebnis</string>
     <string id="30418">Starten sie neu um die Einstellungen zu übernehemen.</string>
+    <string id="30419">%d Telefonbucheinträge geladen</string>
 
 </strings>
 

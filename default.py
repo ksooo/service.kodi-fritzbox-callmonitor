@@ -90,6 +90,7 @@ class FritzCallMonitor():
                     try:
                         if isinstance(e, ValueError) and hasattr(e, 'content'):
                             xbmc.log('FRITZBOX-CALLMONITOR: ' + str(e.content), level=xbmc.LOGERROR)
+                        xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc())
                     except:
                         pass
 

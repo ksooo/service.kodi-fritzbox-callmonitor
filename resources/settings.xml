@@ -13,7 +13,7 @@
     <category label="30101"> <!-- General -->
 
         <setting label="30201" id="Monitor_Address" type="text" default="fritz.box" />
-        <setting label="30202" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_fritzadress_config_test)"/>
+        <setting label="30202" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_fritzmonitor_config_test)"/>
         <setting label="30203" id="Monitor_IgnoreNumbers" type="text" default="" />
 
     </category>
@@ -26,6 +26,7 @@
         <setting label="30213" id="Addressbook_Fritzadress_Password" type="text" default="" enable="eq(-2,true)" option="hidden" />
         <setting label="30214" id="Addressbook_Fritzadress_book_all" type="bool" default="true" enable="eq(-3,true)" />
         <setting label="30215" id="Addressbook_Fritzadress_book_id" type="number"  default="0" enable="eq(-1,false)" visible="eq(-1,false)" />
+        <setting label="30216" type="action" option="close" action="XBMC.RunPlugin(plugin://service.xbmc-fritzbox/run_fritzaddress_config_test)" enable="eq(-5,true)"/>
 
         <setting label="30220" type="lsep" />
         <setting label="30221" id="Addressbook_Google" type="bool" default="false"/>
