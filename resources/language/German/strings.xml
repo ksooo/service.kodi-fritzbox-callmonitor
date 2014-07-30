@@ -38,7 +38,7 @@
 
         <string id="30280">Wenn es klingelt ...</string>
         <string id="30281">Anzeigen</string> <!-- Action_OnRing_Notify -->
-        <string id="30282">Pausierte Wiedergabe</string> <!-- Action_OnRing_Pause -->
+        <string id="30282">Pausiere Wiedergabe</string> <!-- Action_OnRing_Pause -->
         <string id="30283">Pausiere nur Videos und keine anderen Medien</string> <!-- Action_OnRing_Pause_VideoOnly -->
         <string id="30284">Reduziere die Lautstärke</string> <!-- Action_OnRing_LowerVolume -->
         <string id="30285">Um wie viel Prozent</string> <!-- Action_OnRing_LowerVolume_Amount -->
