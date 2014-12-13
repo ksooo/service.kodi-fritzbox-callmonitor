@@ -254,13 +254,13 @@ class FritzCallMonitor():
             return file_path
 
         if __addon__.getSetting("Addressbook_Folderimages") == 'true':
-            imagepath = __addon__.getSetting("Addressbook_Folderimages_Path").decode('utf-8', errors='replace')
+            imagepath = __addon__.getSetting("Addressbook_Folderimages_Path").decode('utf-8', 'replace')
             if not xbmcvfs.exists(imagepath):
                 xbmc.log("FRITZBOX-CALLMONITOR: Images path %s does not exist.") % imagepath.encode('utf-8')
             else:
                 dirs, files = xbmcvfs.listdir(imagepath)
                 for picture in files:
-                    picture = picture.decode('utf-8', errors='replace')
+                    picture = picture.decode('utf-8', 'replace')
                     match = re.match(r'([^.]*)', picture)
                     if re.match:
                         file_short_name = match.group(1)
