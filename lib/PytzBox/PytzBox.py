@@ -35,6 +35,10 @@ RE_IPV6 += "::(ffff(:0{1,4}){0,1}:){0,1}${RE_IPV4}|"
 RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,4}:${RE_IPV4}"
 
 
+class XMLValueError(ValueError):
+    content = False
+
+
 class PytzBox:
     __password = False
     __host = False
@@ -108,7 +112,8 @@ class PytzBox:
         try:
             xml.sax.parseString(xml_phonebook, handler=handler)
         except Exception, e:
-            raise ValueError('could not parse phonebook data (are you logged in?): %s' % e, content=xml_phonebook)
+            raise XMLValueError('could not parse phonebook data (are you logged in?): %s' % str(e),
+                                content=xml_phonebook)
 
         return handler.phone_book
 

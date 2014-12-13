@@ -86,6 +86,8 @@ class FritzCallMonitor():
                 except Exception, e:
                     self.show_notification(_('fritzbox phonebook'), _('fritzbox phonebookaccess failed') % str(e))
                     xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc(), level=xbmc.LOGERROR)
+                    if isinstance(e, PytzBox.XMLValueError):
+                        xbmc.log(repr(e.content), level=xbmc.LOGERROR)
                     # noinspection PyBroadException
                     try:
                         if isinstance(e, ValueError) and hasattr(e, 'content'):
