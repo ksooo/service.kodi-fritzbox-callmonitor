@@ -480,8 +480,7 @@ class FritzCallMonitor():
 
                 else:
                     try:
-
-                        for step in range(60 * 5):  # 60 * 0.2 sec
+                        for _ in range(20):  # 20 * 0.2 sec
                             try:
                                 message = box_socket.recv(1024)
                                 line = self.CallMonitorLine(message)
