@@ -1,3 +1,7 @@
+### Warning
+> This Addon in no longer maintained and is here only for the remaining users and if someone would like to fork and continue my work.
+
+
 XBMC FritzBox Callmonitor
 =========================
 
