@@ -71,9 +71,12 @@ class FritzCallMonitor():
                 else:
                     username = "admin"
 
+                encrypt = True if __addon__.getSetting("Adressbook_Fritzadress_SSL").upper() == 'TRUE' else False
+
                 self.__pytzbox = PytzBox.PytzBox(password=password,
                                                  username=username,
-                                                 host=__addon__.getSetting("Monitor_Address"))
+                                                 host=__addon__.getSetting("Monitor_Address"),
+                                                 encrypt=encrypt)
 
             if self.__fb_phonebook is None:
                 try:
@@ -468,14 +471,14 @@ class FritzCallMonitor():
 
                 except socket.error, e:
                     if not connection_failed_notification:
-                        self.show_notification(
-                            _('fritzbox unreachable'),
-                            _('could not connect to fritzbox (%s).') % str(e))
+                        #self.show_notification(
+                        #    _('fritzbox unreachable'),
+                        #    _('could not connect to fritzbox (%s).') % str(e))
                         connection_ready_notification = False
-                        connection_failed_notification = True
-                        xbmc.log('FRITZBOX-CALLMONITOR: could not connect %s on port 1012 (%s)' % (ip, e))
-                        xbmc.log('FRITZBOX-CALLMONITOR: do you have activated the callmonitor via #96*5* ' +
-                                 'and a valid network connection?')
+                        #connection_failed_notification = True
+                        #xbmc.log('FRITZBOX-CALLMONITOR: could not connect %s on port 1012 (%s)' % (ip, e))
+                        #xbmc.log('FRITZBOX-CALLMONITOR: do you have activated the callmonitor via #96*5* ' +
+                        #         'and a valid network connection?')
                     self.__sleep()
 
                 else:

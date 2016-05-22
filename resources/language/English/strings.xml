@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
     <!-- Addon Name -->
-    <string id="30000">FritzBox Callmonitor</string>
+    <string id="30000">FRITZ!Box Callmonitor</string>
 
 
     <!-- Settings -->
     <string id="30101">General</string> <!-- Category General -->
-        <string id="30201">FritzBox IP address / Hostname</string> <!-- Monitor_Address -->
+        <string id="30201">FRITZ!Box IP address / Hostname</string> <!-- Monitor_Address -->
         <string id="30202">Test configuration</string>
         <string id="30203">Ignore phone numbers (comma separated)</string> <!-- Monitor_IgnoreNumbers -->
 
     <string id="30102">Addresses</string> <!-- Category Addressbook -->
-        <string id="30210">FritzBox</string>
-        <string id="30211">Use FritzBox Addressbook</string> <!-- Addressbook_Fritzadress -->
+        <string id="30210">FRITZ!Box</string>
+        <string id="30211">Use FRITZ!Box Addressbook</string> <!-- Addressbook_Fritzadress -->
         <string id="30212">Username</string> <!-- Addressbook_Fritzadress_Username -->
         <string id="30213">Password</string> <!-- Addressbook_Fritzadress_Password -->
+        <string id="30217">Use secure connection (SSL)</string> <!-- Addressbook_Fritzadress_SSL -->
         <string id="30214">Request all addressbooks</string> <!-- Addressbook_Fritzadress_book_all -->
         <string id="30215">Use addressbook id</string> <!-- Addressbook_Fritzadress_book_id -->
         <string id="30216">Test configuration</string>
@@ -72,15 +73,15 @@
     <string id="30405">to %s</string>
     <string id="30406">Call ended</string>
     <string id="30407">Duration: %sh</string>
-    <string id="30408">FritzBox unreachable</string>
-    <string id="30409">Could not connect to FritzBox (%s).</string>
+    <string id="30408">FRITZ!Box unreachable</string>
+    <string id="30409">Could not connect to FRITZ!Box (%s).</string>
     <string id="30410">Unknown</string>
-    <string id="30411">FritzBox Addressbook</string>
-    <string id="30412">Could not access FritzBox Addressbook: %s</string>
+    <string id="30411">FRITZ!Box Addressbook</string>
+    <string id="30412">Could not access FRITZ!Box Addressbook: %s</string>
     <string id="30413">Resume</string>
     <string id="30414">Waiting %d seconds ...</string>
-    <string id="30415">Could not connect to FritzBox</string>
-    <string id="30416">Connection to FritzBox successful</string>
+    <string id="30415">Could not connect to FRITZ!Box</string>
+    <string id="30416">Connection to FRITZ!Box successful</string>
     <string id="30417">Result</string>
     <string id="30418">Reboot to use new settings.</string>
     <string id="30419">Loaded %d phone book entries.</string>

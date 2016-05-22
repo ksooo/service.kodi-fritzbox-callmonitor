@@ -12,7 +12,7 @@ import traceback
 from lib.PytzBox import PytzBox
 
 __addon__ = xbmcaddon.Addon()
-__addon_id__ = "service.xbmc-fritzbox"
+__addon_id__ = "service.kodi-fritzbox-callmonitor"
 __version__ = "1"
 
 

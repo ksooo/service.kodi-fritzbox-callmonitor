@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
     <!-- Addon Name -->
-    <string id="30000">FritzBox Anrufanzeige</string>
+    <string id="30000">FRITZ!Box Anrufmonitor</string>
 
 
     <!-- Settings -->
     <string id="30101">Allgemein</string> <!-- Category General -->
-        <string id="30201">Hostname / IP Addresse der FritzBox></string> <!-- Monitor_Address -->
+        <string id="30201">Hostname / IP Addresse der FRITZ!Box></string> <!-- Monitor_Address -->
         <string id="30202">Konfiguration testen</string>
         <string id="30203">Ignoriere Telefonnummern (Kommasepariert)</string> <!-- Monitor_IgnoreNumbers -->
 
     <string id="30102">Addressbücher</string> <!-- Category Addressbook -->
-        <string id="30210">FritzBox</string>
-        <string id="30211">Benutze FritzBox Addressbuch</string> <!-- Addressbook_Fritzadress -->
+        <string id="30210">FRITZ!Box</string>
+        <string id="30211">Benutze FRITZ!Box Addressbuch</string> <!-- Addressbook_Fritzadress -->
         <string id="30212">Benutzername</string> <!-- Addressbook_Fritzadress_Username -->
         <string id="30213">Passwort</string> <!-- Addressbook_Fritzadress_Password -->
-        <string id="30214">Alle FritzBox Addressbücher abfragen</string> <!-- Addressbook_Fritzadress_book_all -->
-        <string id="30215">Benutze FritzBox Addressbuch Id</string> <!-- Addressbook_Fritzadress_book_id -->
+        <string id="30217">Benutze sichere Verbindung (SSL)</string> <!-- Addressbook_Fritzadress_SSL -->
+        <string id="30214">Alle FRITZ!Box Addressbücher abfragen</string> <!-- Addressbook_Fritzadress_book_all -->
+        <string id="30215">Benutze FRITZ!Box Addressbuch Id</string> <!-- Addressbook_Fritzadress_book_id -->
         <string id="30216">Konfiguration testen</string>
 
         <string id="30220">Google Kontake (nur für Bilder)</string>
@@ -71,15 +72,15 @@
     <string id="30405">mit %s</string>
     <string id="30406">Verbindung beendet</string>
     <string id="30407">Dauer: %sh</string>
-    <string id="30408">FritzBox nicht erreichbar</string>
-    <string id="30409">Konnte keine Verbindung zur FritzBox herstellen (%s)</string>
+    <string id="30408">FRITZ!Box nicht erreichbar</string>
+    <string id="30409">Konnte keine Verbindung zur FRITZ!Box herstellen (%s)</string>
     <string id="30410">Unbekannt</string>
-    <string id="30411">FritzBox Addressbuch</string>
-    <string id="30412">Zugriff auf FritzBox Addressbuch fehlgeschlagen: %s</string>
+    <string id="30411">FRITZ!Box Addressbuch</string>
+    <string id="30412">Zugriff auf FRITZ!Box Addressbuch fehlgeschlagen: %s</string>
     <string id="30413">Fortsetzen</string>
     <string id="30414">Warte %d Sekunden ...</string>
-    <string id="30415">Konnte keine Verbindung zur FritzBox herstellen</string>
-    <string id="30416">Verbindung zur FritzBox erfolgreich</string>
+    <string id="30415">Konnte keine Verbindung zur FRITZ!Box herstellen</string>
+    <string id="30416">Verbindung zur FRITZ!Box erfolgreich</string>
     <string id="30417">Ergebnis</string>
     <string id="30418">Starten sie neu um die Einstellungen zu übernehemen.</string>
     <string id="30419">%d Telefonbucheinträge geladen</string>

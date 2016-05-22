@@ -1,43 +1,15 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import re
 import socket
 import xml.sax
 import requests
 from requests.auth import HTTPDigestAuth
-
-
-__doc__ = """
-PytzBox
-
-usage:
-  ./PytzBox.py getphonebook [--host=<fritz.box>] [--username=<user>] [--password=<pass>] [--id=<int>|--all]
-  ./PytzBox.py getphonebooklist [--host=<fritz.box>] [--username=<user>] [--password=<pass>]
-
-options:
-  --username=<user>     username usually not required
-  --password=<pass>     admin password [default: none]
-  --host=<fritz.box>    ip address / hostname [default: fritz.box]
-
-"""
-
-RE_IPV6 = "([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,7}:|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|"
-RE_IPV6 += "[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|"
-RE_IPV6 += ":((:[0-9a-fA-F]{1,4}){1,7}|:)|"
-RE_IPV6 += "fe08:(:[0-9a-fA-F]{1,4}){2,2}%[0-9a-zA-Z]{1,}|"
-RE_IPV6 += "::(ffff(:0{1,4}){0,1}:){0,1}${RE_IPV4}|"
-RE_IPV6 += "([0-9a-fA-F]{1,4}:){1,4}:${RE_IPV4}"
-
-
-class XMLValueError(ValueError):
-    content = False
-
+from PIL import Image
+from StringIO import StringIO
+import hashlib
+import os
 
 class PytzBox:
     __password = False
@@ -45,33 +17,51 @@ class PytzBox:
     __user = False
     __sid = None
     __sslverify = False
+    __encrypt = None
+    __imagepath = None
+    __imagecount = None
 
-    __url_contact = 'https://{host}:49443/upnp/control/x_contact'
-    __url_file_download = 'https://{host}:49443{imageurl}&sid={sid}'
+    __url_contact = ['https://{host}:49443/upnp/control/x_contact', 'http://{host}:49000/upnp/control/x_contact']
+    __url_file_download = ['https://{host}:49443{imageurl}&sid={sid}', 'http://{host}:49000{imageurl}&sid={sid}']
     __soapaction_phonebooklist = 'urn:dslforum-org:service:X_AVM-DE_OnTel:1#GetPhonebookList'
     __soapenvelope_phonebooklist = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:GetPhonebookList xmlns:u="urn:dslforum-org:service:X_AVM-DE_OnTel:1"></u:GetPhonebookList></s:Body></s:Envelope>'
     __soapaction_phonebook = 'urn:dslforum-org:service:X_AVM-DE_OnTel:1#GetPhonebook'
     __soapenvelope_phonebook = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:GetPhonebook xmlns:u="urn:dslforum-org:service:X_AVM-DE_OnTel:1"><NewPhonebookId>{NewPhonebookId}</NewPhonebookId></u:GetPhonebook></s:Body></s:Envelope>'
 
-    class BoxUnreachableException(Exception):
-        pass
+    class BoxUnreachableException(Exception): pass
+    class LoginFailedException(Exception): pass
+    class RequestFailedException(Exception): pass
+    class InternalServerErrorException(Exception): pass
 
-    class LoginFailedException(Exception):
-        pass
-
-    class RequestFailedException(Exception):
-        pass
-
-    def __init__(self, password=False, host="fritz.box", username=False):
+    def __init__(self, password=False, host="fritz.box", username=False, encrypt=True, imagepath=None):
 
         socket.setdefaulttimeout(10)
 
         self.__password = password
         self.__host = host
         self.__user = username
+        self.__encrypt = 0 if encrypt else 1
+        self.__imagepath = imagepath
+        self.__imagecount = 0
 
-        if re.match(RE_IPV6, self.__host):
-            self.__host = "[%s]" % self.__host
+    def imagecount(self):
+        return self.__imagecount
+
+    def compareNumbers(self, a, b, ccode='0049'):
+
+        a = unicode(re.sub('[^0-9\+\*]|((?<!\A)\+)', '', a))
+        b = unicode(re.sub('[^0-9\+\*]|((?<!\A)\+)', '', b))
+
+        if a.startswith(ccode): a = '0' + a[len(ccode):]
+        if a.startswith('+'): a = '0' + a[3:]
+
+        if b.startswith(ccode): b = '0' + b[len(ccode):]
+        if b.startswith('+'): b = '0' + b[3:]
+
+        # a = a[-len(b):]
+        # b = b[-len(a):]
+
+        return (a == b)
 
     def __analyzeFritzboxPhonebook(self, xml_phonebook):
 
@@ -83,7 +73,7 @@ class PytzBox:
                 self.parent = parent
                 self.phone_book = dict()
 
-            #noinspection PyUnusedLocal
+            # noinspection PyUnusedLocal
             def startElement(self, name, args):
                 if name == "contact":
                     self.contact_name = ""
@@ -94,7 +84,6 @@ class PytzBox:
                 self.key = None
 
             def characters(self, content):
-                #print("%s: %s" % (self.key, content))
                 if self.key == "realName":
                     self.contact_name = content
                     if not self.contact_name in self.phone_book:
@@ -104,41 +93,59 @@ class PytzBox:
                         self.phone_book[self.contact_name]['numbers'].append(content)
                 if self.key == "imageURL":
                     if self.contact_name in self.phone_book:
-                        self.phone_book[self.contact_name]['imageURL'] = content
-                        self.phone_book[self.contact_name]['imageHttpURL'] = self.parent.getDownloadUrl(content)
+                        self.phone_book[self.contact_name]['imageURL'] = self.parent.getDownloadUrl(content)
+                        self.phone_book[self.contact_name]['imageBMP'] = self.parent.getImage(content, self.contact_name)
 
         handler = FbAbHandler(self)
 
         try:
             xml.sax.parseString(xml_phonebook, handler=handler)
         except Exception, e:
-            raise XMLValueError('could not parse phonebook data (are you logged in?): %s' % str(e),
-                                content=xml_phonebook)
+            raise ValueError('could not parse phonebook data (are you logged in?): %s' % str(e))
 
         return handler.phone_book
 
-    def getDownloadUrl(self, imageurl):
+    def getDownloadUrl(self, url):
+
+        return self.__url_file_download[self.__encrypt].format(
+            host=self.__host,
+            imageurl=url,
+            sid=self.__sid
+        )
+
+    def getImage(self, url, caller_name):
+        if self.__imagepath is None: return
         try:
-            return self.__url_file_download.format(
+            response = requests.get(self.__url_file_download[self.__encrypt].format(
                 host=self.__host,
-                imageurl=imageurl,
+                imageurl=url,
                 sid=self.__sid
-            )
+            ))
+            caller_image = Image.open(StringIO(response.content))
+            if caller_image is not None:
+                imagepath = os.path.join(self.__imagepath, hashlib.md5(caller_name.encode('utf-8')).hexdigest() + '.jpg')
+                caller_image.save(imagepath)
+                self.__imagecount += 1
+                return imagepath
+
         except Exception, e:
             print e
 
     def getPhonebookList(self):
 
         try:
-            response = requests.post(self.__url_contact.format(host=self.__host),
+            response = requests.post(self.__url_contact[self.__encrypt].format(host=self.__host),
                                      auth=HTTPDigestAuth(self.__user, self.__password),
                                      data=self.__soapenvelope_phonebooklist,
                                      headers={'Content-Type': 'text/xml; charset="utf-8"',
                                               'SOAPACTION': self.__soapaction_phonebooklist},
                                      verify=self.__sslverify)
+
+        except socket as e:
+            raise self.BoxUnreachableException(str(e))
         except requests.exceptions.ConnectionError, e:
             raise self.BoxUnreachableException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise self.RequestFailedException(str(e))
         else:
             if response.status_code == 200:
@@ -155,7 +162,7 @@ class PytzBox:
             else:
                 raise self.RequestFailedException('Request failed with status code: %s' % response.status_code)
 
-    def getPhonebook(self, id=0):
+    def getPhonebook(self, id=0, imgpath=None):
 
         if id == -1:
             result = dict()
@@ -166,12 +173,14 @@ class PytzBox:
             return result
 
         try:
-            response = requests.post(self.__url_contact.format(host=self.__host),
+            response = requests.post(self.__url_contact[self.__encrypt].format(host=self.__host),
                                      auth=HTTPDigestAuth(self.__user, self.__password),
                                      data=self.__soapenvelope_phonebook.format(NewPhonebookId=id),
                                      headers={'Content-Type': 'text/xml; charset="utf-8"',
                                               'SOAPACTION': self.__soapaction_phonebook},
                                      verify=self.__sslverify)
+        except socket as e:
+            raise self.BoxUnreachableException(str(e))
         except requests.exceptions.ConnectionError, e:
             raise self.BoxUnreachableException(str(e))
         except Exception, e:
@@ -186,40 +195,87 @@ class PytzBox:
                 self.__sid = sids[0]
             elif response.status_code == 401:
                 raise self.LoginFailedException()
+            elif response.status_code == 500:
+                raise self.InternalServerErrorException()
             else:
                 raise self.RequestFailedException('Request failed with status code: %s' % response.status_code)
 
         try:
-            response = requests.get(phonbook_urls[0])
-        except socket, e:
+            response = requests.get(phonbook_urls[0], verify=self.__sslverify)
+        except socket as e:
             raise self.BoxUnreachableException(str(e))
-        except IOError, e:
+        except IOError as e:
             raise self.BoxUnreachableException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise self.RequestFailedException(str(e))
         else:
             xml_phonebook = response.content
 
         return self.__analyzeFritzboxPhonebook(xml_phonebook)
 
-
 if __name__ == '__main__':
 
-    import docopt
+    import sys
+    import pprint
 
-    arguments = docopt.docopt(__doc__)
+    args = {'action':None, 'number':None, 'host':'fritz.box', 'user':None, 'pw':None, 'encrypt':'1', 'id':None, 'imagepath':None}
+    try:
+        if sys.argv[1]:
+            for par in sys.argv[1:]:
+                item, value = par.lstrip('-').split('=')
+                args[item] = value
 
-    from pprint import pprint
-
-    box = PytzBox(username=arguments['--username'], password=arguments['--password'], host=arguments['--host'])
-
-    if arguments['getphonebook']:
-        if arguments['--all']:
-            phone_book_id = -1
-        elif arguments['--id'] is not False:
-            phone_book_id = arguments['--id']
-        else:
+            if args['encrypt']:
+                args['encrypt'] = True if args['encrypt'].upper() == '1' else False
+            box = PytzBox(username=args['user'], password=args['pw'], host=args['host'], encrypt=args['encrypt'], imagepath=args['imagepath'])
+            po = pprint.PrettyPrinter(indent=4)
             phone_book_id = 0
-        pprint(box.getPhonebook(id=phone_book_id))
-    elif arguments['getphonebooklist']:
-        pprint(box.getPhonebookList())
+
+            if args['id'] == 'all':
+                phone_book_id = -1
+            elif args['id'] is not None:
+                phone_book_id == args['id']
+
+            if args['action'] == 'getbook':
+                po.pprint(box.getPhonebook(id=phone_book_id))
+            elif args['action'] == 'getlist':
+                po.pprint(box.getPhonebookList())
+            elif args['action'] == 'getentry' and args['number']:
+                entries = box.getPhonebook(id=phone_book_id)
+                for item in entries:
+                    for number in entries[item]['numbers']:
+                        if box.compareNumbers(args['number'], number):
+                            po.pprint(item)
+                            po.pprint(entries[item])
+    except IndexError:
+        print """
+PytzBox
+
+usage:
+  ./PytzBox.py --action=getbook --user=<user> --pw=<pass>
+              [--host=<fritz.box>] [--id=<int>|all] [--encrypt=0|1]
+  ./PytzBox.py --action=getlist --user=<user> --pw=<pass>
+              [--host=<fritz.box>] [--encrypt=0|1]
+  ./PytzBox.py --action=getentry --number=<number> --user=<user>
+               --pw=<pass> [--host=<fritz.box>] [--encrypt=0|1]
+
+options:
+  --action=<getbook|getlist>    get all entries of a phonebook
+                                get a list of all available phonebooks
+
+  --action=<getentry>           get an entry from a phonebook if number exists
+  --number=<number>             search a number in phonebook, in conjunction with --action=getentry
+
+  --user=<user>                 username usually not required
+  --pw=<pass>                   admin password [default: none]
+  --host=<fritz.box>            ip address / hostname [default: fritz.box]
+
+  --id=<int>|all                use only phonebook with selected id or all
+  --encrypt=<0|1>               use SSL encryption [0: No, 1: Yes, default: Yes]
+
+        """
+    except box.BoxUnreachableException(Exception): print 'Box unreachable'
+    except box.LoginFailedException(Exception): print 'Login failed'
+    except box.RequestFailedException(Exception): print 'Request failed'
+    except Exception, e:
+        print e

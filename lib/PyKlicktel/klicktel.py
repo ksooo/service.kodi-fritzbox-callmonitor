@@ -162,10 +162,10 @@ class Klicktel(object):
         self.__apikey = apikey
         self.__requestid = self.__requestid_generator()
 
-        if track:
-            urllib.urlopen(
-                "%s?%s" % ( "http://statistics.klicktel.de/trackingpix.png",
-                            urllib.urlencode(dict(partner='OpenAPI3', requestid=self.__requestid))))
+        #if track:
+        #    urllib.urlopen(
+        #        "%s?%s" % ( "http://statistics.klicktel.de/trackingpix.png",
+        #                    urllib.urlencode(dict(partner='OpenAPI3', requestid=self.__requestid))))
 
     def __request(self, url, params):
         result = urllib.urlopen("%s?%s" % (url, urllib.urlencode(params)))

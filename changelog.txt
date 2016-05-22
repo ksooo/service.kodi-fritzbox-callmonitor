@@ -1,0 +1,5 @@
+1.0.0
+- Initial release, based on xbmc-fritzbox, sha1: 8a23e2c00286af4ef3f2cbd9dbccb90d970c82ac (thanks @wrow)
+- Setting for encrypted (SSL) vs. unencrypted data transfer between addon and FRITZ!Box (thanks @b-jesch)
+- Some cosmetics (wording and the like)
+
