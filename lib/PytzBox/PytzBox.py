@@ -7,7 +7,7 @@ import xml.sax
 import requests
 from requests.auth import HTTPDigestAuth
 from PIL import Image
-from StringIO import StringIO
+from io import StringIO
 import hashlib
 import os
 
@@ -49,8 +49,8 @@ class PytzBox:
 
     def compareNumbers(self, a, b, ccode='0049'):
 
-        a = unicode(re.sub('[^0-9\+\*]|((?<!\A)\+)', '', a))
-        b = unicode(re.sub('[^0-9\+\*]|((?<!\A)\+)', '', b))
+        a = str(re.sub('[^0-9\+\*]|((?<!\A)\+)', '', a))
+        b = str(re.sub('[^0-9\+\*]|((?<!\A)\+)', '', b))
 
         if a.startswith(ccode): a = '0' + a[len(ccode):]
         if a.startswith('+'): a = '0' + a[3:]
@@ -100,8 +100,8 @@ class PytzBox:
 
         try:
             xml.sax.parseString(xml_phonebook, handler=handler)
-        except Exception, e:
-            raise ValueError('could not parse phonebook data (are you logged in?): %s' % str(e))
+        except Exception as e:
+            raise ValueError('could not parse phonebook data (are you logged in?): %s' % e)
 
         return handler.phone_book
 
@@ -128,8 +128,8 @@ class PytzBox:
                 self.__imagecount += 1
                 return imagepath
 
-        except Exception, e:
-            print e
+        except Exception as e:
+            print(e)
 
     def getPhonebookList(self):
 
@@ -141,18 +141,18 @@ class PytzBox:
                                               'SOAPACTION': self.__soapaction_phonebooklist},
                                      verify=self.__sslverify)
 
-        except socket as e:
-            raise self.BoxUnreachableException(str(e))
-        except requests.exceptions.ConnectionError, e:
-            raise self.BoxUnreachableException(str(e))
+        except socket.error as e:
+            raise self.BoxUnreachableException(e)
+        except requests.exceptions.ConnectionError as e:
+            raise self.BoxUnreachableException(e)
         except Exception as e:
-            raise self.RequestFailedException(str(e))
+            raise self.RequestFailedException(e)
         else:
             if response.status_code == 200:
                 response = response.content
                 phonbook_ids = []
 
-                for this_line in re.findall(r'<NewPhonebookList>([\d,]*)</NewPhonebookList>', response):
+                for this_line in re.findall(r'<NewPhonebookList>([\d,]*)</NewPhonebookList>', str(response)):
                     for this_id in this_line.split(','):
                         phonbook_ids.append(int(this_id))
 
@@ -179,17 +179,17 @@ class PytzBox:
                                      headers={'Content-Type': 'text/xml; charset="utf-8"',
                                               'SOAPACTION': self.__soapaction_phonebook},
                                      verify=self.__sslverify)
-        except socket as e:
-            raise self.BoxUnreachableException(str(e))
-        except requests.exceptions.ConnectionError, e:
-            raise self.BoxUnreachableException(str(e))
-        except Exception, e:
-            raise self.RequestFailedException(str(e))
+        except socket.error as e:
+            raise self.BoxUnreachableException(e)
+        except requests.exceptions.ConnectionError as e:
+            raise self.BoxUnreachableException(e)
+        except Exception as e:
+            raise self.RequestFailedException(e)
         else:
             if response.status_code == 200:
                 response = response.content
-                phonbook_urls = re.findall(r'<NewPhonebookURL>(.*)</NewPhonebookURL>', response)
-                sids = re.findall(r'sid=([0-9a-fA-F]*)', response)
+                phonbook_urls = re.findall(r'<NewPhonebookURL>(.*)</NewPhonebookURL>', str(response))
+                sids = re.findall(r'sid=([0-9a-fA-F]*)', str(response))
                 if not len(sids):
                     raise self.LoginFailedException()
                 self.__sid = sids[0]
@@ -202,12 +202,12 @@ class PytzBox:
 
         try:
             response = requests.get(phonbook_urls[0], verify=self.__sslverify)
-        except socket as e:
-            raise self.BoxUnreachableException(str(e))
+        except socket.error as e:
+            raise self.BoxUnreachableException(e)
         except IOError as e:
-            raise self.BoxUnreachableException(str(e))
+            raise self.BoxUnreachableException(e)
         except Exception as e:
-            raise self.RequestFailedException(str(e))
+            raise self.RequestFailedException(e)
         else:
             xml_phonebook = response.content
 
@@ -248,7 +248,7 @@ if __name__ == '__main__':
                             po.pprint(item)
                             po.pprint(entries[item])
     except IndexError:
-        print """
+        print("""
 PytzBox
 
 usage:
@@ -273,9 +273,9 @@ options:
   --id=<int>|all                use only phonebook with selected id or all
   --encrypt=<0|1>               use SSL encryption [0: No, 1: Yes, default: Yes]
 
-        """
-    except box.BoxUnreachableException(Exception): print 'Box unreachable'
-    except box.LoginFailedException(Exception): print 'Login failed'
-    except box.RequestFailedException(Exception): print 'Request failed'
-    except Exception, e:
-        print e
+        """)
+    except box.BoxUnreachableException(Exception): print('Box unreachable')
+    except box.LoginFailedException(Exception): print('Login failed')
+    except box.RequestFailedException(Exception): print('Request failed')
+    except Exception as e:
+        print(e)

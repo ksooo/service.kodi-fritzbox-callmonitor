@@ -1,0 +1,280 @@
+# Kodi Media Center language file
+# Addon Name: Fritzbox Callmonitor
+# Addon id: service.kodi-fritzbox-callmonitor
+# Addon Provider: Kai Sommerfeld, thanks to Frank Epperlein
+msgstr ""
+msgid ""
+"Project-Id-Version: Kodi Addons\n"
+"Report-msgstr-Bugs-To: https://forum.kodi.tv/\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#30000"
+msgid "FRITZ!Box Callmonitor"
+msgstr "FRITZ!Box Anrufmonitor"
+
+msgctxt "#30101"
+msgid "General"
+msgstr "Allgemein"
+
+msgctxt "#30201"
+msgid "FRITZ!Box IP address / Hostname"
+msgstr "Hostname / IP Adresse der FRITZ!Box"
+
+msgctxt "#30202"
+msgid "Test configuration"
+msgstr "Konfiguration testen"
+
+msgctxt "#30203"
+msgid "Ignore phone numbers (comma separated)"
+msgstr "Ignoriere Telefonnummern (Kommasepariert)"
+
+msgctxt "#30102"
+msgid "Addresses"
+msgstr "Adressbücher"
+
+msgctxt "#30210"
+msgid "FRITZ!Box"
+msgstr "FRITZ!Box"
+
+msgctxt "#30211"
+msgid "Use FRITZ!Box Addressbook"
+msgstr "FRITZ!Box Adressbuch benutzen"
+
+msgctxt "#30212"
+msgid "Username"
+msgstr "Benutzername"
+msgid ""
+
+msgctxt "#30213"
+msgid "Password"
+msgstr "Passwort"
+
+msgctxt "#30217"
+msgid "Use secure connection (SSL)"
+msgstr "Sichere Verbindung (SSL) benutzen"
+
+msgctxt "#30214"
+msgid "Request all addressbooks"
+msgstr "Alle FRITZ!Box Adressbücher abfragen"
+
+msgctxt "#30215"
+msgid "Use addressbook id"
+msgstr "Adressbuch Id"
+
+msgctxt "#30216"
+msgid "Test configuration"
+msgstr "Konfiguration testen"
+
+msgctxt "#30220"
+msgid "Google Contacts (for pictures only)"
+msgstr "Google Kontake (nur für Bilder)"
+
+msgctxt "#30221"
+msgid "Use Google Contact pictures"
+msgstr "Google Kontaktbilder benutzen"
+
+msgctxt "#30222"
+msgid "Username"
+msgstr "Benutzername"
+
+msgctxt "#30223"
+msgid "Password"
+msgstr "Passwort"
+
+msgctxt "#30240"
+msgid "Picture directory"
+msgstr "Bilderordner"
+
+msgctxt "#30241"
+msgid "Use directory for picture lookup"
+msgstr "Ordner zur Bildersuche benutzen"
+
+msgctxt "#30242"
+msgid "Path to picture directory"
+msgstr "Pfad zum Bilderordner"
+
+msgctxt "#30103"
+msgid "Actions"
+msgstr "Aktionen"
+
+msgctxt "#30270"
+msgid "Notifications"
+msgstr "Benachrichtigungen"
+
+msgctxt "#30271"
+msgid "Display duration (seconds)"
+msgstr "Anzeigedauer (Sekunden)"
+
+msgctxt "#30280"
+msgid "When phone rings ..."
+msgstr "Wenn das Telefon klingelt ..."
+
+msgctxt "#30281"
+msgid "Show"
+msgstr "Anzeigen"
+
+msgctxt "#30282"
+msgid "Pause playback"
+msgstr "Wiedergabe pausieren"
+
+msgctxt "#30283"
+msgid "Pause only video and no other media"
+msgstr "Videos pausieren, aber keine anderen Medien"
+
+msgctxt "#30284"
+msgid "Reduce volume"
+msgstr "Lautstärke reduzieren"
+
+msgctxt "#30285"
+msgid "About how many percent"
+msgstr "Um wie viel Prozent"
+
+msgctxt "#30290"
+msgid "When phone connects ..."
+msgstr "Wenn ein Anruf angenommen wird ..."
+
+msgctxt "#30291"
+msgid "Show"
+msgstr "Anzeigen"
+
+msgctxt "#30292"
+msgid "Pause playback"
+msgstr "Wiedergabe pausieren"
+
+msgctxt "#30293"
+msgid "Pause only video and no other media"
+msgstr "Videos pausieren, aber keine anderen Medien"
+
+msgctxt "#30294"
+msgid "Reduce volume"
+msgstr "Lautstärke reduzieren"
+
+msgctxt "#30295"
+msgid "About how many percent"
+msgstr "Um wie viel Prozent"
+
+msgctxt "#30300"
+msgid "When phone hangs up ..."
+msgstr "Wenn ein Anruf beendet wird ..."
+
+msgctxt "#30301"
+msgid "Show"
+msgstr "Anzeigen"
+
+msgctxt "#30302"
+msgid "Resume playback"
+msgstr "Wiedergabe fortsetzen"
+
+msgctxt "#30303"
+msgid "Delay resume of playback (seconds)"
+msgstr "Fortsetzen verzögern (Sekunden)"
+
+msgctxt "#30304"
+msgid "Reset Volume"
+msgstr "Lautstärke zurücksetzen"
+
+msgctxt "#30310"
+msgid "When a call is leaving ..."
+msgstr "Wenn ein Anruf gemacht wird ..."
+
+msgctxt "#30311"
+msgid "Show"
+msgstr "Anzeigen"
+
+msgctxt "#30312"
+msgid "Pause playback"
+msgstr "Wiedergabe pausieren"
+
+msgctxt "#30313"
+msgid "Pause only video and no other media"
+msgstr "Videos pausieren, aber keine anderen Medien"
+
+msgctxt "#30400"
+msgid "Outgoing call"
+msgstr "Ausgehender Anruf"
+
+msgctxt "#30401"
+msgid "to %s (by %s)"
+msgstr "zu %s (von %s)"
+
+msgctxt "#30402"
+msgid "Incoming call"
+msgstr "Eingehender Anruf"
+
+msgctxt "#30403"
+msgid "from %s"
+msgstr "von %s"
+
+msgctxt "#30404"
+msgid "Connected"
+msgstr "Verbunden"
+
+msgctxt "#30405"
+msgid "to %s"
+msgstr "mit %s"
+
+msgctxt "#30406"
+msgid "Call ended"
+msgstr "Anruf beendet"
+
+msgctxt "#30407"
+msgid "Duration: %sh"
+msgstr "Dauer: %sh"
+
+msgctxt "#30408"
+msgid "FRITZ!Box unreachable"
+msgstr "FRITZ!Box nicht erreichbar"
+
+msgctxt "#30409"
+msgid "Could not connect to FRITZ!Box (%s)"
+msgstr "Keine Verbindung zur FRITZ!Box (%s)"
+msgid ""
+
+msgctxt "#30410"
+msgid "Unknown"
+msgstr "Unbekannt"
+
+msgctxt "#30411"
+msgid "FRITZ!Box Addressbook"
+msgstr "FRITZ!Box Adressbuch"
+
+msgctxt "#30412"
+msgid "Could not access FRITZ!Box Addressbook"
+msgstr "Kein Zugriff auf FRITZ!Box Adressbuch"
+
+msgctxt "#30413"
+msgid "Resume"
+msgstr "Fortsetzen"
+
+msgctxt "#30414"
+msgid "Playback will be resumed in %d seconds ..."
+msgstr "Wiedergabe wird fortgesetzt in %d Sekunden ..."
+msgid ""
+
+msgctxt "#30415"
+msgid "Could not connect to FRITZ!Box"
+msgstr "Keine Verbindung zur FRITZ!Box"
+
+msgctxt "#30416"
+msgid "Connection to FRITZ!Box successful"
+msgstr "Verbindung zur FRITZ!Box erfolgreich"
+
+msgctxt "#30417"
+msgid "Result"
+msgstr "Ergebnis"
+
+msgctxt "#30418"
+msgid "Restart to use new settings"
+msgstr "Neustarten, um die Einstellungen zu übernehemen"
+
+msgctxt "#30419"
+msgid "Loaded %d phone book entries"
+msgstr "%d Telefonbucheinträge geladen"

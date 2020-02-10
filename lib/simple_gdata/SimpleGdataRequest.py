@@ -7,8 +7,8 @@ Usage:
     SimpleGdataRequest.py get <url> --username=<user> --password=<pass> --service=<service>
 """
 
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import socket
 import xml.dom.minidom
 
@@ -53,9 +53,9 @@ class SimpleGdataRequest(object):
         self.__authorization_token = False
 
         if method == 'ClientLogin':
-            request = urllib.urlopen(
+            request = urllib.request.urlopen(
                 'https://www.google.com/accounts/ClientLogin',
-                urllib.urlencode(dict(
+                urllib.parse.urlencode(dict(
                     Email=username,
                     Passwd=password,
                     accountType=account_type,
@@ -81,15 +81,15 @@ class SimpleGdataRequest(object):
             headers = dict()
         headers['Authorization'] = "GoogleLogin Auth=%s" % self.get_authorization_token()
 
-        request = urllib2.Request(url, data, headers=headers)
+        request = urllib.request.Request(url, data, headers=headers)
 
         try:
-            response = urllib2.urlopen(request, timeout=timeout)
-        except socket, e:
+            response = urllib.request.urlopen(request, timeout=timeout)
+        except socket as e:
             raise self.RequestFailedException(str(e))
-        except IOError, e:
+        except IOError as e:
             raise self.RequestFailedException(str(e))
-        except Exception, e:
+        except Exception as e:
             raise self.RequestFailedException(str(e))
         else:
             result = response.read()
@@ -109,7 +109,7 @@ if __name__ == '__main__':
 
     if arguments['listcontacts']:
         gd.authorize(arguments['--username'], arguments['--password'], 'cp')
-        print gd.request('https://www.google.com/m8/feeds/contacts/%s/full' % arguments['--username'])
+        print(gd.request('https://www.google.com/m8/feeds/contacts/%s/full' % arguments['--username']))
     elif arguments['get']:
         gd.authorize(arguments['--username'], arguments['--password'], arguments['--service'])
-        print gd.request(arguments['<url>'])
+        print(gd.request(arguments['<url>']))

@@ -29,7 +29,7 @@ def _(s):
         'continue in %d sec': 30414,
         'connection successful': 30416,
         'result': 30417,
-        'reboot to use new settings': 30418,
+        'restart to use new settings': 30418,
         'loaded %d phone book entries': 30419
     }
     if s in translations:
@@ -93,12 +93,12 @@ def run_fritzaddress_config_test():
 
             xbmcgui.Dialog().ok(
                 _('result'),
-                _('connection successful'),
-                _('loaded %d phone book entries') % len(fritzbox_phonebook),
-                _('reboot to use new settings'))
+                _('connection successful') + '\r\n' + _('loaded %d phone book entries') %
+                len(fritzbox_phonebook) + '\r\n' + _('restart to use new settings'))
 
-        except Exception, e:
-            xbmcgui.Dialog().ok(_('result'), _('fritzbox phonebookaccess failed') % e)
+        except Exception as e:
+            xbmcgui.Dialog().ok(_('result'),
+                                _('fritzbox phonebookaccess failed') + '\r\n%s' % e)
 
             # noinspection PyBroadException
             try:
@@ -113,11 +113,12 @@ def run_fritzmonitor_config_test():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((ip, 1012))
-    except Exception, e:
-        xbmcgui.Dialog().ok(_('result'), _('could not connect to fritzbox'), unicode(e))
+    except Exception as e:
+        xbmcgui.Dialog().ok(_('result'), _('could not connect to fritzbox') + '\r\n%s' % e)
         xbmc.log('FRITZBOX-CALLMONITOR: ' + traceback.format_exc())
     else:
-        xbmcgui.Dialog().ok(_('result'), _('connection successful'), _('reboot to use new settings'))
+        xbmcgui.Dialog().ok(_('result'),
+                            _('connection successful') + '\r\n' + _('restart to use new settings'))
 
 
 match = re.match(r'^(?P<scheme>\w+)://(?P<plugin>[^/]+)/(?P<command>[^/]+)/?(?P<args>.*)$', sys.argv[0])

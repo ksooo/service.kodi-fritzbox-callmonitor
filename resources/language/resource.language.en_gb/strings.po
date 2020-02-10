@@ -1,0 +1,278 @@
+# Kodi Media Center language file
+# Addon Name: Fritzbox Callmonitor
+# Addon id: service.kodi-fritzbox-callmonitor
+# Addon Provider: Kai Sommerfeld, thanks to Frank Epperlein
+msgid ""
+msgstr ""
+"Project-Id-Version: Kodi Addons\n"
+"Report-Msgid-Bugs-To: https://forum.kodi.tv/\n"
+"POT-Creation-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en_GB\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "#30000"
+msgid "FRITZ!Box Callmonitor"
+msgstr ""
+
+msgctxt "#30101"
+msgid "General"
+msgstr ""
+
+msgctxt "#30201"
+msgid "FRITZ!Box IP address / Hostname"
+msgstr ""
+
+msgctxt "#30202"
+msgid "Test configuration"
+msgstr ""
+
+msgctxt "#30203"
+msgid "Ignore phone numbers (comma separated)"
+msgstr ""
+
+msgctxt "#30102"
+msgid "Addresses"
+msgstr ""
+
+msgctxt "#30210"
+msgid "FRITZ!Box"
+msgstr ""
+
+msgctxt "#30211"
+msgid "Use FRITZ!Box Addressbook"
+msgstr ""
+
+msgctxt "#30212"
+msgid "Username"
+msgstr ""
+
+msgctxt "#30213"
+msgid "Password"
+msgstr ""
+
+msgctxt "#30217"
+msgid "Use secure connection (SSL)"
+msgstr ""
+
+msgctxt "#30214"
+msgid "Request all addressbooks"
+msgstr ""
+
+msgctxt "#30215"
+msgid "Use addressbook id"
+msgstr ""
+
+msgctxt "#30216"
+msgid "Test configuration"
+msgstr ""
+
+msgctxt "#30220"
+msgid "Google Contacts (for pictures only)"
+msgstr ""
+
+msgctxt "#30221"
+msgid "Use Google Contact pictures"
+msgstr ""
+
+msgctxt "#30222"
+msgid "Username"
+msgstr ""
+
+msgctxt "#30223"
+msgid "Password"
+msgstr ""
+
+msgctxt "#30240"
+msgid "Picture directory"
+msgstr ""
+
+msgctxt "#30241"
+msgid "Use directory for picture lookup"
+msgstr ""
+
+msgctxt "#30242"
+msgid "Path to picture directory"
+msgstr ""
+
+msgctxt "#30103"
+msgid "Actions"
+msgstr ""
+
+msgctxt "#30270"
+msgid "Notifications"
+msgstr ""
+
+msgctxt "#30271"
+msgid "Display duration (seconds)"
+msgstr ""
+
+msgctxt "#30280"
+msgid "When phone rings ..."
+msgstr ""
+
+msgctxt "#30281"
+msgid "Show"
+msgstr ""
+
+msgctxt "#30282"
+msgid "Pause playback"
+msgstr ""
+
+msgctxt "#30283"
+msgid "Pause only video and no other media"
+msgstr ""
+
+msgctxt "#30284"
+msgid "Reduce volume"
+msgstr ""
+
+msgctxt "#30285"
+msgid "About how many percent"
+msgstr ""
+
+msgctxt "#30290"
+msgid "When phone connects ..."
+msgstr ""
+
+msgctxt "#30291"
+msgid "Show"
+msgstr ""
+
+msgctxt "#30292"
+msgid "Pause playback"
+msgstr ""
+
+msgctxt "#30293"
+msgid "Pause only video and no other media"
+msgstr ""
+
+msgctxt "#30294"
+msgid "Reduce volume"
+msgstr ""
+
+msgctxt "#30295"
+msgid "About how many percent"
+msgstr ""
+
+msgctxt "#30300"
+msgid "When phone hangs up ..."
+msgstr ""
+
+msgctxt "#30301"
+msgid "Show"
+msgstr ""
+
+msgctxt "#30302"
+msgid "Resume playback"
+msgstr ""
+
+msgctxt "#30303"
+msgid "Delay resume of playback (seconds)"
+msgstr ""
+
+msgctxt "#30304"
+msgid "Reset Volume"
+msgstr ""
+
+msgctxt "#30310"
+msgid "When a call is leaving ..."
+msgstr ""
+
+msgctxt "#30311"
+msgid "Show"
+msgstr ""
+
+msgctxt "#30312"
+msgid "Pause playback"
+msgstr ""
+
+msgctxt "#30313"
+msgid "Pause only video and no other media"
+msgstr ""
+
+msgctxt "#30400"
+msgid "Outgoing call"
+msgstr ""
+
+msgctxt "#30401"
+msgid "to %s (by %s)"
+msgstr ""
+
+msgctxt "#30402"
+msgid "Incoming call"
+msgstr ""
+
+msgctxt "#30403"
+msgid "from %s"
+msgstr ""
+
+msgctxt "#30404"
+msgid "Connected"
+msgstr ""
+
+msgctxt "#30405"
+msgid "to %s"
+msgstr ""
+
+msgctxt "#30406"
+msgid "Call ended"
+msgstr ""
+
+msgctxt "#30407"
+msgid "Duration: %sh"
+msgstr ""
+
+msgctxt "#30408"
+msgid "FRITZ!Box unreachable"
+msgstr ""
+
+msgctxt "#30409"
+msgid "Could not connect to FRITZ!Box (%s)"
+msgstr ""
+
+msgctxt "#30410"
+msgid "Unknown"
+msgstr ""
+
+msgctxt "#30411"
+msgid "FRITZ!Box Addressbook"
+msgstr ""
+
+msgctxt "#30412"
+msgid "Could not access FRITZ!Box Addressbook"
+msgstr ""
+
+msgctxt "#30413"
+msgid "Resume"
+msgstr ""
+
+msgctxt "#30414"
+msgid "Playback will continue in %d seconds ..."
+msgstr ""
+
+msgctxt "#30415"
+msgid "Could not connect to FRITZ!Box"
+msgstr ""
+
+msgctxt "#30416"
+msgid "Connection to FRITZ!Box successful"
+msgstr ""
+
+msgctxt "#30417"
+msgid "Result"
+msgstr ""
+
+msgctxt "#30418"
+msgid "Restart to use new settings"
+msgstr ""
+
+msgctxt "#30419"
+msgid "Loaded %d phone book entries"
+msgstr ""
+

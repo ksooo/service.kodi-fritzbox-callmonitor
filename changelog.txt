@@ -1,3 +1,10 @@
+2.0.0
+- Kodi Matrix support
+-- Python 3
+-- strings.po
+-- API changes
+- Remove Klicktel.de support
+
 1.0.1
 - Fixed PIL module import
 
@@ -5,4 +12,3 @@
 - Initial release, based on xbmc-fritzbox, sha1: 8a23e2c00286af4ef3f2cbd9dbccb90d970c82ac (thanks @wrow)
 - Setting for encrypted (SSL) vs. unencrypted data transfer between addon and FRITZ!Box (thanks @b-jesch)
 - Some cosmetics (wording and the like)
-
