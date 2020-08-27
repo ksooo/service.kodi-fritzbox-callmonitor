@@ -255,7 +255,7 @@ msgid "Resume"
 msgstr "Fortsetzen"
 
 msgctxt "#30414"
-msgid "Playback will be resumed in %d seconds ..."
+msgid "Playback will continue in %d seconds ..."
 msgstr "Wiedergabe wird fortgesetzt in %d Sekunden ..."
 msgid ""
 
