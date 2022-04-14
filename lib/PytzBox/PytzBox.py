@@ -6,8 +6,6 @@ import socket
 import xml.sax
 import requests
 from requests.auth import HTTPDigestAuth
-from PIL import Image
-from io import StringIO
 import hashlib
 import os
 
@@ -93,7 +91,7 @@ class PytzBox:
                         self.phone_book[self.contact_name]['numbers'].append(content)
                 if self.key == "imageURL":
                     if self.contact_name in self.phone_book:
-                        self.phone_book[self.contact_name]['imageURL'] = self.parent.getDownloadUrl(content)
+                        self.phone_book[self.contact_name]['imageHttpURL'] = self.parent.getDownloadUrl(content)
                         self.phone_book[self.contact_name]['imageBMP'] = self.parent.getImage(content, self.contact_name)
 
         handler = FbAbHandler(self)
@@ -121,10 +119,9 @@ class PytzBox:
                 imageurl=url,
                 sid=self.__sid
             ))
-            caller_image = Image.open(StringIO(response.content))
-            if caller_image is not None:
+            if response.status_code == 200:
                 imagepath = os.path.join(self.__imagepath, hashlib.md5(caller_name.encode('utf-8')).hexdigest() + '.jpg')
-                caller_image.save(imagepath)
+                with open(imagepath, 'wb') as fh: fh.write(response.content)
                 self.__imagecount += 1
                 return imagepath
 

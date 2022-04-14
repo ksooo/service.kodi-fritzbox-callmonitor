@@ -1,3 +1,7 @@
+2.1.0
+- Fixed caller image support
+- Removed PIL module dependency
+
 2.0.1
 - Fixed German translation
 
@@ -6,7 +10,7 @@
 -- Python 3
 -- strings.po
 -- API changes
-- Remove Klicktel.de support
+- Removed Klicktel.de support
 
 1.0.1
 - Fixed PIL module import
