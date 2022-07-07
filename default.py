@@ -235,7 +235,7 @@ class FritzCallMonitor():
             m = hashlib.md5()
             m.update(url)
             file_name = m.encode('utf-8').hexdigest()
-            file_path = os.path.join(xbmc.translatePath('special://temp'),
+            file_path = os.path.join(xbmcvfs.translatePath('special://temp'),
                                      "%s_%s" % (__addon__.getAddonInfo('id'), file_name))
 
             if not os.path.isfile(file_path):
@@ -412,7 +412,7 @@ class FritzCallMonitor():
             duration = __addon__.getSetting("Action_Notification_Duration")
             duration = int(duration) * 1000
         if not img:
-            img = xbmc.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
+            img = xbmcvfs.translatePath(os.path.join(xbmcaddon.Addon().getAddonInfo('path'), "media", "default.png"))
         return xbmc.executebuiltin('Notification("%s", "%s", %d, "%s")' % (title, text, duration, img))
 
     def start(self):

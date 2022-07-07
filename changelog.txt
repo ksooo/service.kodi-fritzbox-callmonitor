@@ -1,3 +1,6 @@
+2.1.1
+- Nexus API change: Replace xbmc.translatePath with xbmcvfs.translatePath
+
 2.1.0
 - Fixed caller image support
 - Removed PIL module dependency
