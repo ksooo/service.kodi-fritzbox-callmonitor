@@ -69,7 +69,7 @@ class FritzCallMonitor():
                 else:
                     username = "admin"
 
-                encrypt = True if __addon__.getSetting("Adressbook_Fritzadress_SSL").upper() == 'TRUE' else False
+                encrypt = True if __addon__.getSetting("Addressbook_Fritzadress_SSL").upper() == 'TRUE' else False
 
                 self.__pytzbox = PytzBox.PytzBox(password=password,
                                                  username=username,

@@ -1,3 +1,6 @@
+2.1.2
+- Fixed reading of setting value for "Use secure connection (SSL)"
+
 2.1.1
 - Nexus API change: Replace xbmc.translatePath with xbmcvfs.translatePath
 
